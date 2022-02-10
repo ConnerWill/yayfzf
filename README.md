@@ -69,7 +69,7 @@ However, it is very easy to change this and use a different package manager.
 To use a different package manager, open [*yayfzf.sh* and find the lines where options are set.](https://github.com/ConnerWill/yayfzf/blob/82b6915d6130b8ba3deecf1360ca1c1a44759ab5/yayfzf.sh#L7)
 
 
-```Shells
+```sh
     ##-------- OPTIONS --------##
     packages_sort_by="votes"
     use_color="always"
