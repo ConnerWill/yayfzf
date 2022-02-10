@@ -6,9 +6,6 @@
 ### **Another Pacman/yay fzf browser**
 > *[*yayfzf*](https://github.com/ConnerWill/yayfzf) allows you to search and install packages from the Arch Linux AUR using [fzf](https://github.com/junegunn/fzf).*
 
-
-* [Overview](#overview)
-
 ![GitHub last commit](https://img.shields.io/github/last-commit/ConnerWill/yayfzf)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ConnerWill/yayfzf)
 ![GitHub repo size](https://img.shields.io/github/repo-size/ConnerWill/yayfzf)
@@ -16,8 +13,9 @@
 ![GitHub](https://img.shields.io/github/license/ConnerWill/yayfzf)
 ![GitHub Repo stars](https://img.shields.io/github/stars/ConnerWill/yayfzf?style=social)
 
----
 </div>
+
+---
 
 # Table of Contents
 <details>
@@ -46,7 +44,9 @@
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 </details>  
-  
+
+
+
 # Overview
 
 ## Description
@@ -59,12 +59,10 @@
 
 ## Dependencies
 
-* yay/pacman/*(etc...)*
-* fzf
-
 ### fzf
 
 Make sure you have [fzf](https://github.com/junegunn/fzf) installed as that is the meat and potatoes of this script.
+
 
 ## Setup
 
@@ -122,12 +120,13 @@ Remove/replace any options to suite your desired package manager.
 Replace `installPackage` with the command to install a package.
 Replace `detailedPreview` with the command to view extra details about the package.
 
+
 *eg.*
 
-***In this example, I replaced the commands to suite pacman.***
-**pacman doesnt have the `--sortby` flag. So I removed it.**
-**pacman also doesnt have the `--nobatchinstall` flag, to it was removed from the installer command**
 
+> *In this example, I replaced the commands to suite pacman.*
+> *pacman doesnt have the `--sortby` flag. So I removed it.*
+> *pacman also doesnt have the `--nobatchinstall` flag, to it was removed from the installer command*
 ```sh
     ##-------- OPTIONS --------##
     packages_sort_by=""
@@ -141,6 +140,7 @@ Replace `detailedPreview` with the command to view extra details about the packa
 **NOTE**
 > *In the future I intend to adapt the script to be compatible with other distros/package managers.*
 
+---
 
 ### Hotkeys
 
