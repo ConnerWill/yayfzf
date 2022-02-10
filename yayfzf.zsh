@@ -69,7 +69,9 @@ $KEYBINDINGS
 EOS
 }
 
-### Start main script ###
+##---------------##
+### Main Script ###
+##---------------##
 
 ## Error messege
 function _err() {
@@ -106,7 +108,6 @@ function _main() {
     clear
 	_search_packagemgr "${*}" | _fzf
 }
-
 
 ## Search package manager
 function _search_packagemgr() {
@@ -167,6 +168,9 @@ function _fzf() {
     	--bind "esc:accept-non-empty"
 }
 
-
 _main "${@}"
 exit "${?}"
+
+##---------------##
+###  END MAIN   ###
+##---------------##
