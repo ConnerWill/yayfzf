@@ -66,7 +66,8 @@
 This script is setup to use [yay](https://github.com/Jguer/yay) as the package manager.
 However, it is very easy to change this and use a different package manager.
 
-To use a different package manager, open yayfzf.sh
+To use a different package manager, open [*yayfzf.sh* and find the lines where options are set.](https://github.com/ConnerWill/yayfzf/blob/82b6915d6130b8ba3deecf1360ca1c1a44759ab5/yayfzf.sh#L13)
+
 
 ```Shells
     ##-------- OPTIONS --------##
