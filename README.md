@@ -79,12 +79,7 @@ To use a different package manager, open [*yayfzf.sh* and find the lines where o
     ##-------------------------##
 ```
 
-
-
-
-
-In the future I intend to adapt the script to be compatible with other distros/package managers.
-
+> *In the future I intend to adapt the script to be compatible with other distros/package managers.*
 
 
 
