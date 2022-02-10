@@ -58,10 +58,48 @@
 
 ## Dependencies
 
-* pacman/yay/etc...
+* yay/pacman/*(etc...)*
 * fzf
 
-### Package Manager Configuration
+### fzf
+
+Make sure you have [fzf](https://github.com/junegunn/fzf) installed as that is the meat and potatoes of this script.
+
+## Setup
+
+1. Clone this repository
+
+  ```console
+  git clone https://github.com/ConnerWill/yayfzf.git
+  ```
+
+If you are not using yay and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below.
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+# Usage
+
+To use this script, all you have to do is run.
+
+```sh
+./yayfzf.sh
+```
+
+It can be either ran with a search query to start the search,
+or it will prompt you to enter one if it did not receive any input, then start the search.
+
+```sh
+./yayfzf.sh fzf
+```
+> *Example of running the script with input searching for "fzf"*
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+# Customization
+
+### Using a Different Package Manager
 
 This script is setup to use [yay](https://github.com/Jguer/yay) as the package manager.
 However, it is very easy to change this and use a different package manager.
@@ -79,55 +117,58 @@ To use a different package manager, open [*yayfzf.sh* and find the lines where o
     ##-------------------------##
 ```
 
+Remove/replace any options to suite your desired package manager.
+Replace `installPackage` with the command to install a package.
+Replace `detailedPreview` with the command to view extra details about the package.
+
+*eg.*
+
+***In this example, I replaced the commands to suite pacman.***
+**pacman doesnt have the `--sortby` flag. So I removed it.**
+**pacman also doesnt have the `--nobatchinstall` flag, to it was removed from the installer command**
+
+```sh
+    ##-------- OPTIONS --------##
+    packages_sort_by=""
+    use_color="always"
+
+    detailedPreview="pacman --sync --info --verbose --color $use_color "
+    installPackage="pacman --sync --verbose --color $use_color --confirm"
+    ##-------------------------##
+```
+
+**NOTE**
 > *In the future I intend to adapt the script to be compatible with other distros/package managers.*
-
-
-
-
-
-
-### fzf Installation
-
-2. Install [fzf](https://github.com/junegunn/fzf)
-
-## Setup
-
-1. Clone this repository
-
-  ```console
-  git clone https://github.com/ConnerWill/yayfzf.git
-  ```
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-# Usage
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-# Customization
 
 ## Configuration File
 
 ### Hotkeys
 
-## Environment Variables
-<!---
-**```RCLONEFZF_ENVVAR```**
-: yayfzf environment variable description.
+There are specific hotkeys that allow you to interact with yayfzf.
 
-**```RCLONEFZF_REMOTE```**
-: rclone remote to use by default. ***[string]***
-*(eg. remoteName:, remoteName)*
+Allowing you to install packages, nagivate and view other packages, and change the fzf window formatting.
 
-**```RCLONEFZF_ENVVAR```**
-: yayfzf environment variable description. ***[string]***
+*Here is a list of the default hotkeys*
 
-**```RCLONEFZF_ENVVAR```**
-: yayfzf environment variable description. ***[string]***
+```man
+    KEYBINDINGS
 
-**```RCLONEFZF_ENVVAR```**
-: yayfzf environment variable description. ***[string]***
---->
+        Alt+D       Install Package(s)
+        PageDn      Scroll One Page Down
+        PageUp      Scroll One Page Up
+        Home        Top
+        End         Bottom
+        Tab         Select
+        Ctrl+d      Deselect All
+        Ctrl+l      Cleary Query
+        Ctrl+v      Toggle Preview Window
+        Ctrl+/      Change Layout
+        Ctrl+h      Show Help
+        ?           Show Help
+        Ctrl+q      Exit
+        Esc         Exit
+```
+
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -157,43 +198,19 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-</details>  
+</details>
 
 rclone links[^rclone]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!---
 
-Here is a simple footnote[^1].
-
-A footnote can also have multiple lines[^2].  
-
-You can also use words, to fit your writing style more closely[^note].
-
-
-<details>
-  <summary>Click to expand table of contents</summary>
-
-  ---
-
----
-
-[^1]: My reference.
-[^2]: Every new line should be prefixed with 2 spaces.
-  This allows you to have a footnote with multiple lines.
---->
-[^rclone]:    
+[^rclone]:
     [rclone website](https://rclone.org)
     [rclone github](https://github.com/rclone/rclone)
 
 [fzf]:
     (https://github.com/junegunn/fzf)
-
-
-   <!--- Named footnotes will still render with numbers instead of the text but allow easier identification and linking.  
-    This footnote also has been made with a diffeorent syntax using 4 spaces for new --->
-
 
 
 
