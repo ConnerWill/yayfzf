@@ -150,7 +150,7 @@ Allowing you to install packages, nagivate and view other packages, and change t
 
 *Here is a list of the default hotkeys*
 
-```sh
+```makefile
     KEYBINDINGS
         Alt+D       Install Package(s)
         PageDn      Scroll One Page Down
