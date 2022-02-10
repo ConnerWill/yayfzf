@@ -150,7 +150,7 @@ Allowing you to install packages, nagivate and view other packages, and change t
 
 *Here is a list of the default hotkeys*
 
-```man
+```manpage
     KEYBINDINGS
 
         Alt+D       Install Package(s)
