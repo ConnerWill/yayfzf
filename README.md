@@ -7,6 +7,8 @@
 > *[*yayfzf*](https://github.com/ConnerWill/yayfzf) allows you to search and install packages from the Arch Linux AUR using [fzf](https://github.com/junegunn/fzf).*
 
 
+* [Overview](#overview)
+
 ![GitHub last commit](https://img.shields.io/github/last-commit/ConnerWill/yayfzf)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ConnerWill/yayfzf)
 ![GitHub repo size](https://img.shields.io/github/repo-size/ConnerWill/yayfzf)
@@ -22,23 +24,22 @@
   <summary>Click to expand table of contents</summary>
 
   ---
-  
-* [yayfzf](#yayfzf)
+
+* [yayfzf](#another-pacmanyay-fzf-browser)
 * [Table of Contents](#table-of-contents)
 * [Overview](#overview)
-  * [Description](##description)
-  * [Demo](##demo)
+   * [Description](#description)
+   * [Demo](#demo)
 * [Installation](#installation)
-  * [Dependencies](##dependencies)
-    * [yay Installation](###rclone-installation)
-    * [fzf Installation](###fzf-installation)
-  * [Setup](##setup)
+   * [Dependencies](#dependencies)
+      * [fzf](#fzf)
+   * [Setup](#setup)
 * [Usage](#usage)
-* [Customization](#customization)
-  * [Configuration File](##configuration-file)
-    * [Hotkeys](###hotkeys)
-  * [Environment Variables](#environment-variables)
+  * [Customization](#customization)
+      * [Using a Different Package Manager](#using-a-different-package-manager)
+      * [Hotkeys](#hotkeys)
 * [Other](#other)
+   * [Contributing](#contributing)
 
   ---
   
@@ -140,7 +141,6 @@ Replace `detailedPreview` with the command to view extra details about the packa
 **NOTE**
 > *In the future I intend to adapt the script to be compatible with other distros/package managers.*
 
-## Configuration File
 
 ### Hotkeys
 
