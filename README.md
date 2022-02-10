@@ -5,8 +5,8 @@
 
 ### **Another Pacman/yay fzf browser**
 > *[*yayfzf*](https://github.com/ConnerWill/yayfzf) allows you to search and install packages from the Arch Linux AUR using [fzf](https://github.com/junegunn/fzf).*
-  
-  
+
+
 ![GitHub last commit](https://img.shields.io/github/last-commit/ConnerWill/yayfzf)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ConnerWill/yayfzf)
 ![GitHub repo size](https://img.shields.io/github/repo-size/ConnerWill/yayfzf)
