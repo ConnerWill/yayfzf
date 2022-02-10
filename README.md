@@ -167,7 +167,7 @@ Allowing you to install packages, nagivate and view other packages, and change t
         Esc         Exit
 ```
 
-For more detail on what the keybinding action does... other than running the script and seeing for your self, I suggest reading the 
+> *Other than running the script and finding out for yourself, I suggest reading the [fzf](https://github.com/junegunn/fzf) documentation if you want to learn more about the keybindings.*
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -199,14 +199,8 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 </details>
 
-rclone links[^rclone]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-[^rclone]:
-    [rclone website](https://rclone.org)
-    [rclone github](https://github.com/rclone/rclone)
 
 [fzf]:
     (https://github.com/junegunn/fzf)
