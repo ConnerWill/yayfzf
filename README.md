@@ -3,7 +3,7 @@
 <img width="480" height="320" src="/media/yayfzf-banner.png">
 --->
 
-### **fzf for rclone**
+### **Another Pacman/yay fzf browser**
 > *[*yayfzf*](https://github.com/ConnerWill/yayfzf) allows you to search and install packages from the Arch Linux AUR using [fzf](https://github.com/junegunn/fzf).*
   
   
