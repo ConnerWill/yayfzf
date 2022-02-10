@@ -145,12 +145,11 @@ Replace `detailedPreview` with the command to view extra details about the packa
 ### Hotkeys
 
 There are specific hotkeys that allow you to interact with yayfzf.
-
 Allowing you to install packages, nagivate and view other packages, and change the fzf window formatting.
 
-*Here is a list of the default hotkeys*
+> *Here is a list of the default hotkeys*
 
-```makefile
+```manpage
     KEYBINDINGS
         Alt+D       Install Package(s)
         PageDn      Scroll One Page Down
@@ -168,6 +167,7 @@ Allowing you to install packages, nagivate and view other packages, and change t
         Esc         Exit
 ```
 
+For more detail on what the keybinding action does... other than running the script and seeing for your self, I suggest reading the 
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
