@@ -13,21 +13,21 @@ installPackage="yay --sync --verbose --color $use_color --nobatchinstall --confi
 ##-------------------------##
 
 readonly PRODUCTNAME="yayfzf"
-readonly VERSION="0.1.0"
+readonly VERSION="0.1.1"
 readonly LICENSE="GNU General Public License, version 3"
-readonly WEBSITE="https://github.com"
+readonly WEBSITE="https://github.com/ConnerWill/yayfzf"
 readonly AUTHOR="ConnerWill"
-readonly DATE="2022-02-10"
+readonly DATE="2022-02-12"
 
 readonly KEYBINDINGS="\
-        Alt+D       Install Package(s)
+        Alt+d       Install Package(s)
         PageDn      Scroll One Page Down
         PageUp      Scroll One Page Up
         Home        Top
         End         Bottom
         Tab         Select
         Ctrl+d      Deselect All
-        Ctrl+l      Cleary Query
+        Ctrl+l      Clear Query
         Ctrl+v      Toggle Preview Window
         Ctrl+/      Change Layout
         Ctrl+h      Show Help
@@ -68,6 +68,24 @@ $KEYBINDINGS
 ========================================================
 EOS
 }
+
+readonly SHORTKEYBINDINGS="\
+Alt+d           Install Package(s)
+[Tab/Ctl+Tab]   [Select/Deselect]
+Page[Dn/Up]     Page [Down/up]
+[Home/End]      [Top/Bottom]
+Ctrl+/          Change Layout
+?|Ctl+h         Help
+Esc|Ctl+q       Exit"
+
+
+function _short_help() {
+	cat <<EOS
+$SHORTKEYBINDINGS
+EOS
+}
+
+
 
 ##---------------##
 ### Main Script ###
@@ -120,11 +138,17 @@ function _search_packagemgr() {
             --sortby "$packages_sort_by" \
         "$SearchInput"
 }
+searchFunction="yay --sync --search --quiet --sortby $packages_sort_by $SearchInput"
 
 ## Main script. Run fzf with package manager search results.
 function _fzf() {
 	fzf </dev/stdin \
-	    --extended \
+	        --query "$SearchInput" \
+	        --print-query \
+	        --select-1 \
+	        --exit-0 \
+        --no-clear \
+        	    --extended \
             --tac \
 	        --no-sort \
 		    --keep-right \
@@ -142,6 +166,7 @@ function _fzf() {
             --color='hl+:#BD2C00,hl:#4078C0,fg:#C1C1C1,fg+:#FFFFFF,header:#666666,preview-bg:#333333'  \
             --color='header:#666666,query:#4183c4,pointer:#BD2C00,marker:#6CC644,prompt:#F5F5F5' \
             --color='gutter:#141414' \
+                --layout 'default' \
 		        --preview "$detailedPreview {}" \
                 --preview-window "right:65%" \
                     --margin 0%,0% \
@@ -152,6 +177,7 @@ function _fzf() {
                     --filepath-word \
                 --scroll-off=0  \
                 --hscroll-off=100  \
+                    --expect=ctrl-c,esc \
             --bind "alt-d:execute: echo 'Installing: {+}' && $installPackage {+}" \
             --bind 'pgdn:page-down' \
             --bind 'pgup:page-up' \
@@ -159,10 +185,15 @@ function _fzf() {
             --bind 'end:first'  \
         --bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
         --bind 'ctrl-v:toggle-preview'  \
-        --bind "?:preview: less $(echo $KEYBINDINGS)"  \
-        --bind "ctrl-h:preview: less $(echo $KEYBINDINGS)"  \
+        --bind "?:preview: less $SHORTKEYBINDINGS"  \
+        --bind "f1:preview: echo $SHORTKEYBINDINGS"  \
+        --bind "ctrl-h:preview: echo $SHORTKEYBINDINGS"  \
+        --bind "ctrl-i:header ${SHORTKEYBINDINGS}" \
             --bind 'tab:select'  \
+            --bind 'shift-tab:deselect' \
             --bind 'ctrl-d:deselect-all'  \
+            --bind 'alt-left:kill-word' \
+            --bind 'alt-bspace:clear-query'  \
             --bind 'ctrl-l:clear-query'  \
         --bind 'ctrl-q:print-query' \
     	--bind "esc:accept-non-empty"

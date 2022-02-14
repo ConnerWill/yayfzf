@@ -103,8 +103,7 @@ or it will prompt you to enter one if it did not receive any input, then start t
 This script is setup to use [yay](https://github.com/Jguer/yay) as the package manager.
 However, it is very easy to change this and use a different package manager.
 
-To use a different package manager, open [*yayfzf.sh* and find the lines where options are set.](https://github.com/ConnerWill/yayfzf/blob/82b6915d6130b8ba3deecf1360ca1c1a44759ab5/yayfzf.sh#L7)
-
+To use a different package manager, open [*yayfzf.sh* and find the lines where options are set.](https://github.com/ConnerWill/yayfzf/blob/82b6915d6130b8ba3deecf1360ca1c1a44759ab5/yayfzf.sh#L7) *(see below)*
 
 ```sh
     ##-------- OPTIONS --------##
@@ -122,7 +121,6 @@ Replace `detailedPreview` with the command to view extra details about the packa
 
 
 *eg.*
-
 
 > *In this example, I replaced the commands to suite pacman.*
 > *pacman doesnt have the `--sortby` flag. So I removed it.*
