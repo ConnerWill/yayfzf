@@ -23,7 +23,7 @@ DATE="2022-05-05"
 
 
 
-_keybinding_file="lib/KEYBINDINGS.conf"
+_keybinding_file="../config/KEYBINDINGS.conf"
 [[ -e "$_keybinding_file" ]] \
 	&& source "$_keybinding_file" \
 	|| KEYBINDINGS=""
