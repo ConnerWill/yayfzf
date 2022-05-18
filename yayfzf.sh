@@ -21,22 +21,13 @@ WEBSITE="https://github.com/ConnerWill/yayfzf"
 AUTHOR="ConnerWill"
 DATE="2022-05-05"
 
-source ./KEYBINDINGS.conf
-#KEYBINDINGS="\
-#        Alt+d       Install Package(s)
-#        PageDn      Scroll One Page Down
-#        PageUp      Scroll One Page Up
-#        Home        Top
-#        End         Bottom
-#        Tab         Select
-#        Ctrl+d      Deselect All
-#        Ctrl+l      Clear Query
-#        Ctrl+v      Toggle Preview Window
-#        Ctrl+/      Change Layout
-#        Ctrl+h      Show Help
-#        ?           Show Help
-#        Ctrl+q      Exit
-#        Esc         Exit"
+
+
+_keybinding_file="lib/KEYBINDINGS.conf"
+[[ -e "$_keybinding_file" ]] \
+	&& source "$_keybinding_file" \
+	|| KEYBINDINGS=""
+
 
 function _version() {
 	cat <<EOS
