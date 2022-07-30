@@ -3,6 +3,7 @@
 
 ### **ｙａｙｆｚｆ**
 > *[*yayfzf*](https://github.com/ConnerWill/yayfzf) allows you to search and install packages from the Arch Linux AUR using [fzf](https://github.com/junegunn/fzf).*
+> > *Demo is very glitchy... the script runs like butter*
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/ConnerWill/yayfzf)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ConnerWill/yayfzf)
@@ -47,10 +48,14 @@
 
 ## Description
 
+*[*yayfzf*](https://github.com/ConnerWill/yayfzf) searches and installs packages from the Arch Linux AUR using [fzf](https://github.com/junegunn/fzf).*
+
 ## Demo
 
 
-<img width="720" height="480" src="assets/yayfzf_demo.gif">
+| <img width="1920" height="1080" src="assets/yayfzf_demo.gif"> |      |
+| ------------------------------------------------------------- | ---- |
+|                                                               |      |
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
