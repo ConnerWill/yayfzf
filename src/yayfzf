@@ -95,13 +95,13 @@ function _err() {
 ## If no input received, show warning and the help menu,
 ## then prompt for input. If input is still empty, Exit.
 function _main() {
-	if [[ "${#}" -le 0 ]]; then
-		_version
-		_help
-		_err "No Input Received ..."
-		return 1
-		_main
-	fi
+	#if [[ "${#}" -le 0 ]]; then
+#		_version
+#		_help
+#		_err "No Input Received ..."
+#		return 1
+#		_main
+#	fi
 	for arg in "${@}"; do
 		case "${arg}" in
 		-h | --help)
@@ -115,15 +115,14 @@ function _main() {
 		esac
 	done
 	clear
-	_search_packagemgr "${*}" | _fzf
+	_search_packagemgr "${*}" | _fzf "${*}"
 }
 
 
 ## Search package manager
 function _search_packagemgr() {
-	local searchQuery fzf_colors
-
-
+	local searchQuery
+	
 	searchQuery="${*}"
 	yay \
 		--sync \
@@ -132,11 +131,16 @@ function _search_packagemgr() {
 		--quiet \
 		--sortby "$packages_sort_by" \
 		--searchby name \
-		"$SearchInput"
+		"$searchQuery"
+		#"$SearchInput"
+
 }
 
 ## Main script. Run fzf with package manager search results.
 function _fzf() {
+	tput smcup
+	local SearchInput
+	SearchInput="${*}"
 	fzf </dev/stdin \
 		--query "$SearchInput" \
 		--print-query \
@@ -188,6 +192,8 @@ function _fzf() {
 		--bind 'ctrl-l:clear-query' \
 		--bind 'ctrl-q:print-query' \
 		--bind "esc:accept-non-empty"
+
+	tput rmcup
 }
 
 function yayfzf() {
