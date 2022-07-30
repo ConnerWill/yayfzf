@@ -124,15 +124,15 @@ function _main() {
 function _search_packagemgr() {
 	local searchQuery
 	searchQuery="${*}"
-	yay --sync --search --quiet \
+	yay --sync --search --quiet --singlelineresults \
 				--sortby "${packages_sort_by}" \
 				--searchby "${packages_search_by}" \
 				"$searchQuery"
 }
 
 function _list_packagemgr(){
-				yay --sync --list --quiet \
-						--sortby "$packages_sort_by"
+				yay --sync --list --quiet --singlelineresults \
+						--sortby "$packages_sort_by" | 
 }
 
 
@@ -152,7 +152,7 @@ function _fzf() {
 		--tac \
 		--no-sort \
 		--keep-right \
-		--color='hl:#00ffff,hl+:#ff00ff,fg:#505050,fg+:#00ffff,bg:#010101,bg+:#202020,query:#00ff00,info:#9090a0,spinner:#ff00ff,border:#ff00ff,preview-fg:#ffffff,preview-bg:#200050,gutter:#101010,pointer:#ff00ff,info:#020202' \
+		--color='hl:#00ffff,hl+:#ff00ff,fg:#505050,fg+:#00ffff,bg:#010101,bg+:#202020,query:#00ff00,info:#9090a0,spinner:#ff00ff,border:#ff00ff,preview-fg:#ffffff,preview-bg:#200050,marker:#00ff00,gutter:#101010,pointer:#ff00ff,info:#020202' \
 		--header "${SearchInput}" \
 		--header-first \
 		--header-lines=0 \
@@ -185,7 +185,7 @@ function _fzf() {
 		--bind "?:preview: less $SHORTKEYBINDINGS" \
 		--bind "f1:preview: echo $SHORTKEYBINDINGS" \
 		--bind "ctrl-h:preview: echo $SHORTKEYBINDINGS" \
-		--bind 'tab:select' \
+		--bind 'tab:toggle' \
 		--bind 'shift-tab:deselect' \
 		--bind 'ctrl-d:deselect-all' \
 		--bind 'alt-left:kill-word' \
