@@ -6,6 +6,7 @@
 
 ##-------- OPTIONS --------##
 packages_sort_by="votes"
+packages_search_by="Description"
 use_color="always"
 REQUESTSPLITN=100
 
@@ -94,15 +95,14 @@ function _err() {
 ## Check if user sent a search query when running.
 ## If no input received, show warning and the help menu,
 ## then prompt for input. If input is still empty, Exit.
+
 function _main() {
-	#if [[ "${#}" -le 0 ]]; then
-#		_version
-#		_help
-#		_err "No Input Received ..."
-#		return 1
-#		_main
-#	fi
-	for arg in "${@}"; do
+	local input
+	input="${*}"
+	if [[ -z "${input}" ]]; then
+		_list_packagemgr | _fzf
+	fi
+	for arg in "${input[@]}"; do
 		case "${arg}" in
 		-h | --help)
 			_help
@@ -120,22 +120,23 @@ function _main() {
 
 
 ## Search package manager
+
 function _search_packagemgr() {
 	local searchQuery
-	
 	searchQuery="${*}"
-	yay \
-		--sync \
-		--search \
-		--requestsplitn "$REQUESTSPLITN" \
-		--quiet \
-		--sortby "$packages_sort_by" \
-		--searchby name \
-		"$searchQuery"
-		#"$SearchInput"
-
+	yay --sync --search --quiet \
+				--sortby "${packages_sort_by}" \
+				--searchby "${packages_search_by}" \
+				"$searchQuery"
 }
 
+function _list_packagemgr(){
+				yay --sync --list --quiet \
+						--sortby "$packages_sort_by"
+}
+
+
+		#--header "${KEYBINDINGS}" \
 ## Main script. Run fzf with package manager search results.
 function _fzf() {
 	tput smcup
@@ -152,7 +153,7 @@ function _fzf() {
 		--no-sort \
 		--keep-right \
 		--color='hl:#00ffff,hl+:#ff00ff,fg:#505050,fg+:#00ffff,bg:#010101,bg+:#202020,query:#00ff00,info:#9090a0,spinner:#ff00ff,border:#ff00ff,preview-fg:#ffffff,preview-bg:#200050,gutter:#101010,pointer:#ff00ff,info:#020202' \
-		--header "${KEYBINDINGS}" \
+		--header "${SearchInput}" \
 		--header-first \
 		--header-lines=0 \
 		--multi \
@@ -191,7 +192,7 @@ function _fzf() {
 		--bind 'alt-bspace:clear-query' \
 		--bind 'ctrl-l:clear-query' \
 		--bind 'ctrl-q:print-query' \
-		--bind "esc:accept-non-empty"
+		--bind "esc:accept"
 
 	tput rmcup
 }
