@@ -1,7 +1,5 @@
 <div align="center">
-<!---
-<img width="480" height="320" src="/media/yayfzf-banner.png">
---->
+<img width="480" height="320" src="assets/yayfzf_demo.gif">
 
 ### **ｙａｙｆｚｆ**
 > *[*yayfzf*](https://github.com/ConnerWill/yayfzf) allows you to search and install packages from the Arch Linux AUR using [fzf](https://github.com/junegunn/fzf).*
@@ -45,13 +43,14 @@
 
 </details>  
 
-
-
 # Overview
 
 ## Description
 
 ## Demo
+
+
+<img width="720" height="480" src="assets/yayfzf_demo.gif">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -62,7 +61,6 @@
 ### fzf
 
 Make sure you have [fzf](https://github.com/junegunn/fzf) installed as that is the meat and potatoes of this script.
-
 
 ## Setup
 
@@ -81,15 +79,19 @@ If you are not using yay and would like to use a different package manager, see 
 
 To use this script, all you have to do is run.
 
-```sh
-./yayfzf.sh
+```shell
+source ./yayfzf
 ```
 
 It can be either ran with a search query to start the search,
 or it will prompt you to enter one if it did not receive any input, then start the search.
 
-```sh
-./yayfzf.sh fzf
+```shell
+yayfzf
+```
+
+```shell
+yayfzf fzf
 ```
 > *Example of running the script with input searching for "fzf"*
 
