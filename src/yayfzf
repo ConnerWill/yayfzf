@@ -118,9 +118,12 @@ function _main() {
 	_search_packagemgr "${*}" | _fzf
 }
 
+
 ## Search package manager
 function _search_packagemgr() {
-	local searchQuery
+	local searchQuery fzf_colors
+
+
 	searchQuery="${*}"
 	yay \
 		--sync \
@@ -144,6 +147,7 @@ function _fzf() {
 		--tac \
 		--no-sort \
 		--keep-right \
+		--color='hl:#00ffff,hl+:#ff00ff,fg:#505050,fg+:#00ffff,bg:#010101,bg+:#202020,query:#00ff00,info:#9090a0,spinner:#ff00ff,border:#ff00ff,preview-fg:#ffffff,preview-bg:#200050,gutter:#101010,pointer:#ff00ff,info:#020202' \
 		--header "${KEYBINDINGS}" \
 		--header-first \
 		--header-lines=0 \
@@ -154,10 +158,6 @@ function _fzf() {
 		--info=inline \
 		--height=100% \
 		--ansi \
-		--color='16,bg:#1A1A1A,bg+:#333333,info:#999999,border:#999999,spinner:#F5F5F5' \
-		--color='hl+:#BD2C00,hl:#4078C0,fg:#C1C1C1,fg+:#FFFFFF,header:#666666,preview-bg:#333333' \
-		--color='header:#666666,query:#4183c4,pointer:#BD2C00,marker:#6CC644,prompt:#F5F5F5' \
-		--color='gutter:#141414' \
 		--layout 'default' \
 		--preview "$detailedPreview {}" \
 		--preview-window "right:65%" \
