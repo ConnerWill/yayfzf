@@ -17,8 +17,6 @@
 ---
 
 # Table of Contents
-<details>
-  <summary>Click to expand table of contents</summary>
 
   ---
 
@@ -39,10 +37,6 @@
    * [Contributing](#contributing)
 
   ---
-  
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-</details>  
 
 # Overview
 
@@ -52,12 +46,17 @@
 
 ## Demo
 
+<details>
+<summary>Click to expand demos</summary>
+<div align="center">
 
-| <img width="1920" height="1080" src="assets/yayfzf_demo.gif"> |      |
-| ------------------------------------------------------------- | ---- |
-|                                                               |      |
+|      |      | <img width="1920" height="1080" src="assets/yayfzf_demo.gif"> |      |
+| ---- | ---- | ------------------------------------------------------------- | ---- |
+|      |      |                                                               |      |
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+</details>  
+</div>
 
 # Installation
 
