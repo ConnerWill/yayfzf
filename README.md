@@ -3,6 +3,7 @@
 
 ### **ｙａｙｆｚｆ**
 > *[*yayfzf*](https://github.com/ConnerWill/yayfzf) allows you to search and install packages from the Arch Linux AUR using [fzf](https://github.com/junegunn/fzf).*
+> > *Demo is very glitchy... the script runs like butter*
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/ConnerWill/yayfzf)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ConnerWill/yayfzf)
@@ -16,20 +17,13 @@
 ---
 
 # Table of Contents
-<details>
-  <summary>Click to expand table of contents</summary>
 
-  ---
-
-* [yayfzf](#another-pacmanyay-fzf-browser)
 * [Table of Contents](#table-of-contents)
-* [Overview](#overview)
-   * [Description](#description)
+* [Description](#description)
    * [Demo](#demo)
 * [Installation](#installation)
    * [Dependencies](#dependencies)
       * [fzf](#fzf)
-   * [Setup](#setup)
 * [Usage](#usage)
   * [Customization](#customization)
       * [Using a Different Package Manager](#using-a-different-package-manager)
@@ -38,31 +32,27 @@
    * [Contributing](#contributing)
 
   ---
-  
-<p align="right">(<a href="#top">back to top</a>)</p>
 
-</details>  
+# Description
 
-# Overview
-
-## Description
+*[*yayfzf*](https://github.com/ConnerWill/yayfzf) searches and installs packages from the Arch Linux AUR using [fzf](https://github.com/junegunn/fzf).*
 
 ## Demo
 
+<details>
+<summary>Click to expand demos</summary>
+<div align="center">
 
-<img width="720" height="480" src="assets/yayfzf_demo.gif">
+|      |      | <img width="1920" height="1080" src="assets/yayfzf_demo.gif"> |      |
+| ---- | ---- | ------------------------------------------------------------- | ---- |
+|      |      |                                                               |      |
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+</details>  
+</div>
 
 # Installation
 
-## Dependencies
-
-### fzf
-
-Make sure you have [fzf](https://github.com/junegunn/fzf) installed as that is the meat and potatoes of this script.
-
-## Setup
 
 1. Clone this repository
 
@@ -72,8 +62,11 @@ Make sure you have [fzf](https://github.com/junegunn/fzf) installed as that is t
 
 If you are not using yay and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below.
 
+## Dependencies
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+### fzf
+
+Make sure you have [fzf](https://github.com/junegunn/fzf) installed as that is the meat and potatoes of this script.
 
 # Usage
 
@@ -86,17 +79,17 @@ source ./yayfzf
 It can be either ran with a search query to start the search,
 or it will prompt you to enter one if it did not receive any input, then start the search.
 
+> *Example of running the script with no search query*
+ 
 ```shell
 yayfzf
 ```
 
+> *Example of running the script with input searching for "fzf"*
+ 
 ```shell
 yayfzf fzf
 ```
-> *Example of running the script with input searching for "fzf"*
-
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 # Customization
 
@@ -106,6 +99,7 @@ This script is setup to use [yay](https://github.com/Jguer/yay) as the package m
 However, it is very easy to change this and use a different package manager.
 
 To use a different package manager, open [*yayfzf.sh* and find the lines where options are set.](https://github.com/ConnerWill/yayfzf/blob/82b6915d6130b8ba3deecf1360ca1c1a44759ab5/yayfzf.sh#L7) *(see below)*
+
 
 ```sh
     ##-------- OPTIONS --------##
@@ -117,16 +111,19 @@ To use a different package manager, open [*yayfzf.sh* and find the lines where o
     ##-------------------------##
 ```
 
+
 Remove/replace any options to suite your desired package manager.
 Replace `installPackage` with the command to install a package.
 Replace `detailedPreview` with the command to view extra details about the package.
 
 
-*eg.*
-
+> > > > *e.g.*
+> > 
 > *In this example, I replaced the commands to suite pacman.*
 > *pacman doesnt have the `--sortby` flag. So I removed it.*
 > *pacman also doesnt have the `--nobatchinstall` flag, to it was removed from the installer command*
+
+
 ```sh
     ##-------- OPTIONS --------##
     packages_sort_by=""
@@ -136,6 +133,7 @@ Replace `detailedPreview` with the command to view extra details about the packa
     installPackage="pacman --sync --verbose --color $use_color --confirm"
     ##-------------------------##
 ```
+
 
 **NOTE**
 > *In the future I intend to adapt the script to be compatible with other distros/package managers.*
@@ -174,8 +172,6 @@ Allowing you to install packages, nagivate and view other packages, and change t
 
 # Other
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 <!-- CONTRIBUTING -->
 ## Contributing
 
@@ -195,7 +191,6 @@ If you have a suggestion that would make this better, please fork the repo and c
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 </details>
 
