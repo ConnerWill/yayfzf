@@ -132,7 +132,7 @@ function _search_packagemgr() {
 
 function _list_packagemgr(){
 				yay --sync --list --quiet --singlelineresults \
-						--sortby "$packages_sort_by" | 
+						--sortby "$packages_sort_by" 
 }
 
 
