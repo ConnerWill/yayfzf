@@ -228,5 +228,3 @@ function yayfzf() {
 #    }
 ###
 
-### TODO
-#        --bind "ctrl-i:header ${SHORTKEYBINDINGS}" \
