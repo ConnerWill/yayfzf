@@ -6,7 +6,6 @@
 
 ##-------- OPTIONS --------##
 packages_sort_by="votes"
-packages_search_by="Description"
 use_color="always"
 
 #searchFunction="yay --sync --search --quiet --sortby $packages_sort_by $SearchInput" #(not currently used)
