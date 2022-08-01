@@ -10,7 +10,8 @@ use_color="always"
 
 #searchFunction="yay --sync --search --quiet --sortby $packages_sort_by $SearchInput" #(not currently used)
 detailedPreview="yay --sync --info --info --verbose --color $use_color "
-installPackage="yay --sync --verbose --color $use_color --nobatchinstall --confirm"
+installPackage="yay -syv && yay --sync --verbose --color $use_color --nobatchinstall --confirm"
+updatePackages="yay -syuv"
 ##-------------------------##
 ##---------------##
 ### Main Script ###
@@ -133,7 +134,8 @@ function _fzf() {
     --scroll-off=0 \
     --hscroll-off=100 \
     --expect=ctrl-c,esc \
-    --bind "alt-d:execute: echo 'Installing: {+}' && sleep 1 && $installPackage {+} || echo '\nERROR Installing: {+}\nReturn to yayfzf? (Y/n' ; read -s -q || exit ||  echo  'Return to yayfzf? (Y/n)' ; read -s -q || exit" \
+    --bind "alt-d:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+} ; echo 'Press ENTER' && read -r" \
+    --bind "alt-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv; echo 'Press ENTER' && read -r"
     --bind 'pgdn:page-down' \
     --bind 'pgup:page-up' \
     --bind 'home:last' \
