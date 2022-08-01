@@ -8,77 +8,11 @@
 packages_sort_by="votes"
 packages_search_by="Description"
 use_color="always"
-REQUESTSPLITN=100
 
 #searchFunction="yay --sync --search --quiet --sortby $packages_sort_by $SearchInput" #(not currently used)
 detailedPreview="yay --sync --info --info --verbose --color $use_color "
 installPackage="yay --sync --verbose --color $use_color --nobatchinstall --confirm"
 ##-------------------------##
-
-PRODUCTNAME="yayfzf"
-VERSION="0.1.2"
-LICENSE="GNU General Public License, version 3"
-WEBSITE="https://github.com/ConnerWill/yayfzf"
-AUTHOR="ConnerWill"
-DATE="2022-05-05"
-
-
-
-_keybinding_file="../config/KEYBINDINGS.conf"
-[[ -e "$_keybinding_file" ]] \
-	&& source "$_keybinding_file" \
-	|| KEYBINDINGS=""
-
-
-function _version() {
-	cat <<EOS
-========================================================
-    NAME    :    ${PRODUCTNAME}
-    VERSION :    v${VERSION}
-    DATE    :    ${DATE}
-    LICENCE :    ${LICENSE}
-    AUTHOR  :    ${AUTHOR}
-    WEBSITE :    ${WEBSITE}/${AUTHOR}
-========================================================
-EOS
-}
-
-function _help() {
-	cat <<EOS
-
-    NAME
-        yayfzf
-
-    DESCRIPTION
-        search and install packages from the AUR with fzf
-
-    USAGE
-        yayfzf    KEYWORDS...
-        yayfzf    -h|--help
-        yayfzf    -V|--version
-
-    KEYBINDINGS
-$KEYBINDINGS
-
-========================================================
-EOS
-}
-
-SHORTKEYBINDINGS="\
-Alt+d           Install Package(s)
-[Tab/Ctl+Tab]   [Select/Deselect]
-Page[Dn/Up]     Page [Down/up]
-[Home/End]      [Top/Bottom]
-Ctrl+/          Change Layout
-?|Ctl+h         Help
-Esc|Ctl+q       Exit"
-
-function _short_help() {
-	cat <<EOS
-$SHORTKEYBINDINGS
-EOS
-}
-
 ##---------------##
 ### Main Script ###
 ##---------------##
@@ -182,9 +116,6 @@ function _fzf() {
 		--bind 'end:first' \
 		--bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
 		--bind 'ctrl-v:toggle-preview' \
-		--bind "?:preview: less $SHORTKEYBINDINGS" \
-		--bind "f1:preview: echo $SHORTKEYBINDINGS" \
-		--bind "ctrl-h:preview: echo $SHORTKEYBINDINGS" \
 		--bind 'tab:toggle' \
 		--bind 'shift-tab:deselect' \
 		--bind 'ctrl-d:deselect-all' \
@@ -192,7 +123,10 @@ function _fzf() {
 		--bind 'alt-bspace:clear-query' \
 		--bind 'ctrl-l:clear-query' \
 		--bind 'ctrl-q:print-query' \
-		--bind "esc:accept"
+		--bind "esc:accept" \
+		--bind "ctrl-h:preview(echo '$(_sysz_keys)')" \
+		--bind "f1:preview(echo '$(_sysz_keys)')" \
+		--bind "?:preview(echo '$(_sysz_keys)')" \
 
 	tput rmcup
 }
