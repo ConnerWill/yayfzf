@@ -19,11 +19,11 @@ installPackage="yay --sync --verbose --color $use_color --nobatchinstall --confi
 
 ## Error messege
 function _err() {
-	printf "\n[\e[31m WARNING \e[m] %s\n" "${*}"
-	echo -e -n "\nSearch yay\n\nInput Required!\nPlease Enter Initial Search Query: "
-	read -r SearchInput
-	[[ -z "$SearchInput" ]] && return 1
-	_main "${SearchInput}"
+  printf "\n[\e[31m WARNING \e[m] %s\n" "${*}"
+  echo -e -n "\nSearch yay\n\nInput Required!\nPlease Enter Initial Search Query: "
+  read -r SearchInput
+  [[ -z "$SearchInput" ]] && return 1
+  _main "${SearchInput}"
 }
 
 ## Check if user sent a search query when running.
@@ -31,114 +31,111 @@ function _err() {
 ## then prompt for input. If input is still empty, Exit.
 
 function _main() {
-	local input
-	input="${*}"
-	if [[ -z "${input}" ]]; then
-		_list_packagemgr | _fzf
-	fi
-	for arg in "${input[@]}"; do
-		case "${arg}" in
-		-h | --help)
-			_help
-			return 0
-			;;
-		-V | --version)
-			_version
-			return 0
-			;;
-		esac
-	done
-	clear
-	_search_packagemgr "${*}" | _fzf "${*}"
+  local input
+  input="${*}"
+  if [[ -z "${input}" ]]; then
+    _list_packagemgr | _fzf
+  fi
+  for arg in "${input[@]}"; do
+    case "${arg}" in
+      -h | --help)
+        _help
+        return 0
+        ;;
+      -V | --version)
+        _version
+        return 0
+        ;;
+    esac
+  done
+  clear
+  _search_packagemgr "${*}" | _fzf "${*}"
 }
-
 
 ## Search package manager
 
 function _search_packagemgr() {
-	local searchQuery
-	searchQuery="${*}"
-	yay --sync --search --quiet --singlelineresults \
-				--sortby "${packages_sort_by}" \
-				--searchby "${packages_search_by}" \
-				"$searchQuery"
+  local searchQuery
+  searchQuery="${*}"
+  yay --sync --search --quiet --singlelineresults \
+    --sortby "${packages_sort_by}" \
+    --searchby "${packages_search_by}" \
+    "$searchQuery"
 }
 
-function _list_packagemgr(){
-				yay --sync --list --quiet --singlelineresults \
-						--sortby "$packages_sort_by" 
+function _list_packagemgr() {
+    yay --sync --list --quiet --singlelineresults \
+      --sortby "$packages_sort_by"
 }
 
-
-		#--header "${KEYBINDINGS}" \
+  #--header "${KEYBINDINGS}" \
 ## Main script. Run fzf with package manager search results.
 function _fzf() {
-	tput smcup
-	local SearchInput
-	SearchInput="${*}"
-	fzf </dev/stdin \
-		--query "$SearchInput" \
-		--print-query \
-		--select-1 \
-		--exit-0 \
-		--no-clear \
-		--extended \
-		--tac \
-		--no-sort \
-		--keep-right \
-		--color='hl:#00ffff,hl+:#ff00ff,fg:#505050,fg+:#00ffff,bg:#010101,bg+:#202020,query:#00ff00,info:#9090a0,spinner:#ff00ff,border:#ff00ff,preview-fg:#ffffff,preview-bg:#200050,marker:#00ff00,gutter:#101010,pointer:#ff00ff,info:#020202' \
-		--header "${SearchInput}" \
-		--header-first \
-		--header-lines=0 \
-		--multi \
-		--marker="✔ " \
-		--prompt="> " \
-		--pointer="[>" \
-		--info=inline \
-		--height=100% \
-		--ansi \
-		--layout 'default' \
-		--preview "$detailedPreview {}" \
-		--preview-window "right:65%" \
-		--margin 0%,0% \
-		--padding 3%,2% \
-		--border "rounded" \
-		--delimiter=" " \
-		--tabstop=4 \
-		--filepath-word \
-		--scroll-off=0 \
-		--hscroll-off=100 \
-		--expect=ctrl-c,esc \
-		--bind "alt-d:execute: echo 'Installing: {+}' && sleep 1 && $installPackage {+} || echo '\nERROR Installing: {+}\nReturn to yayfzf? (Y/n' ; read -s -q || exit ||  echo  'Return to yayfzf? (Y/n)' ; read -s -q || exit" \
-		--bind 'pgdn:page-down' \
-		--bind 'pgup:page-up' \
-		--bind 'home:last' \
-		--bind 'end:first' \
-		--bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
-		--bind 'ctrl-v:toggle-preview' \
-		--bind 'tab:toggle' \
-		--bind 'shift-tab:deselect' \
-		--bind 'ctrl-d:deselect-all' \
-		--bind 'alt-left:kill-word' \
-		--bind 'alt-bspace:clear-query' \
-		--bind 'ctrl-l:clear-query' \
-		--bind 'ctrl-q:print-query' \
-		--bind "esc:accept" \
-		--bind "ctrl-h:preview(echo '$(_sysz_keys)')" \
-		--bind "f1:preview(echo '$(_sysz_keys)')" \
-		--bind "?:preview(echo '$(_sysz_keys)')" \
+  tput smcup
+  local SearchInput
+  SearchInput="${*}"
+  fzf </dev/stdin \
+    --query "$SearchInput" \
+    --print-query \
+    --select-1 \
+    --exit-0 \
+    --no-clear \
+    --extended \
+    --tac \
+    --no-sort \
+    --keep-right \
+    --color='hl:#00ffff,hl+:#ff00ff,fg:#505050,fg+:#00ffff,bg:#010101,bg+:#202020,query:#00ff00,info:#9090a0,spinner:#ff00ff,border:#ff00ff,preview-fg:#ffffff,preview-bg:#200050,marker:#00ff00,gutter:#101010,pointer:#ff00ff,info:#020202' \
+    --header "${SearchInput}" \
+    --header-first \
+    --header-lines=0 \
+    --multi \
+    --marker="✔ " \
+    --prompt="> " \
+    --pointer="[>" \
+    --info=inline \
+    --height=100% \
+    --ansi \
+    --layout 'default' \
+    --preview "$detailedPreview {}" \
+    --preview-window "right:65%" \
+    --margin 0%,0% \
+    --padding 3%,2% \
+    --border "rounded" \
+    --delimiter=" " \
+    --tabstop=4 \
+    --filepath-word \
+    --scroll-off=0 \
+    --hscroll-off=100 \
+    --expect=ctrl-c,esc \
+    --bind "alt-d:execute: echo 'Installing: {+}' && sleep 1 && $installPackage {+} || echo '\nERROR Installing: {+}\nReturn to yayfzf? (Y/n' ; read -s -q || exit ||  echo  'Return to yayfzf? (Y/n)' ; read -s -q || exit" \
+    --bind 'pgdn:page-down' \
+    --bind 'pgup:page-up' \
+    --bind 'home:last' \
+    --bind 'end:first' \
+    --bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
+    --bind 'ctrl-v:toggle-preview' \
+    --bind 'tab:toggle' \
+    --bind 'shift-tab:deselect' \
+    --bind 'ctrl-d:deselect-all' \
+    --bind 'alt-left:kill-word' \
+    --bind 'alt-bspace:clear-query' \
+    --bind 'ctrl-l:clear-query' \
+    --bind 'ctrl-q:print-query' \
+    --bind "esc:accept" \
+    --bind "ctrl-h:preview(echo '$(_sysz_keys)')" \
+    --bind "f1:preview(echo '$(_sysz_keys)')" \
+    --bind "?:preview(echo '$(_sysz_keys)')"
 
-	tput rmcup
+  tput rmcup
 }
 
 function yayfzf() {
-	_main "${@}"
+  _main "${@}"
 }
 
 ##---------------##
 ###  END MAIN   ###
 ##---------------##
-
 
 ### TODO:
 ##
@@ -161,4 +158,3 @@ function yayfzf() {
 #        return
 #    }
 ###
-
