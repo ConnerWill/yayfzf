@@ -54,29 +54,18 @@
 
 # Installation
 
-
 1. Clone this repository
 
   ```console
   git clone https://github.com/ConnerWill/yayfzf.git
   ```
 
-## Dependencies
-
-### fzf
-
-Make sure you have [fzf](https://github.com/junegunn/fzf) installed as that is the meat and potatoes of this script.
-
-### yay
-
-If you are not using [yay](https://github.com/Jguer/yay) and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below.
-
 # Usage
 
 To use this script, all you have to do is run.
 
 ```shell
-source ./yayfzf
+source yayfzf
 ```
 
 It can be either ran with a search query to start the search,
@@ -93,6 +82,17 @@ yayfzf
 ```shell
 yayfzf fzf
 ```
+
+## Dependencies
+
+### fzf
+
+Make sure you have [fzf](https://github.com/junegunn/fzf) installed as that is the meat and potatoes of this script.
+
+### yay
+
+If you are not using [yay](https://github.com/Jguer/yay) and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below
+
 
 # Customization
 
