@@ -13,4 +13,4 @@ jobs:
           submodules: recursive
 
       - name: Shellcheck yayfzf
-        run: shellcheck --color=always --check-sourced src/yayfzf
+        run: shellcheck --color=always --check-sourced src/yayfzf lib/yayfzf_help
