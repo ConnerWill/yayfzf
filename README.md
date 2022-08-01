@@ -3,7 +3,7 @@
 
 ### **ｙａｙｆｚｆ**
 > *[*yayfzf*](https://github.com/ConnerWill/yayfzf) allows you to search and install packages from the Arch Linux AUR using [fzf](https://github.com/junegunn/fzf).*
-> > *Demo is very glitchy... the script runs like butter*
+> > > *Demo is very glitchy... the script runs like butter*
 
 [![shellcheck](https://github.com/ConnerWill/yayfzf/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/ConnerWill/yayfzf/actions/workflows/shellcheck.yml)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ConnerWill/yayfzf)
@@ -61,13 +61,15 @@
   git clone https://github.com/ConnerWill/yayfzf.git
   ```
 
-If you are not using yay and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below.
-
 ## Dependencies
 
 ### fzf
 
 Make sure you have [fzf](https://github.com/junegunn/fzf) installed as that is the meat and potatoes of this script.
+
+### yay
+
+If you are not using [yay](https://github.com/Jguer/yay) and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below.
 
 # Usage
 
