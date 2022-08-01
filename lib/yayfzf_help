@@ -48,7 +48,7 @@ $KEYBINDINGS
 EOS
 }
 
-_sysz_keys() {
+_yayfzf_keys() {
   cat <<EOF
 Keybindings:
 	Alt+d           Install Package(s)

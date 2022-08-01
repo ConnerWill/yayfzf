@@ -13,9 +13,16 @@ use_color="always"
 detailedPreview="yay --sync --info --info --verbose --color $use_color "
 installPackage="yay --sync --verbose --color $use_color --nobatchinstall --confirm"
 ##-------------------------##
+
+
+source ./lib/yayfzf_help
+
+
+
 ##---------------##
 ### Main Script ###
 ##---------------##
+
 
 ## Error messege
 function _err() {
@@ -56,7 +63,7 @@ function _main() {
 
 function _search_packagemgr() {
   local searchQuery
-  searchQuery="${*}"
+  searchQuery="${1}"
   yay --sync --search --quiet --singlelineresults \
     --sortby "${packages_sort_by}" \
     --searchby "${packages_search_by}" \
@@ -122,9 +129,9 @@ function _fzf() {
     --bind 'ctrl-l:clear-query' \
     --bind 'ctrl-q:print-query' \
     --bind "esc:accept" \
-    --bind "ctrl-h:preview(echo '$(_sysz_keys)')" \
-    --bind "f1:preview(echo '$(_sysz_keys)')" \
-    --bind "?:preview(echo '$(_sysz_keys)')"
+    --bind "ctrl-h:preview(echo '$(_yayfzf_keys)')" \
+    --bind "f1:preview(echo '$(_yayfzf_keys)')" \
+    --bind "?:preview(echo '$(_yayfzf_keys)')"
 
   tput rmcup
 }
