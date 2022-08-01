@@ -13,16 +13,9 @@ use_color="always"
 detailedPreview="yay --sync --info --info --verbose --color $use_color "
 installPackage="yay --sync --verbose --color $use_color --nobatchinstall --confirm"
 ##-------------------------##
-
-
-source ./lib/yayfzf_help
-
-
-
 ##---------------##
 ### Main Script ###
 ##---------------##
-
 
 ## Error messege
 function _err() {
@@ -40,9 +33,6 @@ function _err() {
 function _main() {
   local input
   input="${*}"
-  if [[ -z "${input}" ]]; then
-    _list_packagemgr | _fzf
-  fi
   for arg in "${input[@]}"; do
     case "${arg}" in
       -h | --help)
@@ -53,34 +43,64 @@ function _main() {
         _version
         return 0
         ;;
+      -i | --installed)
+        _list_installed_packagemgr
+        return $?
+        ;;
+      -a | --all)
+        _list_packagemgr | _fzf
+        return $?
+        ;;
+      -s | --search)
+        _search_packagemgr | _fzf "${*}"
+        return $?
+        ;;
+      -q | --query)
+        _search_packagemgr | _fzf "${*}"
+        return $?
+        ;;
+      *)
+        if [[ -z "${input}" ]]; then
+          _list_packagemgr | _fzf
+          return $?
+        else
+          _search_packagemgr "${*}" | _fzf "${*}"
+          return $?
+        fi
+        ;;
     esac
   done
-  clear
-  _search_packagemgr "${*}" | _fzf "${*}"
+
 }
 
 ## Search package manager
-
 function _search_packagemgr() {
   local searchQuery
-  searchQuery="${1}"
+  searchQuery="${*}"
   yay --sync --search --quiet --singlelineresults \
     --sortby "${packages_sort_by}" \
-    --searchby "${packages_search_by}" \
     "$searchQuery"
 }
 
+## Listall package manager
 function _list_packagemgr() {
     yay --sync --list --quiet --singlelineresults \
       --sortby "$packages_sort_by"
 }
 
+## Listall package manager
+function _list_installed_packagemgr() {
+    yay --query --singlelineresults \
+      --sortby "$packages_sort_by"
+}
   #--header "${KEYBINDINGS}" \
 ## Main script. Run fzf with package manager search results.
 function _fzf() {
   tput smcup
-  local SearchInput
+  # trap 'tput rmcup' SIGINT
+  local SearchInput SearchHeader
   SearchInput="${*}"
+  [[ -n "${SearchInput}" ]] && SearchHeader="Search:  '${SearchInput}'"
   fzf </dev/stdin \
     --query "$SearchInput" \
     --print-query \
@@ -92,7 +112,7 @@ function _fzf() {
     --no-sort \
     --keep-right \
     --color='hl:#00ffff,hl+:#ff00ff,fg:#505050,fg+:#00ffff,bg:#010101,bg+:#202020,query:#00ff00,info:#9090a0,spinner:#ff00ff,border:#ff00ff,preview-fg:#ffffff,preview-bg:#200050,marker:#00ff00,gutter:#101010,pointer:#ff00ff,info:#020202' \
-    --header "${SearchInput}" \
+    --header "${SearchHeader}" \
     --header-first \
     --header-lines=0 \
     --multi \
@@ -128,12 +148,74 @@ function _fzf() {
     --bind 'alt-bspace:clear-query' \
     --bind 'ctrl-l:clear-query' \
     --bind 'ctrl-q:print-query' \
-    --bind "esc:accept" \
-    --bind "ctrl-h:preview(echo '$(_yayfzf_keys)')" \
-    --bind "f1:preview(echo '$(_yayfzf_keys)')" \
-    --bind "?:preview(echo '$(_yayfzf_keys)')"
-
+    --bind 'ctrl-c:accept' \
+    --bind "esc:accept"
+  #  --bind "ctrl-h:preview(echo '$(_sysz_keys)')" \
+ #   --bind "f1:preview(echo '$(_sysz_keys)')" \
+ #   --bind "?:preview(echo '$(_sysz_keys)')"
   tput rmcup
+  returnSIG=$?
+  echo $returnSIG
+  return $returnSIG
+}
+
+# TODO: intend to use the current status of package manager search instead of sleep
+function while_loading(){
+  local i colori
+		timeout --preserve-status 10 \
+		sleep 2 >/dev/null 2>&1 &
+		T1=${!}
+		i=1
+		while ps -p ${T1} &>/dev/null; do
+				# for ((i = 0; i < 13; i++)); do
+			if [[ ${i} -gt 254 ]]; then
+				i=0
+			else
+				i+=1
+			fi
+			colori="$i"
+      #shellcheck disable=2059
+			printf "\e[0;1;38;5;${colori}myayfzf\e[0m"
+			sleep 0.05
+			clear
+		done
+}
+
+function print-centered {
+	SURROUNDING_CHAR=""
+  [[ $# == 0 ]] \
+    && printf "\n\e[0;1;38;5;196mNo parameter given\e[0m" >&2 \
+    && printf "\nUsage:\n\t\e[0;1;38;5;46m%s \e[0;38;5;15m\"<phrase to center>\" \"<1 char to fill empty space>\" \e[0;38;5;240m[<number of columns>] [<1 char to surround the whole result>\e[0m\n" "${0}" >&2 \
+    && return 1
+  declare -i NB_COLS
+  [[ $# -ge 3 ]] && NB_COLS=$3 || NB_COLS="$(tput cols)"
+  [[ $# -ge 4 ]] && SURROUNDING_CHAR=${4:0:1} && NB_COLS=$((NB_COLS - 2 ))
+  declare -i str_len="${#1}"
+  [[ $str_len -ge $NB_COLS ]] && echo "$1" && return 0            # Simply displays the text if it exceeds the maximum length
+  declare -i filler_len="$(( (NB_COLS - str_len) / 2 ))"          # Build the chars to add before and after the given text
+  [[ $# -ge 2 ]] && ch="${2:0:1}" || ch=" "
+  filler=""; for (( i = 0; i < filler_len; i++ )); do
+  filler="${filler}${ch}" ; done
+  printf "%s%s${2}%s%s" "${SURROUNDING_CHAR}" "$filler" "${1}" "$filler"  # Add an additional filler char at the end if the result length is not even
+  [[ $(( (NB_COLS - str_len) % 2 )) -ne 0 ]] && printf "%s" "${ch}"
+  printf "%s\n" "${SURROUNDING_CHAR}"
+  return 0
+}
+
+function progress_bar(){
+    barr=''
+    echo -e "\e[?25l" # hide cursor
+    for (( y=50; y <= 100; y++ )); do
+        sleep 0.05
+        barr="${barr} "
+        echo -ne "\r"
+        echo -ne "\e[48;5;${y}m$barr\e[0m"
+        local left="$(( 100 - y ))"
+        printf " %${left}s"
+        echo -ne "\e[38;5;${left}m${y}%\e[0m"
+    done
+    echo -e "\e[?25h" # Show cursor
+    echo -e "\n"
 }
 
 function yayfzf() {
