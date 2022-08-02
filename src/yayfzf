@@ -135,7 +135,7 @@ function _fzf() {
     --hscroll-off=100 \
     --expect=ctrl-c,esc \
     --bind "alt-d:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+} ; echo 'Press ENTER' && read -r" \
-    --bind "alt-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv; echo 'Press ENTER' && read -r"
+    --bind "alt-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv; echo 'Press ENTER' && read -r" \
     --bind 'pgdn:page-down' \
     --bind 'pgup:page-up' \
     --bind 'home:last' \
