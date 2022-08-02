@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-#yayfzf2.sh
+
 ########################################
 #[============== YAYFZF ==============]#
 ########################################
-
 ##-------- OPTIONS --------##
 packages_sort_by="votes"
 use_color="always"
@@ -13,10 +12,10 @@ detailedPreview="yay --sync --info --info --verbose --color $use_color "
 installPackage="yay -syv && yay --sync --verbose --color $use_color --nobatchinstall --confirm"
 updatePackages="yay -syuv"
 ##-------------------------##
+
 ##---------------##
 ### Main Script ###
 ##---------------##
-
 ## Error messege
 function _err() {
   printf "\n[\e[31m WARNING \e[m] %s\n" "${*}"
@@ -29,7 +28,6 @@ function _err() {
 ## Check if user sent a search query when running.
 ## If no input received, show warning and the help menu,
 ## then prompt for input. If input is still empty, Exit.
-
 function _main() {
   local input
   input="${*}"
@@ -70,7 +68,6 @@ function _main() {
         ;;
     esac
   done
-
 }
 
 ## Search package manager
@@ -226,25 +223,3 @@ function yayfzf() {
 ##---------------##
 ###  END MAIN   ###
 ##---------------##
-
-### TODO:
-##
-##      Add Next/Previous page function
-###
-#        --bind "ctrl-n:reload(_next_page)"  \
-#        --bind "ctrl-p:reload(_previous_page)
-#
-#   gh_page_number_max=3
-#
-#    function _next_page(){
-#        [[ "$gh_page_number" -lt "$gh_page_number_max" ]] && gh_page_number=$((gh_page_number-1))
-#        _main "$query"
-#        return
-#    }
-#
-#    function _previous_page(){
-#        [[ "$gh_page_number" -gt 1 ]] && gh_page_number=$((gh_page_number-1))
-#        _main "$query"
-#        return
-#    }
-###
