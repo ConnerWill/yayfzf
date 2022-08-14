@@ -16,6 +16,18 @@ updatePackages="yay -syuv"
 ##---------------##
 ### Main Script ###
 ##---------------##
+
+## Help
+function _help(){
+      printf "\t\e[0;38;5;46m-a\e[0;38;5;255m|\e[0;38;5;46m--all            \e[0;38;5;255m\t: List all packages in repository\e[0m\n"
+      printf "\t\e[0;38;5;46m-s\e[0;38;5;255m|\e[0;38;5;46m--search <string>\e[0;38;5;255m\t: Search for packages using search query\e[0m\n"
+      printf "\t\e[0;38;5;46m-q\e[0;38;5;255m|\e[0;38;5;46m--query  <string>\e[0;38;5;255m\t: Search for packages using search query\e[0m\n"
+      printf "\t\e[0;38;5;46m-i\e[0;38;5;255m|\e[0;38;5;46m--installed      \e[0;38;5;255m\t: List installed packages\e[0m\n"
+      # printf "\t\e[0;38;5;46m-V\e[0;38;5;255m|\e[0;38;5;46m--version        \e[0;38;5;255m\t: Show version\e[0m\n"
+      printf "\t\e[0;38;5;46m-h\e[0;38;5;255m|\e[0;38;5;46m--help           \e[0;38;5;255m\t: Show this help menu\e[0m\n"
+      return 0
+}
+
 ## Error messege
 function _err() {
   printf "\n[\e[31m WARNING \e[m] %s\n" "${*}"
