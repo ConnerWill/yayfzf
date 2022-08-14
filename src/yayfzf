@@ -19,12 +19,17 @@ updatePackages="yay -syuv"
 
 ## Help
 function _help(){
-      printf "\t\e[0;38;5;46m-a\e[0;38;5;255m|\e[0;38;5;46m--all            \e[0;38;5;255m\t: List all packages in repository\e[0m\n"
-      printf "\t\e[0;38;5;46m-s\e[0;38;5;255m|\e[0;38;5;46m--search <string>\e[0;38;5;255m\t: Search for packages using search query\e[0m\n"
-      printf "\t\e[0;38;5;46m-q\e[0;38;5;255m|\e[0;38;5;46m--query  <string>\e[0;38;5;255m\t: Search for packages using search query\e[0m\n"
-      printf "\t\e[0;38;5;46m-i\e[0;38;5;255m|\e[0;38;5;46m--installed      \e[0;38;5;255m\t: List installed packages\e[0m\n"
-      # printf "\t\e[0;38;5;46m-V\e[0;38;5;255m|\e[0;38;5;46m--version        \e[0;38;5;255m\t: Show version\e[0m\n"
-      printf "\t\e[0;38;5;46m-h\e[0;38;5;255m|\e[0;38;5;46m--help           \e[0;38;5;255m\t: Show this help menu\e[0m\n"
+
+      printf "\e[0;1;4;38;5;12mUSAGE\e[0m\n\n"
+      printf "\t\e[0;38;5;255myayfzf \e[0;38;5;8m[OPTIONS] \e[0;38;5;8m[QUERY] \n\n" "${0}"
+
+      printf "\e[0;1;4;38;5;12mOPTIONS\e[0m\n\n"
+      printf "\t\e[0;38;5;245m-a\e[0;38;5;249m|\e[0;38;5;245m--all\e[0;38;5;8m            \e[0;38;5;255m\t: List all packages in repository\e[0m\n"
+      printf "\t\e[0;38;5;245m-s\e[0;38;5;249m|\e[0;38;5;245m--search \e[0;38;5;240m<string>\e[0;38;5;255m\t: Search for packages using search query\e[0m\n"
+      printf "\t\e[0;38;5;245m-q\e[0;38;5;249m|\e[0;38;5;245m--query  \e[0;38;5;240m<string>\e[0;38;5;255m\t: Search for packages using search query\e[0m\n"
+      printf "\t\e[0;38;5;245m-i\e[0;38;5;249m|\e[0;38;5;245m--installed\e[0;38;5;8m      \e[0;38;5;255m\t: List installed packages\e[0m\n"
+      printf "\t\e[0;38;5;245m-V\e[0;38;5;249m|\e[0;38;5;245m--version\e[0;38;5;8m        \e[0;38;5;255m\t: Show version\e[0m\n"
+      printf "\t\e[0;38;5;245m-h\e[0;38;5;249m|\e[0;38;5;245m--help\e[0;38;5;8m           \e[0;38;5;255m\t: Show this help menu\e[0m\n\n"
       return 0
 }
 
@@ -54,11 +59,12 @@ function _main() {
         return 0
         ;;
       -i | --installed)
-        _list_installed_packagemgr
+        _list_installed_packagemgr | _fzf "${*}"
         return $?
         ;;
       -a | --all)
-        _list_packagemgr | _fzf
+        _list_packagemgr | fzf "${*}"
+
         return $?
         ;;
       -s | --search)
@@ -71,10 +77,10 @@ function _main() {
         ;;
       *)
         if [[ -z "${input}" ]]; then
-          _list_packagemgr | _fzf
+          _list_packagemgr | _fzf "${*}"
           return $?
         else
-          _search_packagemgr "${*}" | _fzf "${*}"
+          _list_packagemgr | _fzf "${*}"
           return $?
         fi
         ;;
@@ -82,7 +88,7 @@ function _main() {
   done
 }
 
-## Search package manager
+## Search packages
 function _search_packagemgr() {
   local searchQuery
   searchQuery="${*}"
@@ -91,13 +97,13 @@ function _search_packagemgr() {
     "$searchQuery"
 }
 
-## Listall package manager
+## List all packages
 function _list_packagemgr() {
     yay --sync --list --quiet --singlelineresults \
       --sortby "$packages_sort_by"
 }
 
-## Listall package manager
+## List all installed packages
 function _list_installed_packagemgr() {
     yay --query --singlelineresults \
       --sortby "$packages_sort_by"
