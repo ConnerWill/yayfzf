@@ -36,8 +36,6 @@
 
 # Installation
 
-1. Clone this repository
-
   ```console
   git clone https://github.com/ConnerWill/yayfzf.git
   ```
