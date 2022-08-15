@@ -2,6 +2,9 @@
 <img width="480" height="320" src="assets/yayfzf_demo.gif">
 
 ### **ｙａｙｆｚｆ**
+
+---
+  
 > ***[fzf](https://github.com/junegunn/fzf)** wrapper for **yay***
 
 [![shellcheck](https://github.com/ConnerWill/yayfzf/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/ConnerWill/yayfzf/actions/workflows/shellcheck.yml)
