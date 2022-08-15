@@ -115,7 +115,26 @@ Allowing you to install packages, nagivate and view other packages, and change t
         Ctrl+q      Exit
         Esc         Exit
 ```
+ 
+<kbd>`ALT`</kbd><kbd>`d`</kbd> : Install selected packages
 
+<kbd>`PageUp`</kbd> : Scroll one page up
+
+<kbd>`PageDn`</kbd> : Scroll one page down
+
+  
+  <!-- 
+  <kbd>`↑`</kbd><br>
+<kbd>`←`</kbd><kbd>`↓`</kbd><kbd>`→`</kbd><br><br>
+<kbd>`h`</kbd><kbd>`j`</kbd><kbd>`k`</kbd><kbd>`l`</kbd><br><br>
+  <kbd>`CTRL`</kbd> <kbd>`SUPER`</kbd> <kbd>`ALT`</kbd><br><br>
+<kbd>`INSERT`</kbd><kbd>`HOME`</kbd><kbd>`PgUp`</kbd><br>
+<kbd>`DELETE`</kbd><kbd>`END`</kbd><kbd>`PgDn`</kbd><br><br>
+<kbd>`~`</kbd> <kbd>`FN`</kbd> <kbd>`F1`</kbd><br>
+<kbd>`CAPSLOCK`</kbd> <kbd>`ESC`</kbd><br>
+<kbd>`BACKSPACE`</kbd> <kbd>`DEL`</kbd><br>
+-->
+ 
 > *Other than running the script and finding out for yourself, I suggest reading the [fzf](https://github.com/junegunn/fzf) documentation if you want to learn more about the keybindings.*
 
 
