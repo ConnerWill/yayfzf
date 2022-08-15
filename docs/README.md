@@ -115,8 +115,16 @@ Allowing you to install packages, nagivate and view other packages, and change t
         Ctrl+q      Exit
         Esc         Exit
 ```
- 
-<kbd>`ALT`</kbd><kbd>`d`</kbd> : Install selected packages
+
+<kbd>`TAB`</kbd>+<kbd>`d`</kbd> : Toggle selection
+
+<kbd>`ESC`</kbd> : Exit
+
+<kbd>`CTRL`</kbd>+<kbd>`q`</kbd> : Exit
+
+<kbd>`ALT`</kbd>+<kbd>`d`</kbd> : Install selected packages
+
+<kbd>`CTRL`</kbd>+<kbd>`/`</kbd> : Change layout
 
 <kbd>`PageUp`</kbd> : Scroll one page up
 
