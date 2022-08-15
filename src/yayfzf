@@ -68,11 +68,11 @@ function _main() {
         return $?
         ;;
       -s | --search)
-        _search_packagemgr | _fzf "${*}"
+        _search_packagemgr "$@" | _fzf "${*}"
         return $?
         ;;
       -q | --query)
-        _search_packagemgr | _fzf "${*}"
+        _search_packagemgr "$@" | _fzf "${*}"
         return $?
         ;;
       *)
