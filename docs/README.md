@@ -14,30 +14,11 @@
 
 </div>
 
-<!--
----
-
-# Table of Contents
-
-* [Table of Contents](#table-of-contents)
-* [Description](#description)
-   * [Demo](#demo)
-* [Installation](#installation)
-   * [Dependencies](#dependencies)
-      * [fzf](#fzf)
-* [Usage](#usage)
-  * [Customization](#customization)
-      * [Using a Different Package Manager](#using-a-different-package-manager)
-      * [Hotkeys](#hotkeys)
-* [Other](#other)
-   * [Contributing](#contributing)
--->
-  ---
-
 # Description
 
-*[*yayfzf*](https://github.com/ConnerWill/yayfzf) searches and installs packages from the Arch Linux AUR using [fzf](https://github.com/junegunn/fzf).*
+*[*yayfzf*](https://github.com/ConnerWill/yayfzf) is a script that searches and installs packages from the Arch Linux AUR using [fzf](https://github.com/junegunn/fzf).*
 
+<!--
 ## Demo
 
 <details>
@@ -51,6 +32,7 @@
 <p align="right">(<a href="#top">back to top</a>)</p>
 </details>  
 </div>
+-->
 
 # Installation
 
@@ -59,6 +41,14 @@
   ```console
   git clone https://github.com/ConnerWill/yayfzf.git
   ```
+  
+ To run this script from anywhere as the current user, either symlink or add the script to a directory in your PATH
+
+```shell
+ln -s ./yayfzf/src/yayfzf ~/.bin/
+```
+
+> Assuming *`~/.bin`* is in your PATH
 
 # Usage
 
