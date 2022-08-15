@@ -8,8 +8,8 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/ConnerWill/yayfzf)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ConnerWill/yayfzf)
 ![GitHub repo size](https://img.shields.io/github/repo-size/ConnerWill/yayfzf)
-[![GitLab](https://img.shields.io/static/v1?label=gitlab&logo=gitlab&color=E24329&message=mirrored)](https://gitlab.com/ConnerWill/yayfzf)
 ![GitHub](https://img.shields.io/github/license/ConnerWill/yayfzf)
+[![GitLab](https://img.shields.io/static/v1?label=gitlab&logo=gitlab&color=E24329&message=mirrored)](https://gitlab.com/ConnerWill/yayfzf)
 ![GitHub Repo stars](https://img.shields.io/github/stars/ConnerWill/yayfzf?style=social)
 
 </div>
