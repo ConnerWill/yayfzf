@@ -21,7 +21,7 @@ updatePackages="yay -syuv"
 function _help(){
 
       printf "\e[0;1;4;38;5;12mUSAGE\e[0m\n\n"
-      printf "\t\e[0;38;5;255myayfzf \e[0;38;5;8m[OPTIONS] \e[0;38;5;8m[QUERY] \n\n" "${0}"
+      printf "\t\e[0;38;5;255myayfzf \e[0;38;5;8m[OPTIONS] \e[0;38;5;8m[QUERY] \n\n"
 
       printf "\e[0;1;4;38;5;12mOPTIONS\e[0m\n\n"
       printf "\t\e[0;38;5;245m-a\e[0;38;5;249m|\e[0;38;5;245m--all\e[0;38;5;8m            \e[0;38;5;255m\t: List all packages in repository\e[0m\n"
