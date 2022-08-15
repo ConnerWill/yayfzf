@@ -118,10 +118,6 @@ Allowing you to install packages, nagivate and view other packages, and change t
 
 <kbd>`TAB`</kbd>+<kbd>`d`</kbd> : Toggle selection
 
-<kbd>`ESC`</kbd> : Exit
-
-<kbd>`CTRL`</kbd>+<kbd>`q`</kbd> : Exit
-
 <kbd>`ALT`</kbd>+<kbd>`d`</kbd> : Install selected packages
 
 <kbd>`CTRL`</kbd>+<kbd>`/`</kbd> : Change layout
@@ -129,6 +125,15 @@ Allowing you to install packages, nagivate and view other packages, and change t
 <kbd>`PageUp`</kbd> : Scroll one page up
 
 <kbd>`PageDn`</kbd> : Scroll one page down
+
+<kbd>`?`</kbd> : Show help
+
+<kbd>`CTRL`</kbd>+<kbd>`h`</kbd> : Show help
+
+<kbd>`ESC`</kbd> : Exit
+
+<kbd>`CTRL`</kbd>+<kbd>`q`</kbd> : Exit
+
 
   
   <!-- 
