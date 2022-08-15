@@ -52,14 +52,19 @@ ln -s ./yayfzf/src/yayfzf ~/.bin/
 
 # Usage
 
-To use this script, all you have to do is run.
+If you added the script to your PATH as mentioned [above](#installation), you can run the command `yayfzf`
+
+`yayfzf` can be either be executed directly or can be sourced to be called later
+
+```console
+./yayfzf
+```
 
 ```shell
 source yayfzf
 ```
 
-It can be either ran with a search query to start the search,
-or it will prompt you to enter one if it did not receive any input, then start the search.
+Running `yayfzf` without any arguments or queries will list all availiable packages to be searched using the fzf tui.
 
 > *Example of running the script with no search query*
  
