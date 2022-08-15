@@ -50,6 +50,18 @@ ln -s ./yayfzf/src/yayfzf ~/.bin/
 
 > Assuming *`~/.bin`* is in your PATH
 
+
+## Dependencies
+
+### fzf
+
+Make sure you have [fzf](https://github.com/junegunn/fzf) installed as that is the meat and potatoes of this script.
+
+### yay
+
+If you are not using [yay](https://github.com/Jguer/yay) and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below
+
+
 # Usage
 
 If you added the script to your PATH as mentioned [above](#installation), you can run the command `yayfzf`
@@ -77,66 +89,6 @@ yayfzf
 ```shell
 yayfzf fzf
 ```
-
-## Dependencies
-
-### fzf
-
-Make sure you have [fzf](https://github.com/junegunn/fzf) installed as that is the meat and potatoes of this script.
-
-### yay
-
-If you are not using [yay](https://github.com/Jguer/yay) and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below
-
-
-# Customization
-
-### Using a Different Package Manager
-
-This script is setup to use [yay](https://github.com/Jguer/yay) as the package manager.
-However, it is very easy to change this and use a different package manager.
-
-To use a different package manager, open [*yayfzf.sh* and find the lines where options are set.](https://github.com/ConnerWill/yayfzf/blob/82b6915d6130b8ba3deecf1360ca1c1a44759ab5/yayfzf.sh#L7) *(see below)*
-
-
-```sh
-    ##-------- OPTIONS --------##
-    packages_sort_by="votes"
-    use_color="always"
-
-    detailedPreview="yay --sync --info --info --verbose --color $use_color "
-    installPackage="yay --sync --verbose --color $use_color --nobatchinstall --confirm"
-    ##-------------------------##
-```
-
-
-Remove/replace any options to suite your desired package manager.
-Replace `installPackage` with the command to install a package.
-Replace `detailedPreview` with the command to view extra details about the package.
-
-
-> > > > *e.g.*
-> > 
-> *In this example, I replaced the commands to suite pacman.*
-> *pacman doesnt have the `--sortby` flag. So I removed it.*
-> *pacman also doesnt have the `--nobatchinstall` flag, to it was removed from the installer command*
-
-
-```sh
-    ##-------- OPTIONS --------##
-    packages_sort_by=""
-    use_color="always"
-
-    detailedPreview="pacman --sync --info --verbose --color $use_color "
-    installPackage="pacman --sync --verbose --color $use_color --confirm"
-    ##-------------------------##
-```
-
-
-**NOTE**
-> *In the future I intend to adapt the script to be compatible with other distros/package managers.*
-
----
 
 ### Hotkeys
 
@@ -167,6 +119,56 @@ Allowing you to install packages, nagivate and view other packages, and change t
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+
+# Customization
+
+### Using a Different Package Manager
+
+This script is setup to use [yay](https://github.com/Jguer/yay) as the package manager.
+However, it is very easy to change this and use a different package manager.
+
+To use a different package manager, open [*yayfzf.sh* and find the lines where options are set.](https://github.com/ConnerWill/yayfzf/blob/82b6915d6130b8ba3deecf1360ca1c1a44759ab5/yayfzf.sh#L7) *(see below)*
+
+
+```sh
+    ##-------- OPTIONS --------##
+    packages_sort_by="votes"
+    use_color="always"
+
+    detailedPreview="yay --sync --info --info --verbose --color $use_color "
+    installPackage="yay --sync --verbose --color $use_color --nobatchinstall --confirm"
+    ##-------------------------##
+```
+
+
+Remove/replace any options to suite your desired package manager.
+Replace `installPackage` with the command to install a package.
+Replace `detailedPreview` with the command to view extra details about the package.
+
+
+> >  *e.g.*
+> *In this example, I replaced the commands to suite pacman.*
+> *pacman doesnt have the `--sortby` flag. So I removed it.*
+> *pacman also doesnt have the `--nobatchinstall` flag, to it was removed from the installer command*
+
+
+```sh
+    ##-------- OPTIONS --------##
+    packages_sort_by=""
+    use_color="always"
+
+    detailedPreview="pacman --sync --info --verbose --color $use_color "
+    installPackage="pacman --sync --verbose --color $use_color --confirm"
+    ##-------------------------##
+```
+
+
+**NOTE**
+> *In the future I intend to adapt the script to be compatible with other distros/package managers.*
+
+---
+
 
 # Other
 
