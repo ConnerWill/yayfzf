@@ -15,6 +15,7 @@
 
 </div>
 
+<!--
 ---
 
 # Table of Contents
@@ -31,7 +32,7 @@
       * [Hotkeys](#hotkeys)
 * [Other](#other)
    * [Contributing](#contributing)
-
+-->
   ---
 
 # Description
