@@ -20,6 +20,99 @@ updatePackages="yay -syuv"
 ## Help
 function _help(){
 
+# #  ## Define Variables ##{{{
+#
+#   ## Define Config Variables ##{{{
+#
+#   sleep_time=0.02
+#   color="93m"                       #White:"255m" #Red:"196m" #Blue:"21m" #Yellow:"190m" #Lime:"46m" #Magenta:"201m"
+#   messege_color='\e[0;1;38;5;255m'  #Magenta Background Bold White Foreground \e[0;1;38;5;255;48;5;201m
+#   progress_color='\e[0;38;5;7m'     #White Background Bold Magenta Foreground \e[0;1;38;5;201;48;5;255m
+#
+#   ##}}}
+#
+#
+#   ## Define Static Variables ##{{{
+#
+#   [[ -z "${messege}" ]] && messege="${*}"
+#   bar=''
+#   help_color_fg_setup="\e[0;38;5;$color"
+#   help_color_bg_setup="\e[48;5;$color"
+#   help_color="${help_color_fg_setup}${help_color_bg_setup}"
+#   help_color_reset='\e[0m'
+#   color_reset='\e[0m'
+#
+#   ##}}}
+#
+#   ##}}}
+#
+# #
+
+## Messeges/Menus ##{{{
+
+#   ## Help Menu ##{{{
+#
+#   ## Define Help Menu Variables ##{{{
+#
+#   help_color_title='\e[0;1;4;38;5;4m'
+#   help_color_command='\e[0;38;5;10m'
+#   help_color_option='\e[0;3;38;5;11m'
+#   help_color_option_sep='\e[0;38;5;7m'
+#   help_color_description='\e[0;3;38;5;7m'
+#   help_color_dollar='\e[0;38;5;8m'
+#
+#   ##}}}
+#
+#
+#   ## Display Help Menu ##{{{
+
+##TODO: Use this template help menu{{{
+#   if [[ "${messege}" == "-h" ]] || [[ "${messege}" == "--help" ]]; then
+#     printf "
+#     ${help_color_title}NAME${color_reset}
+#
+#      ${help_color_command}%s${color_reset}
+#
+#
+#     ${help_color_title}USAGE${color_reset}
+#
+#       ${help_color_command}%s${color_reset} ${help_color_option_sep}[${help_color_option}-h${help_color_option_sep}|${help_color_option}--help${help_color_option_sep}]${color_reset} ${help_color_option_sep}[${help_color_option}messege${help_color_option_sep}]${color_reset}
+#
+#
+#     ${help_color_title}EXAMPLE${color_reset}
+#
+#       ${help_color_description}Show progress bar with no messege
+#
+#         ${help_color_dollar}\$${color_reset} ${help_color_command}%s${color_reset}
+#
+#             ${help_color}█████████████${help_color_reset}                                          ${progress_color}19%%${help_color_reset}
+#
+#
+#     ${help_color_title}EXAMPLE${color_reset}
+#
+#       ${help_color_description}Show progress bar with the messege: 'Loading'
+#
+#         ${help_color_dollar}\$${color_reset} ${help_color_command}%s${color_reset} ${help_color_option}\"Loading\"${color_reset}
+#
+#             ${messege_color}Loading:${help_color_reset}${help_color}█████████████████████████${help_color_reset}                            ${progress_color}46%%${help_color_reset}
+#
+#
+#     ${help_color_title}EXAMPLE${color_reset}
+#
+#       ${help_color_description}Show progress bar with the messege: 'Current Progress' using no quotes
+#
+#         ${help_color_dollar}\$${color_reset} ${help_color_command}%s${color_reset} ${help_color_option}Current Progress${color_reset}
+#
+#             ${messege_color}Current Progress:${help_color_reset}${help_color}█████████████████████████████████████████████████${help_color_reset}    ${progress_color}91%%${help_color_reset}
+#
+#     \n" "${0}" "${0}" "${0}" "${0}" "${0}"
+#     return
+#   fi
+##}}}
+
+##}}}
+
+
       printf "\e[0;1;4;38;5;12mUSAGE\e[0m\n\n"
       printf "\t\e[0;38;5;255myayfzf \e[0;38;5;8m[OPTIONS] \e[0;38;5;8m[QUERY] \n\n"
 
@@ -30,10 +123,15 @@ function _help(){
       printf "\t\e[0;38;5;245m-i\e[0;38;5;249m|\e[0;38;5;245m--installed\e[0;38;5;8m      \e[0;38;5;255m\t: List installed packages\e[0m\n"
       printf "\t\e[0;38;5;245m-V\e[0;38;5;249m|\e[0;38;5;245m--version\e[0;38;5;8m        \e[0;38;5;255m\t: Show version\e[0m\n"
       printf "\t\e[0;38;5;245m-h\e[0;38;5;249m|\e[0;38;5;245m--help\e[0;38;5;8m           \e[0;38;5;255m\t: Show this help menu\e[0m\n\n"
+
       return 0
 }
 
-## Error messege
+##}}}
+
+
+## Error messeges ##{{{
+
 function _err() {
   printf "\n[\e[31m WARNING \e[m] %s\n" "${*}"
   echo -e -n "\nSearch yay\n\nInput Required!\nPlease Enter Initial Search Query: "
@@ -42,59 +140,21 @@ function _err() {
   _main "${SearchInput}"
 }
 
-## Check if user sent a search query when running.
-## If no input received, show warning and the help menu,
-## then prompt for input. If input is still empty, Exit.
-function _main() {
-  local input
-  input="${*}"
-  for arg in "${input[@]}"; do
-    case "${arg}" in
-      -h | --help)
-        _help
-        return 0
-        ;;
-      -V | --version)
-        _version
-        return 0
-        ;;
-      -i | --installed)
-        _list_installed_packagemgr | _fzf "${*}"
-        return $?
-        ;;
-      -a | --all)
-        _list_packagemgr | fzf "${*}"
+##}}}
 
-        return $?
-        ;;
-      -s | --search)
-        _search_packagemgr "$@" | _fzf "${*}"
-        return $?
-        ;;
-      -q | --query)
-        _search_packagemgr "$@" | _fzf "${*}"
-        return $?
-        ;;
-      *)
-        if [[ -z "${input}" ]]; then
-          _list_packagemgr | _fzf "${*}"
-          return $?
-        else
-          _list_packagemgr | _fzf "${*}"
-          return $?
-        fi
-        ;;
-    esac
-  done
-}
+##}}}
+
+
+## Functions ##{{{
 
 ## Search packages
 function _search_packagemgr() {
   local searchQuery
   searchQuery="${*}"
+  ##yay -Ss --singlelineresults '^pac.*' | cut --only-delimited --delimiter='/' -f2 | cut -s -d' ' -f1
   yay --sync --search --quiet --singlelineresults \
     --sortby "${packages_sort_by}" \
-    "$searchQuery"
+  "$searchQuery"
 }
 
 ## List all packages
@@ -108,72 +168,8 @@ function _list_installed_packagemgr() {
     yay --query --singlelineresults \
       --sortby "$packages_sort_by"
 }
-  #--header "${KEYBINDINGS}" \
-## Main script. Run fzf with package manager search results.
-function _fzf() {
-  tput smcup
-  # trap 'tput rmcup' SIGINT
-  local SearchInput SearchHeader
-  SearchInput="${*}"
-  [[ -n "${SearchInput}" ]] && SearchHeader="Search:  '${SearchInput}'"
-  fzf </dev/stdin \
-    --query "$SearchInput" \
-    --print-query \
-    --select-1 \
-    --exit-0 \
-    --no-clear \
-    --extended \
-    --tac \
-    --no-sort \
-    --keep-right \
-    --color='hl:#00ffff,hl+:#ff00ff,fg:#505050,fg+:#00ffff,bg:#010101,bg+:#202020,query:#00ff00,info:#9090a0,spinner:#ff00ff,border:#ff00ff,preview-fg:#ffffff,preview-bg:#200050,marker:#00ff00,gutter:#101010,pointer:#ff00ff,info:#020202' \
-    --header "${SearchHeader}" \
-    --header-first \
-    --header-lines=0 \
-    --multi \
-    --marker="✔ " \
-    --prompt="> " \
-    --pointer="[>" \
-    --info=inline \
-    --height=100% \
-    --ansi \
-    --layout 'default' \
-    --preview "$detailedPreview {}" \
-    --preview-window "right:65%" \
-    --margin 0%,0% \
-    --padding 3%,2% \
-    --border "rounded" \
-    --delimiter=" " \
-    --tabstop=4 \
-    --filepath-word \
-    --scroll-off=0 \
-    --hscroll-off=100 \
-    --expect=ctrl-c,esc \
-    --bind "alt-d:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+} ; echo 'Press ENTER' && read -r" \
-    --bind "alt-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv; echo 'Press ENTER' && read -r" \
-    --bind 'pgdn:page-down' \
-    --bind 'pgup:page-up' \
-    --bind 'home:last' \
-    --bind 'end:first' \
-    --bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
-    --bind 'ctrl-v:toggle-preview' \
-    --bind 'tab:toggle' \
-    --bind 'shift-tab:deselect' \
-    --bind 'ctrl-d:deselect-all' \
-    --bind 'alt-left:kill-word' \
-    --bind 'alt-bspace:clear-query' \
-    --bind 'ctrl-l:clear-query' \
-    --bind 'ctrl-q:print-query' \
-    --bind 'ctrl-c:accept' \
-    --bind "esc:accept"
-  #  --bind "ctrl-h:preview(echo '$(_sysz_keys)')" \
- #   --bind "f1:preview(echo '$(_sysz_keys)')" \
- #   --bind "?:preview(echo '$(_sysz_keys)')"
-  tput rmcup
-  returnSIG=$?
-  echo $returnSIG
-  return $returnSIG
-}
+
+## Animations/Effects ##{{{
 
 # TODO: intend to use the current status of package manager search instead of sleep
 function while_loading(){
@@ -234,10 +230,135 @@ function progress_bar(){
     echo -e "\n"
 }
 
+##}}}
+
+
+##}}}
+
+
+## FZF ##{{{
+
+## Main script. Run fzf with package manager search results.
+function _fzf() {
+  tput smcup
+  # trap 'tput rmcup' SIGINT
+  local SearchInput SearchHeader
+  SearchInput="${*}"
+  [[ -n "${SearchInput}" ]] && SearchHeader="Search:  '${SearchInput}'"
+  fzf </dev/stdin \
+    --ansi \
+    --bind "alt-d:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+} ; echo 'Press ENTER' && read -r" \
+    --bind "alt-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv; echo 'Press ENTER' && read -r" \
+    --bind "esc:accept" \
+    --bind 'alt-bspace:clear-query' \
+    --bind 'alt-left:kill-word' \
+    --bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
+    --bind 'ctrl-c:accept' \
+    --bind 'ctrl-d:deselect-all' \
+    --bind 'ctrl-l:clear-query' \
+    --bind 'ctrl-q:print-query' \
+    --bind 'ctrl-v:toggle-preview' \
+    --bind 'end:first' \
+    --bind 'home:last' \
+    --bind 'pgdn:page-down' \
+    --bind 'pgup:page-up' \
+    --bind 'shift-tab:deselect' \
+    --bind 'tab:toggle' \
+    --border "rounded" \
+    --color='hl:#00ffff,hl+:#ff00ff,fg:#505050,fg+:#00ffff,bg:#010101,bg+:#202020,query:#00ff00,info:#9090a0,spinner:#ff00ff,border:#ff00ff,preview-fg:#ffffff,preview-bg:#200050,marker:#00ff00,gutter:#101010,pointer:#ff00ff,info:#020202' \
+    --delimiter=" " \
+    --exit-0 \
+    --expect=ctrl-c,esc \
+    --extended \
+    --filepath-word \
+    --header "${SearchHeader}" \
+    --header-first \
+    --header-lines=0 \
+    --height=100% \
+    --hscroll-off=100 \
+    --info=inline \
+    --keep-right \
+    --layout 'default' \
+    --margin 0%,0% \
+    --marker="✔ " \
+    --multi \
+    --no-clear \
+    --no-sort \
+    --padding 3%,2% \
+    --pointer="[>" \
+    --preview "$detailedPreview {}" \
+    --preview-window "right:65%" \
+    --print-query \
+    --prompt="> " \
+    --query "$SearchInput" \
+    --scroll-off=0 \
+    --select-1 \
+    --tabstop=4 \
+    --tac
+ #  --bind "ctrl-h:preview(echo '$(_sysz_keys)')" \
+ #   --bind "f1:preview(echo '$(_sysz_keys)')" \
+ #   --bind "?:preview(echo '$(_sysz_keys)')"
+  tput rmcup
+  returnSIG=$?
+  echo $returnSIG
+  return $returnSIG
+}
+
+##}}}
+
+
+## MAIN ##{{{
+
+## Check if user sent a search query when running.
+## If no input received, show warning and the help menu,
+## then prompt for input. If input is still empty, Exit.
+function _main() {
+  local input
+  input="${*}"
+  for arg in "${input[@]}"; do
+    case "${arg}" in
+      -h | --help)
+        _help
+        return 0
+        ;;
+      -V | --version)
+        _version
+        return 0
+        ;;
+      -i | --installed)
+        _list_installed_packagemgr | _fzf "${*}"
+        return $?
+        ;;
+      -a | --all)
+        _list_packagemgr | fzf "${*}"
+
+        return $?
+        ;;
+      -s | --search)
+        _search_packagemgr "$@" | _fzf "${*}"
+        return $?
+        ;;
+      -q | --query)
+        _search_packagemgr "$@" | _fzf "${*}"
+        return $?
+        ;;
+      *)
+        if [[ -z "${input}" ]]; then
+          _list_packagemgr | _fzf "${*}"
+          return $?
+        else
+          _list_packagemgr | _fzf "${*}"
+          return $?
+        fi
+        ;;
+    esac
+  done
+}
+
 function yayfzf() {
   _main "${@}"
 }
 
 ##---------------##
 ###  END MAIN   ###
-##---------------##
+##---------------##}}}
