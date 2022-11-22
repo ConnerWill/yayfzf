@@ -4,7 +4,7 @@
 ### **ｙａｙｆｚｆ**
 
 ---
-  
+
 > ***[fzf](https://github.com/junegunn/fzf)** wrapper for **yay***
 
 [![shellcheck](https://github.com/ConnerWill/yayfzf/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/ConnerWill/yayfzf/actions/workflows/shellcheck.yml)
@@ -33,7 +33,7 @@
 |      |      |                                                               |      |
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-</details>  
+</details>
 </div>
 -->
 
@@ -42,7 +42,7 @@
   ```console
   git clone https://github.com/ConnerWill/yayfzf.git
   ```
-  
+
  To run this script from anywhere as the current user, either symlink or add the script to a directory in your PATH
 
 ```shell
@@ -80,13 +80,13 @@ source yayfzf
 Running `yayfzf` without any arguments or queries will list all availiable packages to be searched using the fzf tui.
 
 > *Example of running the script with no search query*
- 
+
 ```shell
 yayfzf
 ```
 
 > *Example of running the script with input searching for "fzf"*
- 
+
 ```shell
 yayfzf fzf
 ```
@@ -135,8 +135,8 @@ Allowing you to install packages, nagivate and view other packages, and change t
 <kbd>`CTRL`</kbd>+<kbd>`q`</kbd> : Exit
 
 
-  
-  <!-- 
+
+  <!--
   <kbd>`↑`</kbd><br>
 <kbd>`←`</kbd><kbd>`↓`</kbd><kbd>`→`</kbd><br><br>
 <kbd>`h`</kbd><kbd>`j`</kbd><kbd>`k`</kbd><kbd>`l`</kbd><br><br>
@@ -147,7 +147,7 @@ Allowing you to install packages, nagivate and view other packages, and change t
 <kbd>`CAPSLOCK`</kbd> <kbd>`ESC`</kbd><br>
 <kbd>`BACKSPACE`</kbd> <kbd>`DEL`</kbd><br>
 -->
- 
+
 > *Other than running the script and finding out for yourself, I suggest reading the [fzf](https://github.com/junegunn/fzf) documentation if you want to learn more about the keybindings.*
 
 
@@ -232,6 +232,3 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 [fzf]:
     (https://github.com/junegunn/fzf)
-
-
-
