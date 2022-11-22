@@ -11,6 +11,7 @@ use_color="always"
 detailedPreview="yay --sync --info --info --verbose --color $use_color "
 installPackage="yay -syv && yay --sync --verbose --color $use_color --nobatchinstall --confirm"
 updatePackages="yay -syuv"
+colortheme='hl:#00ffff,hl+:#ff00ff,fg:#505050,fg+:#00ffff,bg:#010101,bg+:#202020,query:#00ff00,info:#9090a0,spinner:#ff00ff,border:#ff00ff,preview-fg:#ffffff,preview-bg:#200050,marker:#00ff00,gutter:#101010,pointer:#ff00ff,info:#020202'
 ##-------------------------##
 
 ##---------------##
@@ -111,7 +112,6 @@ function _help(){
 ##}}}
 
 ##}}}
-
 
       printf "\e[0;1;4;38;5;12mUSAGE\e[0m\n\n"
       printf "\t\e[0;38;5;255myayfzf \e[0;38;5;8m[OPTIONS] \e[0;38;5;8m[QUERY] \n\n"
@@ -245,59 +245,36 @@ function _fzf() {
   local SearchInput SearchHeader
   SearchInput="${*}"
   [[ -n "${SearchInput}" ]] && SearchHeader="Search:  '${SearchInput}'"
+
   fzf </dev/stdin \
-    --ansi \
     --bind "alt-d:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+} ; echo 'Press ENTER' && read -r" \
     --bind "alt-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv; echo 'Press ENTER' && read -r" \
-    --bind "esc:accept" \
-    --bind 'alt-bspace:clear-query' \
-    --bind 'alt-left:kill-word' \
     --bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
-    --bind 'ctrl-c:accept' \
-    --bind 'ctrl-d:deselect-all' \
-    --bind 'ctrl-l:clear-query' \
-    --bind 'ctrl-q:print-query' \
-    --bind 'ctrl-v:toggle-preview' \
-    --bind 'end:first' \
-    --bind 'home:last' \
-    --bind 'pgdn:page-down' \
-    --bind 'pgup:page-up' \
-    --bind 'shift-tab:deselect' \
-    --bind 'tab:toggle' \
-    --border "rounded" \
-    --color='hl:#00ffff,hl+:#ff00ff,fg:#505050,fg+:#00ffff,bg:#010101,bg+:#202020,query:#00ff00,info:#9090a0,spinner:#ff00ff,border:#ff00ff,preview-fg:#ffffff,preview-bg:#200050,marker:#00ff00,gutter:#101010,pointer:#ff00ff,info:#020202' \
-    --delimiter=" " \
-    --exit-0 \
-    --expect=ctrl-c,esc \
-    --extended \
-    --filepath-word \
-    --header "${SearchHeader}" \
-    --header-first \
-    --header-lines=0 \
-    --height=100% \
-    --hscroll-off=100 \
-    --info=inline \
-    --keep-right \
-    --layout 'default' \
-    --margin 0%,0% \
-    --marker="✔ " \
-    --multi \
-    --no-clear \
-    --no-sort \
-    --padding 3%,2% \
-    --pointer="[>" \
-    --preview "$detailedPreview {}" \
-    --preview-window "right:65%" \
-    --print-query \
-    --prompt="> " \
-    --query "$SearchInput" \
-    --scroll-off=0 \
-    --select-1 \
-    --tabstop=4 \
-    --tac
- #  --bind "ctrl-h:preview(echo '$(_sysz_keys)')" \
- #   --bind "f1:preview(echo '$(_sysz_keys)')" \
- #   --bind "?:preview(echo '$(_sysz_keys)')"
+    --bind "esc:accept"             \
+    --bind 'alt-bspace:clear-query' \
+    --bind 'alt-left:kill-word'     \
+    --bind 'ctrl-c:accept'          \
+    --bind 'ctrl-d:deselect-all'    \
+    --bind 'ctrl-l:clear-query'     \
+    --bind 'ctrl-q:print-query'     \
+    --bind 'ctrl-v:toggle-preview'  \
+    --bind 'end:first'              \
+    --bind 'home:last'              \
+    --bind 'pgdn:page-down'         \
+    --bind 'pgup:page-up'           \
+    --bind 'shift-tab:deselect'     \
+    --bind 'tab:toggle'             \
+    --border "rounded"              \
+    --color="${colortheme}"         \
+    --ansi --delimiter=" " --exit-0 --expect=ctrl-c,esc --extended    \
+    --header "${SearchHeader}" --header-first --header-lines=0        \
+    --filepath-word --height=100% --hscroll-off=100 --info=inline     \
+    --keep-right --layout 'default' --margin 0%,0% --marker="✔ "      \
+    --multi --no-clear --no-sort --padding 3%,2% --pointer="[>"       \
+    --preview "$detailedPreview {}" --preview-window "right:65%"      \
+    --print-query --prompt="> " --query "$SearchInput" --scroll-off=0 \
+    --select-1 --tabstop=4 --tac                                      \
+
   tput rmcup
   returnSIG=$?
   echo $returnSIG
@@ -317,40 +294,14 @@ function _main() {
   input="${*}"
   for arg in "${input[@]}"; do
     case "${arg}" in
-      -h | --help)
-        _help
-        return 0
-        ;;
-      -V | --version)
-        _version
-        return 0
-        ;;
-      -i | --installed)
-        _list_installed_packagemgr | _fzf "${*}"
-        return $?
-        ;;
-      -a | --all)
-        _list_packagemgr | fzf "${*}"
-
-        return $?
-        ;;
-      -s | --search)
-        _search_packagemgr "$@" | _fzf "${*}"
-        return $?
-        ;;
-      -q | --query)
-        _search_packagemgr "$@" | _fzf "${*}"
-        return $?
-        ;;
-      *)
-        if [[ -z "${input}" ]]; then
-          _list_packagemgr | _fzf "${*}"
-          return $?
-        else
-          _list_packagemgr | _fzf "${*}"
-          return $?
-        fi
-        ;;
+      -h|--help)      _help; return 0 ;;
+      -V|--version)   _version return 0 ;;
+      -i|--installed) _list_installed_packagemgr | _fzf "${*}"; return $? ;;
+      -a|--all)       _list_packagemgr | fzf "${*}"; return $? ;;
+      -s|--search)    _search_packagemgr "$@" | _fzf "${*}" return $? ;;
+      -q|--query)     _search_packagemgr "$@" | _fzf "${*}" return $? ;;
+       *)             if [[ -z "${input}" ]]; then _list_packagemgr |_fzf "${*}"; return $?
+                      else _list_packagemgr | _fzf "${*}"; return $?; fi ;;
     esac
   done
 }
