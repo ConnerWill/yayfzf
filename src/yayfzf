@@ -314,7 +314,7 @@ else
           | cut -d' ' --fields=1,7-                                          \
           | column -s$'\t' -o': ' -c $(( COLUMNS / 4 )) -t                   \
       )
-
+  fi
 
     tput rmcup
     returnSIG=$?
