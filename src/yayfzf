@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #shellcheck disable=2034
+
 ########################################
 #[============== YAYFZF ==============]#
 ########################################
@@ -18,8 +19,6 @@ colortheme='hl:#00ffff,hl+:#ff00ff,fg:#CCCCCC,fg+:#00ffff,bg:#010101,bg+:#202020
 ### Main Script ###
 ##---------------##
 
-## Help
-function _help(){
 
 # #  ## Define Variables ##{{{
 #
@@ -113,9 +112,10 @@ function _help(){
 
 ##}}}
 
+## Help
+function _help(){
       printf "\e[0;1;4;38;5;12mUSAGE\e[0m\n\n"
       printf "\t\e[0;38;5;255myayfzf \e[0;38;5;8m[OPTIONS] \e[0;38;5;8m[QUERY] \n\n"
-
       printf "\e[0;1;4;38;5;12mOPTIONS\e[0m\n\n"
       printf "\t\e[0;38;5;245m-a\e[0;38;5;249m|\e[0;38;5;245m--all\e[0;38;5;8m            \e[0;38;5;255m\t: List all packages in repository\e[0m\n"
       printf "\t\e[0;38;5;245m-s\e[0;38;5;249m|\e[0;38;5;245m--search \e[0;38;5;240m<string>\e[0;38;5;255m\t: Search for packages using search query\e[0m\n"
@@ -123,10 +123,8 @@ function _help(){
       printf "\t\e[0;38;5;245m-i\e[0;38;5;249m|\e[0;38;5;245m--installed\e[0;38;5;8m      \e[0;38;5;255m\t: List installed packages\e[0m\n"
       printf "\t\e[0;38;5;245m-V\e[0;38;5;249m|\e[0;38;5;245m--version\e[0;38;5;8m        \e[0;38;5;255m\t: Show version\e[0m\n"
       printf "\t\e[0;38;5;245m-h\e[0;38;5;249m|\e[0;38;5;245m--help\e[0;38;5;8m           \e[0;38;5;255m\t: Show this help menu\e[0m\n\n"
-
       return 0
 }
-
 ##}}}
 
 
@@ -149,10 +147,9 @@ function _err() {
 
 ## Search packages
 function _search_packagemgr() {
-  echo -en '\e]0;yayfzf\e\\' # set title
+  # echo -en '\e]0;yayfzf\e\\' # set title
   local searchQuery
   searchQuery="${*}"
-  ##yay -Ss --singlelineresults '^pac.*' | cut --only-delimited --delimiter='/' -f2 | cut -s -d' ' -f1
   yay --sync --search --quiet --singlelineresults \
     --sortby "${packages_sort_by}" \
   "$searchQuery"
@@ -160,14 +157,14 @@ function _search_packagemgr() {
 
 ## List all packages
 function _list_packagemgr() {
-  echo -en '\e]0;yayfzf\e\\' # set title
+  # echo -en '\e]0;yayfzf\e\\' # set title
     yay --sync --list --quiet --singlelineresults \
       --sortby "$packages_sort_by"
 }
 
 ## List all installed packages
 function _list_installed_packagemgr() {
-  echo -en '\e]0;yayfzf\e\\' # set title
+  # echo -en '\e]0;yayfzf\e\\' # set title
     yay --query --singlelineresults \
       --sortby "$packages_sort_by"
 }
@@ -219,7 +216,7 @@ function print-centered {
 
 function progress_bar(){
     barr=''
-    echo -e "\e[?25l" # hide cursor
+    # echo -e "\e[?25l" # hide cursor
     for (( y=50; y <= 100; y++ )); do
         sleep 0.05
         barr="${barr} "
@@ -229,7 +226,7 @@ function progress_bar(){
         printf " %${left}s"
         echo -ne "\e[38;5;${left}m${y}%\e[0m"
     done
-    echo -e "\e[?25h" # Show cursor
+    # echo -e "\e[?25h" # Show cursor
     echo -e "\n"
 }
 
@@ -243,45 +240,45 @@ function progress_bar(){
 
 ## Main script. Run fzf with package manager search results.
 function _fzf() {
-  tput smcup
+  # tput smcup
   # trap 'tput rmcup' SIGINT
 
-  echo -en '\e]0;yayfzf\e\\' # set title
+  #echo -en '\e]0;yayfzf\e\\' # set title
   local SearchInput SearchHeader
   SearchInput="${*}"
   [[ -n "${SearchInput}" ]] && SearchHeader="${SearchInput}" && label="${SearchInput}" || label="yayfzf"
 
   ## Define USECLASSICMODE to anything to use old style
-  if [[ -n "${USECLASSICMODE}" ]]; then
-    fzf </dev/stdin \
-    --bind "alt-d:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+} ; echo 'Press ENTER' && read -r" \
-    --bind "alt-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv; echo 'Press ENTER' && read -r" \
-    --bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
-    --bind "esc:accept"             \
-    --bind 'alt-bspace:clear-query' \
-    --bind 'alt-left:kill-word'     \
-    --bind 'ctrl-c:accept'          \
-    --bind 'ctrl-d:deselect-all'    \
-    --bind 'ctrl-l:clear-query'     \
-    --bind 'ctrl-q:print-query'     \
-    --bind 'ctrl-v:toggle-preview'  \
-    --bind 'end:first'              \
-    --bind 'home:last'              \
-    --bind 'pgdn:page-down'         \
-    --bind 'pgup:page-up'           \
-    --bind 'shift-tab:deselect'     \
-    --bind 'tab:toggle'             \
-    --border "rounded"              \
-    --color="${colortheme}"         \
-    --ansi --delimiter=" " --exit-0 --expect=ctrl-c,esc --extended    \
-    --header "${SearchHeader}" --header-first --header-lines=0        \
-    --filepath-word --height=100% --hscroll-off=100 --info=inline     \
-    --keep-right --layout 'default' --margin 0%,0% --marker="✔ "      \
-    --multi --no-clear --no-sort --padding 3%,2% --pointer="[>"       \
-    --preview "$detailedPreview {}" --preview-window "right:65%"      \
-    --print-query --prompt="> " --query "$SearchInput" --scroll-off=0 \
-    --select-1 --tabstop=4 --tac                                      \
-else
+  # if [[ -n "${USECLASSICMODE}" ]]; then
+#     fzf </dev/stdin \
+#     --bind "alt-d:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+} ; echo 'Press ENTER' && read -r" \
+#     --bind "alt-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv; echo 'Press ENTER' && read -r" \
+#     --bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
+#     --bind "esc:accept"             \
+#     --bind 'alt-bspace:clear-query' \
+#     --bind 'alt-left:kill-word'     \
+#     --bind 'ctrl-c:accept'          \
+#     --bind 'ctrl-d:deselect-all'    \
+#     --bind 'ctrl-l:clear-query'     \
+#     --bind 'ctrl-q:print-query'     \
+#     --bind 'ctrl-v:toggle-preview'  \
+#     --bind 'end:first'              \
+#     --bind 'home:last'              \
+#     --bind 'pgdn:page-down'         \
+#     --bind 'pgup:page-up'           \
+#     --bind 'shift-tab:deselect'     \
+#     --bind 'tab:toggle'             \
+#     --border "rounded"              \
+#     --color="${colortheme}"         \
+#     --ansi --delimiter=" " --exit-0 --expect=ctrl-c,esc --extended    \
+#     --header "${SearchHeader}" --header-first --header-lines=0        \
+#     --filepath-word --height=100% --hscroll-off=100 --info=inline     \
+#     --keep-right --layout 'default' --margin 0%,0% --marker="✔ "      \
+#     --multi --no-clear --no-sort --padding 3%,2% --pointer="[>"       \
+#     --preview "$detailedPreview {}" --preview-window "right:65%"      \
+#     --print-query --prompt="> " --query "$SearchInput" --scroll-off=0 \
+#     --select-1 --tabstop=4 --tac                                      \
+# # else
   fzf \
     --bind "alt-d:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+} ; echo 'Press ENTER' && read -r" \
     --bind "alt-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv; echo 'Press ENTER' && read -r" \
@@ -314,9 +311,9 @@ else
           | cut -d' ' --fields=1,7-                                          \
           | column -s$'\t' -o': ' -c $(( COLUMNS / 4 )) -t                   \
       )
-  fi
+  # fi
 
-    tput rmcup
+    # tput rmcup
     returnSIG=$?
     echo $returnSIG
     return $returnSIG
@@ -327,12 +324,11 @@ else
 
 ## MAIN ##{{{
 
-
 ## Check if user sent a search query when running.
 ## If no input received, show warning and the help menu,
 ## then prompt for input. If input is still empty, Exit.
 function _main() {
-  echo -en '\e[22;0t' # save title
+  # echo -en '\e[22;0t' # save title
   local input
   input="${*}"
   for arg in "${input[@]}"; do
@@ -347,14 +343,12 @@ function _main() {
                       else _list_packagemgr | _fzf "${*}"; return $?; fi ;;
     esac
   done
-  echo -en '\e[23;0t' # restore title
+  # echo -en '\e[23;0t' # restore title
 }
 
 function yayfzf() {
   _main "${@}"
 }
-
-
 
 ##---------------##
 ###  END MAIN   ###
