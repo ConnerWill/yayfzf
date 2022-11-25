@@ -3,9 +3,10 @@
 
 ### **ｙａｙｆｚｆ**
 
-[![-----------------------------------------------------][rainbow-line]][github-repo]
 
 > ***[fzf][fzf-url]** wrapper for **[yay][yay-url]***
+
+[![-----------------------------------------------------][rainbow-line]][github-repo]
 
 [![Shellcheck][shellcheck-badge]][shellcheck-workflow]
 [![GitHub last commit][github-last-commit-badge]][github-commits]
