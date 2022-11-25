@@ -1,5 +1,5 @@
 <div align="center">
-<img width="480" height="320" src="assets/yayfzf_demo.gif">
+<img width="480" height="320" src="/assets/demo-screenshot.png">
 
 ### **ｙａｙｆｚｆ**
 
