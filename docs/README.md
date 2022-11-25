@@ -39,13 +39,13 @@ To run this script from anywhere as the current user, source the script in your 
 > zsh
 
 ```shell
-echo "source \"${PWD}/yayfzf/bin/yayfzf\"" >> "${ZDOTDIR}/.zshrc"
+echo "source (PATH-TO-REPO)/yayfzf/bin/yayfzf" >> "${ZDOTDIR}/.zshrc"
 ```
 
 > bash
 
 ```shell
-echo 'source (PATH-TO-REPO)/yayfzf/bin/yayfzf' >> ~/.bashrc
+echo 'source /yayfzf/bin/yayfzf' >> ~/.bashrc
 ```
 
 > > **Assuming *`~/.bin`* is in your PATH**
