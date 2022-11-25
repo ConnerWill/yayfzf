@@ -165,50 +165,29 @@ KEYBINDINGS
 
 # Customization
 
-### Using a Different Package Manager
+See the [wiki][wiki-url]
 
-This script is setup to use [yay][yay-url] as the package manager.
+# Other
 
-However, it is very easy to change and use a different package manager
+<!-- CONTRIBUTING -->
+## Contributing
 
-To use a different package manager, edit the [yayfzf][yayfzf-source] file and replace *yay* with the the package manager you wish to use *(see below)*
+<details>
+  <summary>Click to expand contributing section</summary>
 
+  ---
 
-```sh
-    ##-------- OPTIONS --------##
-    packages_sort_by="votes"
-    use_color="always"
+Any contributions you make are **greatly appreciated**.
 
-    detailedPreview="yay --sync --info --info --verbose --color $use_color "
-    installPackage="yay --sync --verbose --color $use_color --nobatchinstall --confirm"
-    ##-------------------------##
-```
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue.
 
-Remove/replace any options to suite your desired package manager.
-Replace `installPackage` with the command to install a package.
-Replace `detailedPreview` with the command to view extra details about the package.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-> >  *e.g.*
-> *In this example, I replaced the commands to suite pacman.*
-> *pacman doesnt have the `--sortby` flag. So I removed it.*
-> *pacman also doesnt have the `--nobatchinstall` flag, to it was removed from the installer command*
-
-
-```sh
-    ##-------- OPTIONS --------##
-    packages_sort_by=""
-    use_color="always"
-
-    detailedPreview="pacman --sync --info --verbose --color $use_color "
-    installPackage="pacman --sync --verbose --color $use_color --confirm"
-    ##-------------------------##
-```
-
-**NOTE**
-> *In the future I intend to adapt the script to be compatible with other distros/package managers.*
-
-[![-----------------------------------------------------][rainbow-line]][github-repo]
-
+</details>
 
 # Other
 
@@ -254,6 +233,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 [github-repo-stars-badge]: https://img.shields.io/github/stars/ConnerWill/yayfzf?style=social
 
 [rainbow-line]: https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png
+[wiki-url]: 
 
 [fzf-url]: httaps://github.com/junegunn/fzf
 [yay-url]: https://github.com/Jguer/yay
