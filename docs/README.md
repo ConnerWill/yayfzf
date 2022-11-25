@@ -35,7 +35,7 @@ To run this script from anywhere as the current user, source the script in your 
 
 
 
-* Adding line to source `yayfzf` to your shell init
+### Adding line to source `yayfzf` to your shell init
 
 
 > zsh
@@ -50,7 +50,7 @@ echo "source (PATH-TO-REPO)/yayfzf/bin/yayfzf" >> "${ZDOTDIR}/.zshrc"
 echo 'source /yayfzf/bin/yayfzf' >> ~/.bashrc
 ```
 
-* Adding script to your `$PATH`
+### Adding script to your `$PATH`
 
 > > **Assuming *`~/.bin`* is in your PATH**
 
