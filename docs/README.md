@@ -46,7 +46,7 @@
  To run this script from anywhere as the current user, either symlink or add the script to a directory in your PATH
 
 ```shell
-ln -s ./yayfzf/src/yayfzf ~/.bin/
+ln -s ./yayfzf/bin/yayfzf ~/.bin/
 ```
 
 > Assuming *`~/.bin`* is in your PATH
