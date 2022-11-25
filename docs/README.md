@@ -3,7 +3,7 @@
 
 ### **ｙａｙｆｚｆ**
 
----
+[![-----------------------------------------------------][rainbow-line]][github-repo]
 
 > ***[fzf][fzf-url]** wrapper for **[yay][yay-url]***
 
@@ -157,6 +157,8 @@ KEYBINDINGS
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
+[![-----------------------------------------------------][rainbow-line]][github-repo]
+
 # Customization
 
 ### Using a Different Package Manager
@@ -201,7 +203,7 @@ Replace `detailedPreview` with the command to view extra details about the packa
 **NOTE**
 > *In the future I intend to adapt the script to be compatible with other distros/package managers.*
 
----
+[![-----------------------------------------------------][rainbow-line]][github-repo]
 
 
 # Other
@@ -228,6 +230,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+[![-----------------------------------------------------][rainbow-line]][github-repo]
 
 <!-- LINKS -->
 [github-repo]: https://github.com/ConnerWill/yayfzf
@@ -245,6 +248,8 @@ If you have a suggestion that would make this better, please fork the repo and c
 [license-badge]: https://img.shields.io/github/license/ConnerWill/yayfzf
 [license]: https://github.com/ConnerWill/yayfzf/blob/main/docs/LICENSE
 [github-repo-stars-badge]: https://img.shields.io/github/stars/ConnerWill/yayfzf?style=social
+
+[rainbow-line]: https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png
 
 [fzf-url]: httaps://github.com/junegunn/fzf
 [yay-url]: https://github.com/Jguer/yay
