@@ -233,7 +233,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 [github-repo-stars-badge]: https://img.shields.io/github/stars/ConnerWill/yayfzf?style=social
 
 [rainbow-line]: https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png
-[wiki-url]: 
+[wiki-url]: https://github.com/ConnerWill/yayfzf/wiki
 
 [fzf-url]: httaps://github.com/junegunn/fzf
 [yay-url]: https://github.com/Jguer/yay
