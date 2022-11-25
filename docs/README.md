@@ -5,14 +5,14 @@
 
 ---
 
-> ***[fzf][fzf]** wrapper for **[yay][yay]***
+> ***[fzf][fzf-url]** wrapper for **[yay][yay-url]***
 
 [![Shellcheck][shellcheck-badge]][shellcheck-workflow]
 [![GitHub last commit][github-last-commit-badge]][github-commits]
 [![GitHub issues][github-issues-badge]][github-issues]
 [![GitHub repo size][github-repo-size-badge]][github-repo]
 [![GitHub top language][github-top-language-badge]][github-repo]
-[![GitHub language count][github-language-count]][github-repo]
+[![GitHub language count][github-language-count-badge]][github-repo]
 [![License][license-badge]][license]
 [![GitHub repo stars][github-repo-stars-badge]][github-repo]
 [![GitLab][gitlab-badge]][gitlab]
@@ -21,7 +21,7 @@
 
 # Description
 
-AUR package [fzf][fzf] finder to search, install, remove, and manage packages using **[yay][yay]**
+AUR package [fzf][fzf-url] finder to search, install, remove, and manage packages using **[yay][yay-url]**
 
 
 # Installation
@@ -66,7 +66,7 @@ cp ./yayfzf/bin/yayfzf ~/.bin/
 * **fzf**
 * **yay**
 
-*Make sure you have **[fzf][fzf]** and **[yay][yay]** installed as they are the meat and potatoes of this script*
+*Make sure you have **[fzf][fzf-url]** and **[yay][yay-url]** installed as they are the meat and potatoes of this script*
 
 <!--TODO
 If you are not using [yay] and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below
@@ -95,7 +95,7 @@ source yayfzf
 yayfzf
 ```
 
-Running `yayfzf` without any arguments or queries will list *all availiable packages* to be interactively searched using [fzf][fzf]
+Running `yayfzf` without any arguments or queries will list *all availiable packages* to be interactively searched using [fzf][fzf-url]
 
 > *Example of running the script with no search query*
 
@@ -152,7 +152,7 @@ KEYBINDINGS
   Esc         Exit
 ```
 
-> *Other than running the script and finding out for yourself, I suggest reading the [fzf][fzf] documentation if you want to learn more about the keybindings.*
+> *Other than running the script and finding out for yourself, I suggest reading the [fzf][fzf-url] documentation if you want to learn more about the keybindings.*
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -161,7 +161,7 @@ KEYBINDINGS
 
 ### Using a Different Package Manager
 
-This script is setup to use [yay][yay] as the package manager.
+This script is setup to use [yay][yay-url] as the package manager.
 
 However, it is very easy to change and use a different package manager
 
@@ -246,6 +246,6 @@ If you have a suggestion that would make this better, please fork the repo and c
 [license]: https://github.com/ConnerWill/yayfzf/blob/main/docs/LICENSE
 [github-repo-stars-badge]: https://img.shields.io/github/stars/ConnerWill/yayfzf?style=social
 
-[fzf]: httaps://github.com/junegunn/fzf
-[yay]: https://github.com/Jguer/yay
+[fzf-url]: httaps://github.com/junegunn/fzf
+[yay-url]: https://github.com/Jguer/yay
 [yayfzf-source]: https://github.com/ConnerWill/yayfzf/blob/main/bin/yayfzf
