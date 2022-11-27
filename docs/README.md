@@ -178,7 +178,7 @@ KEYBINDINGS
 
 ## Customization
 
-See the [wiki][wiki-url]
+See the [wiki][wiki-customization-url]
 
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
@@ -228,6 +228,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 [rainbow-line]: https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png
 [wiki-url]: https://github.com/ConnerWill/yayfzf/wiki
+[wiki-customization-url]: https://github.com/ConnerWill/yayfzf/wiki/Customization
 
 [fzf-url]: httaps://github.com/junegunn/fzf
 [yay-url]: https://github.com/Jguer/yay
