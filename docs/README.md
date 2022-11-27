@@ -6,8 +6,6 @@
 
 > ***[fzf][fzf-url]** wrapper for **[yay][yay-url]***
 
-<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
-
 [![Shellcheck][shellcheck-badge]][shellcheck-workflow]
 [![GitHub last commit][github-last-commit-badge]][github-commits]
 [![GitHub issues][github-issues-badge]][github-issues]
@@ -19,6 +17,8 @@
 [![GitLab][gitlab-badge]][gitlab]
 
 </div>
+
+<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
 # Description
 
