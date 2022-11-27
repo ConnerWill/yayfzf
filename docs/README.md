@@ -8,8 +8,6 @@
 
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
-<!--  [![-----------------------------------------------------][rainbow-line]][github-repo] -->
-
 [![Shellcheck][shellcheck-badge]][shellcheck-workflow]
 [![GitHub last commit][github-last-commit-badge]][github-commits]
 [![GitHub issues][github-issues-badge]][github-issues]
@@ -26,6 +24,7 @@
 
 AUR package [fzf][fzf-url] finder to search, install, remove, and manage packages using **[yay][yay-url]**
 
+<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
 # Installation
 
@@ -77,6 +76,8 @@ cp ./yayfzf/bin/yayfzf ~/.bin/
 <!--TODO
 If you are not using [yay] and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below
 -->
+
+<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
 # Usage
 
@@ -163,33 +164,11 @@ KEYBINDINGS
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-[![-----------------------------------------------------][rainbow-line]][github-repo]
-
 # Customization
 
 See the [wiki][wiki-url]
 
-# Other
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-<details>
-  <summary>Click to expand contributing section</summary>
-
-  ---
-
-Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-</details>
+<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
 # Other
 
@@ -215,7 +194,8 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-[![-----------------------------------------------------][rainbow-line]][github-repo]
+
+<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
 <!-- LINKS -->
 [github-repo]: https://github.com/ConnerWill/yayfzf
