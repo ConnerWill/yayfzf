@@ -62,7 +62,7 @@ echo "source (PATH-TO-REPO)/yayfzf/bin/yayfzf" >> "${ZDOTDIR}/.zshrc"
 > bash
 
 ```shell
-echo 'source /yayfzf/bin/yayfzf' >> ~/.bashrc
+echo 'source (PATH-TO-REPO)yayfzf/bin/yayfzf' >> ~/.bashrc
 ```
 
 **Adding script to your `$PATH`**
