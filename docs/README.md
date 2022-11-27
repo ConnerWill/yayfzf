@@ -137,23 +137,44 @@ Allowing you to install/remove packages, nagivate and view other packages, and c
 
 > *Here is a list of the default hotkeys*
 
-<kbd>`TAB`</kbd>+<kbd>`d`</kbd> : Toggle selection
+<kbd>`TAB`</kbd>+<kbd>`d`</kbd> : Select
 
-<kbd>`ALT`</kbd>+<kbd>`d`</kbd> : Install selected packages
+<kbd>`SHIFT`</kbd>+<kbd>`TAB`</kbd> : Unselect
+
+<kbd>`CTRL`</kbd>+<kbd>`d`</kbd> : Deselect all
+
+<kbd>`CTRL`</kbd>+<kbd>`i`</kbd> : Install selected packages
+
+<kbd>`CTRL`</kbd>+<kbd>`r`</kbd> : Uninstall selected packages
+
+<kbd>`CTRL`</kbd>+<kbd>`u`</kbd> : Update all packages
+
+<kbd>`CTRL`</kbd>+<kbd>`n`</kbd> : History next
+
+<kbd>`CTRL`</kbd>+<kbd>`p`</kbd> : History previous
 
 <kbd>`CTRL`</kbd>+<kbd>`/`</kbd> : Change layout
 
-<kbd>`PageUp`</kbd> : Scroll one page up
+<kbd>`CTRL`</kbd>+<kbd>`v`</kbd> : Hide/show preview
 
-<kbd>`PageDn`</kbd> : Scroll one page down
+<kbd>`HOME`</kbd> : Top
 
-<kbd>`?`</kbd> : Show help
+<kbd>`END`</kbd> : Bottom
+
+<kbd>`PGUP`</kbd> : Scroll one page up
+
+<kbd>`PGDN`</kbd> : Scroll one page down
 
 <kbd>`CTRL`</kbd>+<kbd>`h`</kbd> : Show help
 
-<kbd>`ESC`</kbd> : Exit
+<kbd>`?`</kbd> : Show keybindings
+
+<kbd>`CTRL`</kbd>+<kbd>`c`</kbd> : Exit
 
 <kbd>`CTRL`</kbd>+<kbd>`q`</kbd> : Exit
+
+<kbd>`ESC`</kbd> : Exit
+
 
 ```manpage
 KEYBINDINGS:
@@ -164,8 +185,8 @@ KEYBINDINGS:
                   Ctrl-i : Install selected
                   Ctrl-r : Uninstall selected
                   Ctrl-u : Update all packages
-                  Ctrl-p : History previous
                   Ctrl-n : History next
+                  Ctrl-p : History previous
                   Ctrl-/ : Change layout
                   Ctrl-v : Hide/show preview
                     HOME : Top
