@@ -91,8 +91,6 @@ cp ./yayfzf/bin/yayfzf ~/.bin/
 If you are not using [yay] and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below
 -->
 
-<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
-
 # Usage
 
 If you added the script to your PATH as mentioned [above](#installation), you can run the command `yayfzf`
