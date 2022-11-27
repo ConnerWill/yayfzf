@@ -65,7 +65,7 @@ echo 'source /yayfzf/bin/yayfzf' >> ~/.bashrc
 
 **Adding script to your `$PATH`**
 
-> > **Assuming *`~/.bin`* is in your PATH**
+> > *Assuming `~/.bin` is in your $PATH*
 
 > Symbolic linking to `~/.bin`
 
