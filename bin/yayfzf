@@ -183,9 +183,9 @@ function _fzf() {
   [[ -n "${SearchInput}" ]] && SearchHeader="${SearchInput}" && label="${SearchInput}" || label="yayfzf"
 
   fzf \
-    --bind "ctrl-i:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+} ; echo 'Press ENTER' && read -r" \
-    --bind "ctrl-r:execute: echo 'Removing ...' && sleep 1 ; yay -Rv {+}; echo 'Press ENTER' && read -r" \
-    --bind "ctrl-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv; echo 'Press ENTER' && read -r" \
+    --bind "ctrl-i:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+}" \
+    --bind "ctrl-r:execute: echo 'Removing ...' && sleep 1 ; yay -Rv {+}" \
+    --bind "ctrl-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv" \
     --bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
     --bind 'ctrl-l:clear-query+clear-screen+clear-selection' \
     --bind 'alt-bspace:clear-query'             \
