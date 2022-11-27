@@ -26,6 +26,25 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
 
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
+
+# Table of Contents
+
+* [<strong>ｙａｙｆｚｆ</strong>](#ｙａｙｆｚｆ)
+* [Description](#description)
+* [Table of Contents](#table-of-contents)
+* [Installation](#installation)
+    * [Adding line to source yayfzf to your shell init](#adding-line-to-source-yayfzf-to-your-shell-init)
+    * [Adding script to your $PATH](#adding-script-to-your-path)
+  * [Dependencies](#dependencies)
+* [Usage](#usage)
+    * [Hotkeys](#hotkeys)
+* [Customization](#customization)
+* [Other](#other)
+  * [Contributing](#contributing)
+
+<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
+
+
 # Installation
 
 ```console
