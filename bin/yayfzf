@@ -205,6 +205,7 @@ function _fzf() {
     --bind 'pgup:page-up'                       \
     --bind 'shift-tab:deselect'                 \
     --bind 'tab:select'                         \
+    --bind 'ctrl-s:select'                      \
     --bind change:first                         \
     --bind "?:preview(echo '$(_yayfzf_keys)')"  \
     --bind "ctrl-h:preview(echo '$(_yayfzf_help_full)')"  \
@@ -217,13 +218,14 @@ function _fzf() {
     --border-label-pos=3                        \
     --border 'horizontal'                       \
     --preview-label="╡${label}╞"                \
-    --border-label="╡${PROG}╞"                 \
+    --border-label="╡${PROG}╞"                  \
     --info inline                               \
     --scroll-off=20                             \
     --hscroll-off=30                            \
     --ellipsis="⣿"                              \
     --tiebreak=begin                            \
     --sync                                      \
+    --multi                                     \
     --delimiter ' '                             \
     --ansi                                      \
     --color="${colortheme}" < <( yay -Ss "${SearchInput}" \
