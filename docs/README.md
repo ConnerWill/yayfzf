@@ -33,7 +33,7 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
   * [Dependencies](#dependencies)
 * [Usage](#usage)
   * [Hotkeys](#hotkeys)
-* [Customization](#customization)
+  * [Customization](#customization)
 * [Other](#other)
   * [Contributing](#contributing)
 
@@ -130,7 +130,7 @@ yayfzf
 yayfzf fzf
 ```
 
-### Hotkeys
+## Hotkeys
 
 There are specific hotkeys that allow you to interact with [yayfzf][github-repo]
 Allowing you to install/remove packages, nagivate and view other packages, and change the fzf window formatting.
@@ -178,7 +178,7 @@ KEYBINDINGS
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-# Customization
+## Customization
 
 See the [wiki][wiki-url]
 
