@@ -1,5 +1,3 @@
-<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
-
 <div align="center">
 <img width="720" height="480" src="/assets/demo-screenshot.png">
 
