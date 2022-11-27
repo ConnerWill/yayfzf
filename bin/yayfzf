@@ -12,31 +12,11 @@ use_color="always"
 detailedPreview="yay --sync --info --info --verbose --color $use_color "
 installPackage="yay -syv && yay --sync --verbose --color $use_color --nobatchinstall --confirm"
 updatePackages="yay -syuv"
-colortheme='hl:#00ffff,hl+:#ff00ff,fg:#CCCCCC,fg+:#00ffff,bg:#010101,bg+:#202020,query:#00ff00,info:#9090a0,spinner:#ff00ff,border:#3300ff,preview-fg:#ffffff,preview-bg:#090909,marker:#00ff00,gutter:#101010,pointer:#00ffff,info:#020202,header:#121212'
+colortheme='hl:#FFFF00,hl+:#DD00FF,fg:#CCCCEE,fg+:#00ffff,bg:#010101,bg+:#202020,query:#FFFF00,info:#99BBee,spinner:#ff00ff,border:#770aff,label:bold:#770aff,preview-fg:#ffffff,preview-bg:#090909,marker:#00ff00,gutter:#101010,pointer:#00ffff,info:#020202,header:#191919'
 
-##{{{ TODO OPTIONS
-#
-#   sleep_time=0.02
-#   color="93m"                       #White:"255m" #Red:"196m" #Blue:"21m" #Yellow:"190m" #Lime:"46m" #Magenta:"201m"
-#   messege_color='\e[0;1;38;5;255m'  #Magenta Background Bold White Foreground \e[0;1;38;5;255;48;5;201m
-#   progress_color='\e[0;38;5;7m'     #White Background Bold Magenta Foreground \e[0;1;38;5;201;48;5;255m
-
-#   [[ -z "${messege}" ]] && messege="${*}"
-#   bar=''
-#   help_color_fg_setup="\e[0;38;5;$color"
-#   help_color_bg_setup="\e[48;5;$color"
-#   help_color="${help_color_fg_setup}${help_color_bg_setup}"
-#   help_color_reset='\e[0m'
-#   color_reset='\e[0m'
-
-#   help_color_title='\e[0;1;4;38;5;4m'
-#   help_color_command='\e[0;38;5;10m'
-#   help_color_option='\e[0;3;38;5;11m'
-#   help_color_option_sep='\e[0;38;5;7m'
-#   help_color_description='\e[0;3;38;5;7m'
-#   help_color_dollar='\e[0;38;5;8m'
-
-##}}}
+PROG="yayfzf"
+VERSION="0.1.0"
+YAYFZF_HISTORY=${YAYFZF_HISTORY:-${XDG_CACHE_HOME:-~/.cache}/yayfzf/history}
 
 ##}}}
 
@@ -44,61 +24,55 @@ colortheme='hl:#00ffff,hl+:#ff00ff,fg:#CCCCCC,fg+:#00ffff,bg:#010101,bg+:#202020
 
 ##{{{ HELP MENU
 
-function _help(){
-      printf "\e[0;1;4;38;5;12mUSAGE\e[0m\n\n"
-      printf "\t\e[0;38;5;255myayfzf \e[0;38;5;8m[OPTIONS] \e[0;38;5;8m[QUERY] \n\n"
-      printf "\e[0;1;4;38;5;12mOPTIONS\e[0m\n\n"
-      printf "\t\e[0;38;5;245m-a\e[0;38;5;249m|\e[0;38;5;245m--all\e[0;38;5;8m            \e[0;38;5;255m\t: List all packages in repository\e[0m\n"
-      printf "\t\e[0;38;5;245m-s\e[0;38;5;249m|\e[0;38;5;245m--search \e[0;38;5;240m<string>\e[0;38;5;255m\t: Search for packages using search query\e[0m\n"
-      printf "\t\e[0;38;5;245m-q\e[0;38;5;249m|\e[0;38;5;245m--query  \e[0;38;5;240m<string>\e[0;38;5;255m\t: Search for packages using search query\e[0m\n"
-      printf "\t\e[0;38;5;245m-i\e[0;38;5;249m|\e[0;38;5;245m--installed\e[0;38;5;8m      \e[0;38;5;255m\t: List installed packages\e[0m\n"
-      printf "\t\e[0;38;5;245m-V\e[0;38;5;249m|\e[0;38;5;245m--version\e[0;38;5;8m        \e[0;38;5;255m\t: Show version\e[0m\n"
-      printf "\t\e[0;38;5;245m-h\e[0;38;5;249m|\e[0;38;5;245m--help\e[0;38;5;8m           \e[0;38;5;255m\t: Show this help menu\e[0m\n\n"
-      return 0
+_yayfzf_keys() {
+  cat <<EOF
+Keybindings:
+                     TAB : Select
+               Shift-TAB : Unselect
+                  Ctrl-d : Deselect all
+                  Ctrl-i : Install selected
+                  Ctrl-r : Uninstall selected
+                  Ctrl-u : Update all packages
+                  Ctrl-p : History previous
+                  Ctrl-n : History next
+                  Ctrl-/ : Change layout
+                  Ctrl-v : Hide/show preview
+                    HOME : Top
+                     END : Bottom
+                  PAGEUP : Scroll one page up
+                PAGEDOWN : Scroll one page down
+                  Ctrl-l : Clear query
+           Alt-backspace : Clear query
+                Alt-left : Delete word
+                 Ctrl-h  : Show help
+                       ? : Show keybindings
+                  Ctrl-c : Exit
+                  Ctrl-q : Exit
+                     ESC : Exit
+EOF
 }
-##TODO: Use this template help menu{{{
-#   if [[ "${messege}" == "-h" ]] || [[ "${messege}" == "--help" ]]; then
-#     printf "
-#     ${help_color_title}NAME${color_reset}
-#
-#      ${help_color_command}%s${color_reset}
-#
-#
-#     ${help_color_title}USAGE${color_reset}
-#
-#       ${help_color_command}%s${color_reset} ${help_color_option_sep}[${help_color_option}-h${help_color_option_sep}|${help_color_option}--help${help_color_option_sep}]${color_reset} ${help_color_option_sep}[${help_color_option}messege${help_color_option_sep}]${color_reset}
-#
-#
-#     ${help_color_title}EXAMPLE${color_reset}
-#
-#       ${help_color_description}Show progress bar with no messege
-#
-#         ${help_color_dollar}\$${color_reset} ${help_color_command}%s${color_reset}
-#
-#             ${help_color}█████████████${help_color_reset}                                          ${progress_color}19%%${help_color_reset}
-#
-#
-#     ${help_color_title}EXAMPLE${color_reset}
-#
-#       ${help_color_description}Show progress bar with the messege: 'Loading'
-#
-#         ${help_color_dollar}\$${color_reset} ${help_color_command}%s${color_reset} ${help_color_option}\"Loading\"${color_reset}
-#
-#             ${messege_color}Loading:${help_color_reset}${help_color}█████████████████████████${help_color_reset}                            ${progress_color}46%%${help_color_reset}
-#
-#
-#     ${help_color_title}EXAMPLE${color_reset}
-#
-#       ${help_color_description}Show progress bar with the messege: 'Current Progress' using no quotes
-#
-#         ${help_color_dollar}\$${color_reset} ${help_color_command}%s${color_reset} ${help_color_option}Current Progress${color_reset}
-#
-#             ${messege_color}Current Progress:${help_color_reset}${help_color}█████████████████████████████████████████████████${help_color_reset}    ${progress_color}91%%${help_color_reset}
-#
-#     \n" "${0}" "${0}" "${0}" "${0}" "${0}"
-#     return
-#   fi
-##}}}
+
+_yayfzf_help() {
+  cat >&2 <<EOF
+Search, install, remove packages from the AUR interactively with fzf
+
+Usage: $PROG [search query]
+
+$(_yayfzf_keys)
+
+Examples:
+  $PROG                         Run $PROG with no search query
+  $PROG fzf                     Run $PROG with a search query of 'fzf'
+
+EOF
+
+  exit 0
+}
+
+_yayfzf_version(){
+  echo "${PROG}: ${VERSION}"
+  return 0
+}
 
 ##}}}
 
@@ -143,6 +117,15 @@ function _list_installed_packagemgr() {
 }
 ##}}}
 
+##{{{ MKDIR HISTORY
+function _yayfzf_create_history(){
+  if [[ ! -d "$(dirname "${YAYFZF_HISTORY}")" ]]; then
+    mkdir -p "$(dirname "$YAYFZF_HISTORY")" 2>/dev/null
+    touch "$YAYFZF_HISTORY" 2>/dev/null
+  fi
+}
+##}}}
+
 ##{{{ FZF
 
 ## Main script. Run fzf with package manager search results.
@@ -156,37 +139,58 @@ function _fzf() {
   [[ -n "${SearchInput}" ]] && SearchHeader="${SearchInput}" && label="${SearchInput}" || label="yayfzf"
 
   fzf \
-    --bind "alt-d:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+} ; echo 'Press ENTER' && read -r" \
-    --bind "alt-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv; echo 'Press ENTER' && read -r" \
+    --bind "ctrl-i:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+} ; echo 'Press ENTER' && read -r" \
+    --bind "ctrl-r:execute: echo 'Removing ...' && sleep 1 ; yay -Rv {+}; echo 'Press ENTER' && read -r" \
+    --bind "ctrl-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv; echo 'Press ENTER' && read -r" \
     --bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
-    --bind 'ctrl-/:change-preview-window(hidden|)'                                                \
-    --bind "esc:accept"             \
-    --bind 'alt-bspace:clear-query' \
-    --bind 'alt-left:kill-word'     \
-    --bind 'ctrl-c:accept'          \
-    --bind 'ctrl-d:deselect-all'    \
-    --bind 'ctrl-l:clear-query'     \
-    --bind 'ctrl-q:print-query'     \
-    --bind 'ctrl-v:toggle-preview'  \
-    --bind 'right:first'              \
-    --bind 'left:first'              \
-    --bind 'end:first'              \
-    --bind 'home:last'              \
-    --bind 'pgdn:page-down'         \
-    --bind 'pgup:page-up'           \
-    --bind 'shift-tab:deselect'     \
-    --bind 'tab:toggle'             \
-    --preview 'yay -Si {1}'         \
-    --preview-window 'bottom,43%,border-double'  --preview-label-pos=top --border-label-pos=3 --border 'horizontal' --preview-label="╡${label}╞" --border-label="╡${label}╞"       \
-    --info inline --header "${SearchHeader}" --scroll-off=20 --hscroll-off=30 --ellipsis="⣿" --tiebreak=begin --ansi --sync --delimiter ' ' \
-    --color="${colortheme}"                       \
-  \
-    < <( yay -Ss "${searchQuery}" --requestsplitn 199 --singlelineresults --bottomup             \
-          | grep --invert-match --extended-regexp '(\(Orphan.*\)|\(Out.*\))' \
-          | cut -d' ' --fields=1,7-                                          \
-          | column -s$'\t' -o': ' -c $(( COLUMNS / 4 )) -t                   \
-      )
+    --bind 'ctrl-l:clear-query+clear-screen+clear-selection' \
+    --bind 'alt-bspace:clear-query'             \
+    --bind 'alt-left:kill-word'                 \
+    --bind "esc:abort"                          \
+    --bind 'ctrl-c:abort'                       \
+    --bind 'ctrl-d:deselect-all'                \
+    --bind 'ctrl-q:print-query'                 \
+    --bind 'ctrl-v:toggle-preview'              \
+    --bind 'ctrl-n:next-history'                \
+    --bind 'ctrl-p:previous-history'            \
+    --bind 'right:first'                        \
+    --bind 'left:first'                         \
+    --bind 'end:first'                          \
+    --bind 'home:last'                          \
+    --bind 'pgdn:page-down'                     \
+    --bind 'pgup:page-up'                       \
+    --bind 'shift-tab:deselect'                 \
+    --bind 'tab:select'                         \
+    --bind change:first                         \
+    --bind "?:preview(echo '$(_yayfzf_keys)')"  \
+    --header 'Press ? for keybindings'          \
+    --preview 'cat <(yay -Si {1}) <(yay -Fl {1} | awk "{print \$2}")' \
+    --preview-window 'bottom,43%,border-double' \
+    --history="$YAYFZF_HISTORY"                 \
+    --query="${SearchInput}"                    \
+    --preview-label-pos=top                     \
+    --border-label-pos=3                        \
+    --border 'horizontal'                       \
+    --preview-label="╡${label}╞"                \
+    --border-label="╡${PROG}╞"                 \
+    --info inline                               \
+    --scroll-off=20                             \
+    --hscroll-off=30                            \
+    --ellipsis="⣿"                              \
+    --tiebreak=begin                            \
+    --sync                                      \
+    --delimiter ' '                             \
+    --ansi                                      \
+    --color="${colortheme}" < <( yay -Ss "${SearchInput}" \
+                                   --singlelineresults    \
+                                   --color always         \
+                                   --bottomup 2>/dev/null \
+                                       | grep --invert-match --extended-regexp '(\(Orphan.*\)|\(Out.*\))' \
+                                       | cut --delimiter=' ' --fields=1,7-                                \
+                                       | column --separator=$'\t' --output-separator=': ' --table --output-width=$(( COLUMNS / 4 ))
+                              )
 
+    # --bind "?:change-preview-window(right,26%|down,43%)+preview(echo '$(_yayfzf_keys)')"  \
     # tput rmcup
     returnSIG=$?
     echo $returnSIG
@@ -204,25 +208,44 @@ function _fzf() {
 ## then prompt for input. If input is still empty, Exit.
 function _main() {
   # echo -en '\e[22;0t' # save title
-  local input
-  input="${*}"
-  for arg in "${input[@]}"; do
-    case "${arg}" in
-      -h|--help)      _help; return 0 ;;
-      -V|--version)   _version return 0 ;;
-      -i|--installed) _list_installed_packagemgr | _fzf "${*}"; return $? ;;
-      -a|--all)       _list_packagemgr | fzf "${*}"; return $? ;;
-      -s|--search)    _search_packagemgr "$@" | _fzf "${*}" return $? ;;
-      -q|--query)     _search_packagemgr "$@" | _fzf "${*}" return $? ;;
-       *)             if [[ -z "${input}" ]]; then _list_packagemgr |_fzf "${*}"; return $?
-                      else _list_packagemgr | _fzf "${*}"; return $?; fi ;;
-    esac
-  done
-  # echo -en '\e[23;0t' # restore title
+  if [[ -n "$1" ]]; then
+    while [[ -n $1 ]]; do
+      case $1 in
+        -h|--help)    _yayfzf_help    ; return 0  ;;
+         h|help)      _yayfzf_help    ; return 0  ;;
+        -V|--version) _yayfzf_version ; return 0  ;;
+        -*)           _yayfzf_help    ; return 0  ;;
+         *)           _fzf "${@}"     ; return $? ;;
+      esac
+      shift
+    done
+  else
+    _fzf "${@}"; return $?
+  fi
 }
+##{{{ OLD CASE
+  # local input
+  # input="${*}"
+  # for arg in "${input[@]}"; do
+  #   case "${arg}" in
+  #     -h|--help)      _help; return 0 ;;
+  #     -V|--version)   _version return 0 ;;
+  #     -i|--installed) _list_installed_packagemgr | _fzf "${*}"; return $? ;;
+  #     -a|--all)       _list_packagemgr | fzf "${*}"; return $? ;;
+  #     -s|--search)    _search_packagemgr "$@" | _fzf "${*}"; return $? ;;
+  #     -q|--query)     _search_packagemgr "$@" | _fzf "${*}"; return $? ;;
+  #      *)             _fzf "${*}"; return $?                          ;;
+  #   esac
+  # done
+  # # echo -en '\e[23;0t' # restore title
+##}}}
 
 function yayfzf() {
+  _yayfzf_create_history
   _main "${@}"
 }
+
+(return 0 2>/dev/null) && sourced=1 || sourced=0
+[[ $sourced -eq 0 ]] && yayfzf "${@}"
 
 ##}}}
