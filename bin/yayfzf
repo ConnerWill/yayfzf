@@ -257,8 +257,7 @@ function _main() {
         --h*|help)   _yayfzf_help_full ; return 0  ;;
         -V|--ver*)   _yayfzf_version   ; return 0  ;;
         -k|--key*)   _yayfzf_keys      ; return 0  ;;
-        -*)          _yayfzf_error "Unknown option '${1}'"
-                     _yayfzf_help      ; return 0  ;;
+        -*)          _yayfzf_error "Unknown option '${1}'"; _yayfzf_help; return 1;;
          *)          _fzf "${@}"       ; return $? ;;
       esac
       shift
