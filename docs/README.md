@@ -1,7 +1,7 @@
 <div align="center">
 <img width="720" height="480" src="/assets/demo-screenshot.png">
 
-### **ｙａｙｆｚｆ**
+# **ｙａｙｆｚｆ**
 
 
 > ***[fzf][fzf-url]** wrapper for **[yay][yay-url]***
