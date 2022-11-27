@@ -48,8 +48,6 @@ git clone https://github.com/ConnerWill/yayfzf.git
 
 To run this script from anywhere as the current user, source the script in your shell init scripts *(`.zshrc` `.bashrc`)* or symlink/move the script to a directory in your `$PATH`
 
-
-
 ### Adding line to source `yayfzf` to your shell init
 
 
@@ -90,6 +88,8 @@ cp ./yayfzf/bin/yayfzf ~/.bin/
 <!--TODO
 If you are not using [yay] and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below
 -->
+
+See the [wiki][wiki-installation-url] for more information
 
 # Usage
 
@@ -204,6 +204,8 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 </details>
 
+See the [wiki][wiki-url] for more information
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
@@ -229,6 +231,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 [rainbow-line]: https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png
 [wiki-url]: https://github.com/ConnerWill/yayfzf/wiki
 [wiki-customization-url]: https://github.com/ConnerWill/yayfzf/wiki/Customization
+[wiki-installation-url]: https://github.com/ConnerWill/yayfzf/wiki/Installation
 
 [fzf-url]: httaps://github.com/junegunn/fzf
 [yay-url]: https://github.com/Jguer/yay
