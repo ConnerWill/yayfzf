@@ -35,6 +35,7 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
   * [Hotkeys](#hotkeys)
   * [Customization](#customization)
 * [Other](#other)
+  * [Wiki](#wiki)
   * [Contributing](#contributing)
   * [Donate](#donate)
 
@@ -193,6 +194,11 @@ See the [wiki][wiki-customization-url]
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
 # Other
+
+
+## Wiki
+
+Check out the [wiki][wiki-url] for more information
 
 <!-- CONTRIBUTING -->
 ## Contributing
