@@ -154,21 +154,30 @@ Allowing you to install/remove packages, nagivate and view other packages, and c
 <kbd>`CTRL`</kbd>+<kbd>`q`</kbd> : Exit
 
 ```manpage
-KEYBINDINGS
-  Alt+D       Install Package(s)
-  PageDn      Scroll One Page Down
-  PageUp      Scroll One Page Up
-  Home        Top
-  End         Bottom
-  Tab         Select
-  Ctrl+d      Deselect All
-  Ctrl+l      Cleary Query
-  Ctrl+v      Toggle Preview Window
-  Ctrl+/      Change Layout
-  Ctrl+h      Show Help
-  ?           Show Help
-  Ctrl+q      Exit
-  Esc         Exit
+KEYBINDINGS:
+
+                     TAB : Select
+               Shift-TAB : Unselect
+                  Ctrl-d : Deselect all
+                  Ctrl-i : Install selected
+                  Ctrl-r : Uninstall selected
+                  Ctrl-u : Update all packages
+                  Ctrl-p : History previous
+                  Ctrl-n : History next
+                  Ctrl-/ : Change layout
+                  Ctrl-v : Hide/show preview
+                    HOME : Top
+                     END : Bottom
+                  PAGEUP : Scroll one page up
+                PAGEDOWN : Scroll one page down
+                  Ctrl-l : Clear query
+           Alt-backspace : Clear query
+                Alt-left : Delete word
+                 Ctrl-h  : Show help
+                       ? : Show keybindings
+                  Ctrl-c : Exit
+                  Ctrl-q : Exit
+                     ESC : Exit
 ```
 
 > *Other than running the script and finding out for yourself, I suggest reading the [fzf][fzf-url] documentation if you want to learn more about the keybindings.*

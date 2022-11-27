@@ -16,6 +16,8 @@ colortheme='hl:#FFFF00,hl+:#DD00FF,fg:#CCCCEE,fg+:#00ffff,bg:#010101,bg+:#202020
 
 PROG="yayfzf"
 VERSION="0.1.0"
+AUTHOR="ConnerWill"
+REPO="https://github.com/ConnerWill/yayfzf"
 YAYFZF_HISTORY=${YAYFZF_HISTORY:-${XDG_CACHE_HOME:-~/.cache}/yayfzf/history}
 
 ##}}}
@@ -26,7 +28,8 @@ YAYFZF_HISTORY=${YAYFZF_HISTORY:-${XDG_CACHE_HOME:-~/.cache}/yayfzf/history}
 
 _yayfzf_keys() {
   cat <<EOF
-Keybindings:
+KEYBINDINGS:
+
                      TAB : Select
                Shift-TAB : Unselect
                   Ctrl-d : Deselect all
@@ -54,19 +57,54 @@ EOF
 
 _yayfzf_help() {
   cat >&2 <<EOF
-Search, install, remove packages from the AUR interactively with fzf
 
-Usage: $PROG [search query]
+NAME:
+
+  $PROG
+
+
+DESCRIPTION:
+
+  Search, install, remove packages from the AUR interactively with fzf
+
+
+USAGE:
+
+  $PROG [options] [search query]
+
+  $PROG [-V|--version] [-k|--keybindings] [-h] [--help] [search query]
+
+
+OPTIONS
+
+  -h                   Show the help menu
+  --help               Show the extended help menu of $PROG
+  -k, --keybindings    List keybindings for $PROG
+  -V, --version        Show version of $PROG
+
+EOF
+}
+
+_yayfzf_help_full() {
+  cat >&2 <<EOF
+$(_yayfzf_help)
+EXAMPLES:
+
+  $ $PROG        : Run $PROG with no search query
+
+  $ $PROG fzf    : Search for 'fzf' with $PROG
+
+  $ $PROG        : Show the help menu for $PROG
+
 
 $(_yayfzf_keys)
 
-Examples:
-  $PROG                         Run $PROG with no search query
-  $PROG fzf                     Run $PROG with a search query of 'fzf'
 
+For more information, check out the yayfzf README
+https://github.com/ConnerWill/yayfzf/blob/main/docs/README.md
 EOF
 
-  exit 0
+  return 0
 }
 
 _yayfzf_version(){
@@ -78,14 +116,20 @@ _yayfzf_version(){
 
 ##{{{ ERROR MESSEGES
 
-function _err() {
-  printf "\n[\e[31m WARNING \e[m] %s\n" "${*}"
-  echo -e -n "\nSearch yay\n\nInput Required!\nPlease Enter Initial Search Query: "
-  read -r SearchInput
-  [[ -z "$SearchInput" ]] && return 1
-  _main "${SearchInput}"
+function _yayfzf_error() {
+  printf "\x1b[0;1;38;5;196m%s\x1b[0m\n" "${@}" >/dev/stderr
+  return
 }
 
+function _yayfzf_warning() {
+  printf "\x1b[0;1;38;5;190m%s\x1b[0m\n" "${@}" >/dev/stderr
+  return
+}
+
+function _yayfzf_verbose() {
+  printf "\x1b[0;38;5;87m%s\x1b[0m\n" "${@}" >/dev/stderr
+  return
+}
 ##}}}
 
 ##}}}
@@ -203,19 +247,18 @@ function _fzf() {
 
 ##{{{ MAIN
 
-## Check if user sent a search query when running.
-## If no input received, show warning and the help menu,
-## then prompt for input. If input is still empty, Exit.
 function _main() {
   # echo -en '\e[22;0t' # save title
   if [[ -n "$1" ]]; then
     while [[ -n $1 ]]; do
       case $1 in
-        -h|--help)    _yayfzf_help    ; return 0  ;;
-         h|help)      _yayfzf_help    ; return 0  ;;
-        -V|--version) _yayfzf_version ; return 0  ;;
-        -*)           _yayfzf_help    ; return 0  ;;
-         *)           _fzf "${@}"     ; return $? ;;
+        -h*)         _yayfzf_help      ; return 0  ;;
+        --h*|help)   _yayfzf_help_full ; return 0  ;;
+        -V|--ver*)   _yayfzf_version   ; return 0  ;;
+        -k|--key*)   _yayfzf_keys      ; return 0  ;;
+        -*)          _yayfzf_error "Unknown option '${1}'"
+                     _yayfzf_help      ; return 0  ;;
+         *)          _fzf "${@}"       ; return $? ;;
       esac
       shift
     done
@@ -223,20 +266,6 @@ function _main() {
     _fzf "${@}"; return $?
   fi
 }
-##{{{ OLD CASE
-  # local input
-  # input="${*}"
-  # for arg in "${input[@]}"; do
-  #   case "${arg}" in
-  #     -h|--help)      _help; return 0 ;;
-  #     -V|--version)   _version return 0 ;;
-  #     -i|--installed) _list_installed_packagemgr | _fzf "${*}"; return $? ;;
-  #     -a|--all)       _list_packagemgr | fzf "${*}"; return $? ;;
-  #     -s|--search)    _search_packagemgr "$@" | _fzf "${*}"; return $? ;;
-  #     -q|--query)     _search_packagemgr "$@" | _fzf "${*}"; return $? ;;
-  #      *)             _fzf "${*}"; return $?                          ;;
-  #   esac
-  # done
   # # echo -en '\e[23;0t' # restore title
 ##}}}
 
@@ -245,6 +274,7 @@ function yayfzf() {
   _main "${@}"
 }
 
+## check if sourced or run directly
 (return 0 2>/dev/null) && sourced=1 || sourced=0
 [[ $sourced -eq 0 ]] && yayfzf "${@}"
 
