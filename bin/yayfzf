@@ -36,8 +36,8 @@ KEYBINDINGS:
                   Ctrl-i : Install selected
                   Ctrl-r : Uninstall selected
                   Ctrl-u : Update all packages
-                  Ctrl-p : History previous
                   Ctrl-n : History next
+                  Ctrl-p : History previous
                   Ctrl-/ : Change layout
                   Ctrl-v : Hide/show preview
                     HOME : Top
@@ -207,6 +207,7 @@ function _fzf() {
     --bind 'tab:select'                         \
     --bind change:first                         \
     --bind "?:preview(echo '$(_yayfzf_keys)')"  \
+    --bind "ctrl-h:preview(echo '$(_yayfzf_help_full)')"  \
     --header 'Press ? for keybindings'          \
     --preview 'cat <(yay -Si {1}) <(yay -Fl {1} | awk "{print \$2}")' \
     --preview-window 'bottom,43%,border-double' \
