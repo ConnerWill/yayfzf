@@ -6,7 +6,9 @@
 
 > ***[fzf][fzf-url]** wrapper for **[yay][yay-url]***
 
-[![-----------------------------------------------------][rainbow-line]][github-repo]
+<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
+
+<!--  [![-----------------------------------------------------][rainbow-line]][github-repo] -->
 
 [![Shellcheck][shellcheck-badge]][shellcheck-workflow]
 [![GitHub last commit][github-last-commit-badge]][github-commits]
