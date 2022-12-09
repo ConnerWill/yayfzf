@@ -24,6 +24,9 @@
 
 AUR package [fzf][fzf-url] finder to search, install, remove, and manage packages using **[yay][yay-url]**
 
+
+<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
+
 # Table of Contents
 
 * [<strong>ｙａｙｆｚｆ</strong>](#ｙａｙｆｚｆ)
