@@ -262,7 +262,6 @@ git push origin AmazingNewFeature
 
 5. Then open a pull request `:)`
 
-<br>
 
 </details>
 
