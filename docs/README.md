@@ -233,8 +233,6 @@ Check out the [wiki][wiki-url] for more information
 <details>
   <summary>Click to expand contributing section</summary>
 
-  ---
-
 Any contributions you make are **greatly appreciated**.
 
 If you want to contribute, please fork this repo and create a pull request.
