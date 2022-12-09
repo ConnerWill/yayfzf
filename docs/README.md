@@ -237,9 +237,9 @@ Check out the [wiki][wiki-url] for more information
 
 > Any contributions you make are **greatly appreciated**.
 
-> If you want to contribute, please fork this repo and create a pull request.
+> > If you want to contribute, please fork this repo and create a pull request.
 
-> If you experience any bugs/issues or have and suggestions, you can simply open an issue `:)`
+> > If you experience any bugs/issues or have and suggestions, you can simply open an issue `:)`
 
 1. Fork the Project
 2. Create your Feature Branch
