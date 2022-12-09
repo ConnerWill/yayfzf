@@ -233,6 +233,8 @@ Check out the [wiki][wiki-url] for more information
 <details>
   <summary>Click to expand contributing section</summary>
 
+<br>
+
 Any contributions you make are **greatly appreciated**.
 
 If you want to contribute, please fork this repo and create a pull request.
@@ -260,6 +262,7 @@ git push origin AmazingNewFeature
 
 5. Then open a pull request `:)`
 
+<br>
 
 </details>
 
