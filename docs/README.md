@@ -96,6 +96,9 @@ If you are not using [yay] and would like to use a different package manager, se
 
 See the [wiki][wiki-installation-url] for more information
 
+
+<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
+
 # Usage
 
 If you added the script to your PATH as mentioned [above](#installation), you can run the command `yayfzf`
@@ -234,13 +237,31 @@ Check out the [wiki][wiki-url] for more information
 
 Any contributions you make are **greatly appreciated**.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue.
+If you want to contribute, please fork this repo and create a pull request.
+
+If you experience any bugs/issues or have and suggestions, you can simply open an issue `:)`
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create your Feature Branch
+
+```console
+git checkout -b AmazingNewFeature
+```
+
+3. Commit your Changes
+
+```console
+git commit -m 'Description of the amazing feature you added'
+```
+
+4. Push to the Branch
+
+```console
+git push origin AmazingNewFeature
+```
+
+5. Then open a pull request `:)`
+
 
 </details>
 
