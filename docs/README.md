@@ -239,8 +239,6 @@ Check out the [wiki][wiki-url] for more information
 
 > > If you want to contribute, please fork this repo and create a pull request.
 
-> > If you experience any bugs/issues or have and suggestions, you can simply open an issue `:)`
-
 1. Fork the Project
 2. Create your Feature Branch
 
@@ -262,6 +260,7 @@ git push origin AmazingNewFeature
 
 5. Then open a pull request `:)`
 
+> > If you experience any bugs/issues or have and suggestions, you can simply open an issue `:)`
 
 </details>
 
