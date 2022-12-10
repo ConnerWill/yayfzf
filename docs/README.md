@@ -153,6 +153,11 @@ yayfzf fzf
 There are specific hotkeys that allow you to interact with [yayfzf][github-repo]
 Allowing you to install/remove packages, nagivate and view other packages, and change the fzf window formatting.
 
+<details>
+  <summary>Click to hotkeys section</summary>
+
+<br>
+
 > *Here is a list of the default hotkeys*
 
 <kbd>`TAB`</kbd>+<kbd>`d`</kbd> : Select
@@ -222,6 +227,8 @@ KEYBINDINGS:
 ```
 
 > *Other than running the script and finding out for yourself, I suggest reading the [fzf][fzf-url] documentation if you want to learn more about the keybindings.*
+
+</details>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
