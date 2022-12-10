@@ -8,6 +8,7 @@ pkgbase = yayfzf
 	depends = bash
 	depends = fzf
 	depends = yay
-	source = yayfzf-1.0.0.tar.gz::https://github.com/ConnerWill/yayfzf/archive/refs/tags/1.0.0.tar.gz
+	source = yayfzf-1.0.0.tar.gz::https://github.com/ConnerWill/yayfzf/archive/refs/tags/v1.0.0.tar.gz
+	sha256sums = SKIP
 
 pkgname = yayfzf
