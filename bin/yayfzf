@@ -1,30 +1,106 @@
 #!/usr/bin/env bash
 #vim:filetype=zsh:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
-#shellcheck disable=2034
+#shellcheck disable=2034,2154
 
 ########################################
 #[============== YAYFZF ==============]#
 ########################################
-##{{{ OPTIONS/VARIABLES
+###{{{ OPTIONS/VARIABLES
+
+PROG="yayfzf"                               ## Name of this program
+YAYFZF_VERSION="1.0.0"                      ## Version of this program
+AUTHOR="ConnerWill"                         ## Author
+REPO="https://github.com/ConnerWill/yayfzf" ## Source
+
+YAYFZF_HISTORY=${YAYFZF_HISTORY:-${XDG_CACHE_HOME:-${HOME:-~}/.cache}/yayfzf/yayfzf_history} ## yayfzf history file
+## Environment variable 'YAYFZF_HISTORY' will be used if defined.
+## Otherwise yayfzf will use the following for the history file,
+## falling back to next entry if variable is not defined:
+##     '$YAYFZF_HISTORY'
+##     '$XDG_CACHE_HOME/yayfzf/yayfzf_history'
+##     '$HOME/.cache/yayfzf/yayfzf_history'
+##     '~/.cache/yayfzf/yayfzf_history'
+##
+## If 'YAYFZF_HISTORY' is defined to any of the following, history will not be saved:
+##     'false'
+##     'False'
+##     'no'
+##     'No'
+if   [[ "${YAYFZF_HISTORY}" == "false" ]] \
+  || [[ "${YAYFZF_HISTORY}" == "False" ]] \
+  || [[ "${YAYFZF_HISTORY}" == "no"    ]] \
+  || [[ "${YAYFZF_HISTORY}" == "No"    ]]; then
+    YAYFZF_HISTORY="/dev/null"
+fi
 
 packages_sort_by="votes"
 use_color="always"
 detailedPreview="yay --sync --info --info --verbose --color $use_color "
 installPackage="yay -syv && yay --sync --verbose --color $use_color --nobatchinstall --confirm"
 updatePackages="yay -syuv"
-colortheme='hl:#FFFF00,hl+:#DD00FF,fg:#CCCCEE,fg+:#00ffff,bg:#010101,bg+:#202020,query:#FFFF00,info:#99BBee,spinner:#ff00ff,border:#770aff,label:bold:#770aff,preview-fg:#ffffff,preview-bg:#090909,marker:#00ff00,gutter:#101010,pointer:#00ffff,info:#020202,header:#191919'
 
-PROG="yayfzf"
-VERSION="0.1.0"
-AUTHOR="ConnerWill"
-REPO="https://github.com/ConnerWill/yayfzf"
-YAYFZF_HISTORY=${YAYFZF_HISTORY:-${XDG_CACHE_HOME:-~/.cache}/yayfzf/history}
+###}}}
 
-##}}}
+###{{{ COLORS/FX
 
-##{{{ HELP/STATUS
+declare -Al yayfzf_color
+declare -Al yayfzf_fx
 
-##{{{ HELP MENU
+## Check if 'NO_COLOR' environment variable is defined. if 'NO_COLOR' is defined, do not define color array
+if [[ -z ${NO_COLOR} ]]; then
+  ## fzf colors
+  fzf_colortheme='hl:#FFFF00,hl+:#DD00FF,fg:#CCCCEE,fg+:#00ffff,bg:#010101,bg+:#202020,query:#FFFF00,info:#99BBee,spinner:#ff00ff,border:#770aff,label:bold:#770aff,preview-fg:#ffffff,preview-bg:#090909,marker:#00ff00,gutter:#101010,pointer:#00ffff,info:#020202,header:#191919'
+  ## yay colors
+  COLOR_WHEN="always"
+  ## yayfzf colors
+  yayfzf_color[Reset]='\x1B[0m'             ## Reset Colors/Styles
+  yayfzf_color[reset]='\x1B[0m'              #
+  yayfzf_color[Bold]='\x1B[1m'              ## Bold style
+  yayfzf_color[bold]='\x1B[1m'               #
+  yayfzf_color[Italic]='\x1B[3m'            ## Italic style
+  yayfzf_color[italic]='\x1B[3m'             #
+  yayfzf_color[Underline]='\x1B[4m'         ## Underline style
+  yayfzf_color[underline]='\x1B[4m'          #
+  yayfzf_color[Black]='\x1B[38;5;0m'        ## Foreground color
+  yayfzf_color[Gray]='\x1B[38;5;245m'        #
+  yayfzf_color[DarkGray]='\x1B[38;5;8m'      #
+  yayfzf_color[White]='\x1B[38;5;15m'        #
+  yayfzf_color[Red]='\x1B[38;5;196m'         #
+  yayfzf_color[Green]='\x1B[38;5;46m'        #
+  yayfzf_color[Yellow]='\x1B[38;5;190m'      #
+  yayfzf_color[Blue]='\x1B[38;5;33m'         #
+  yayfzf_color[Purple]='\x1B[38;5;93m'       #
+  yayfzf_color[Magenta]='\x1B[38;5;201m'     #
+  yayfzf_color[Cyan]='\x1B[38;5;87m'         #
+  yayfzf_color[BG_Black]='\x1B[48;5;0m'     ## Background color
+  yayfzf_color[BG_Gray]='\x1B[48;5;245m'     #
+  yayfzf_color[BG_DarkGray]='\x1B[48;5;8m'   #
+  yayfzf_color[BG_White]='\x1B[48;5;15m'     #
+  yayfzf_color[BG_Red]='\x1B[48;5;196m'      #
+  yayfzf_color[BG_Green]='\x1B[48;5;46m'     #
+  yayfzf_color[BG_Yellow]='\x1B[48;5;190m'   #
+  yayfzf_color[BG_Blue]='\x1B[48;5;33m'      #
+  yayfzf_color[BG_Purple]='\x1B[48;5;93m'    #
+  yayfzf_color[BG_Magenta]='\x1B[48;5;201m'  #
+  yayfzf_color[BG_Cyan]='\x1B[48;5;87m'      #
+else
+ fzf_colortheme="fg:#FFFFFF"
+ COLOR_WHEN="never"
+fi
+
+## Check if 'NO_FX' environment variable is defined. if 'NO_FX' is defined, do not define effects array
+if [[ -z ${NO_FX} ]]; then
+  yayfzf_fx[Save_Title]='\x1B[22;0t'      ## Save title
+  yayfzf_fx[save_title]='\x1B[22;0t'       #
+  yayfzf_fx[Restore_Title]='\x1B[23;0t'   ## Restore title
+  yayfzf_fx[restore_title]='\x1B[23;0t'    #
+fi
+
+###}}} COLORS/FX
+
+###{{{ HELP
+
+###{{{ HELP MENU
 
 _yayfzf_keys() {
   cat <<EOF
@@ -108,35 +184,185 @@ EOF
 }
 
 _yayfzf_version(){
-  echo "${PROG}: ${VERSION}"
+  echo "${PROG}: ${YAYFZF_VERSION}"
   return 0
 }
 
-##}}}
+###}}}
 
-##{{{ ERROR MESSEGES
+###{{{ YAYFZF HELP
 
-function _yayfzf_error() {
-  printf "\x1b[0;1;38;5;196m%s\x1b[0m\n" "${@}" >/dev/stderr
-  return
-}
+  function _yayfzf_version(){
+    printf "%s %s\n" "${PROG}" "${YAYFZF_VERSION}"
+  }
 
-function _yayfzf_warning() {
-  printf "\x1b[0;1;38;5;190m%s\x1b[0m\n" "${@}" >/dev/stderr
-  return
-}
+  function _yayfzf_help_name(){
+    printf "$(cat <<HELPMENUNAME
 
-function _yayfzf_verbose() {
-  printf "\x1b[0;38;5;87m%s\x1b[0m\n" "${@}" >/dev/stderr
-  return
-}
-##}}}
+${colors[bold]}${colors[Blue]}NAME${colors[reset]}
 
-##}}}
+  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]}
 
-##{{{ FUNCTIONS
 
-##{{{ SEARCH PACKAGES
+HELPMENUNAME
+    )\n\n"
+  }
+
+  function _yayfzf_help(){
+    printf "$(cat <<HELPMENU
+
+${colors[bold]}${colors[Blue]}DESCRIPTION${colors[reset]}
+
+  ${colors[White]}Manage, backup, develop, sync your .yayfzfiles with ease${colors[reset]}
+
+
+${colors[bold]}${colors[Blue]}USAGE${colors[reset]}
+
+  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} [-AapufhV] [-a|a|--add|add <files>] [-A|A|--all|all|add-all]
+       [-u|u|--up|up|--upload|upload [message]] [--fzf|fzf]
+       [-h|h] [--help|help] [-V|--version] [-- <git command|git options>]]
+
+  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} [-AapufhV]
+
+  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} [options] [-- <git command|git options>]
+
+  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} [git subcommand]
+
+
+${colors[bold]}${colors[Blue]}OPTIONS${colors[reset]}
+
+    -a, --add, a, add <files>
+          Add files to be tracked ${colors[italic]}(git add)${colors[reset]}
+
+    -A, A, --all, add-all
+          Add all tracked files that have been modified
+
+    -u, u, --up, --upload [message]
+          Commit and push changes, including an option commit message
+
+    --fzf, fzf
+          Run interactive yayfzf interface to manage repository with fzf
+
+    -- <git commands|git options>
+          Run git commands
+
+
+${colors[bold]}${colors[Blue]}META OPTIONS${colors[reset]}
+
+    -h, h
+        Show the help menu
+
+    --help, help
+        Show the full ${PROG} help menu
+
+    --usage, usage
+        Show ${PROG} usage
+
+    --examples, examples
+        Show ${PROG} examples
+
+    -V, --version
+        Show ${PROG} version
+
+HELPMENU
+    )\n\n"
+  }
+
+  function _yayfzf_help_aliases(){
+    printf "$(cat <<HELPMENUALIASES
+
+${colors[bold]}${colors[Blue]}ALIASES${colors[reset]}
+
+  To add convenience when working with ${colors[bold]}${colors[Green]}${PROG}${colors[reset]},
+  several aliases exist that are assigned to specific ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} commands.
+
+  Here are the aliases that are currently defined:
+
+    ${colors[Cyan]}d${colors[reset]}         ${colors[DarkGray]}:${colors[reset]} alias for '${colors[bold]}${colors[Green]}${PROG}${colors[reset]}'
+    ${colors[Cyan]}yayfzfa${colors[reset]}     ${colors[DarkGray]}:${colors[reset]} alias for '${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}add${colors[reset]}'
+    ${colors[Cyan]}yayfzfc${colors[reset]}     ${colors[DarkGray]}:${colors[reset]} alias for '${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}commit${colors[reset]}'
+    ${colors[Cyan]}yayfzfp${colors[reset]}     ${colors[DarkGray]}:${colors[reset]} alias for '${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}pull${colors[reset]}'
+    ${colors[Cyan]}yayfzfallup${colors[reset]} ${colors[DarkGray]}:${colors[reset]} alias for '${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}add-all${colors[reset]} && ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}up${colors[reset]}'
+
+
+HELPMENUALIASES
+    )\n\n"
+  }
+
+
+  function _yayfzf_help_examples(){
+    printf "$(cat <<HELPMENUEXAMPLES
+
+${colors[bold]}${colors[Blue]}EXAMPLES${colors[reset]}
+
+  Running '${colors[bold]}${colors[Green]}${PROG}${colors[reset]}' with no subcommands, options, or arguments
+  will show the current status of the repository:
+     ${colors[italic]}(Equivalent to running: '${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}status${colors[reset]}${colors[italic]}')${colors[reset]}
+
+    ${colors[DarkGray]}\$${colors[reset]}  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]}
+
+
+  Adding all modified files currently checked into yayfzf.
+  It will not add new files that are not being tracked.
+
+    ${colors[DarkGray]}\$${colors[reset]}  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}add-all${colors[reset]}
+
+
+  These next two command will do the exact same thing.
+  Showing you how the subcommands/options can be used.
+
+  These examples will commit and push changes to the remote repository
+  with a commit message of 'Added help menu to function'
+
+    ${colors[DarkGray]}\$${colors[reset]}  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}upload${colors[reset]} 'Added help menu to function'
+
+    ${colors[DarkGray]}\$${colors[reset]}  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}--upload${colors[reset]}='Added help menutofunctinon'
+
+
+  This little command is a shorthand way of running multiple commands
+  to add all modified files that are checked into ${PROG}, commit changes
+  with a commit message of 'Expanded help menu', and then pushing to the remote.
+
+    ${colors[DarkGray]}\$${colors[reset]}  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}a${colors[reset]} && ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} 'Expanded help menu'
+
+HELPMENUEXAMPLES
+    )\n\n"
+  }
+
+  function _yayfzf_help_more_info(){
+    printf "$(cat <<HELPMENUMOREINFO
+
+${colors[bold]}${colors[Blue]}MORE${colors[reset]}
+
+  For more information, view the README on the ${PROG} repository
+  https://github.com/connerwill/${PROG}
+HELPMENUMOREINFO
+    )\n\n"
+  }
+
+  function _yayfzf_help_full(){
+    _yayfzf_help_name
+    _yayfzf_help
+    _yayfzf_help_aliases
+    _yayfzf_help_examples
+    _yayfzf_help_more_info
+  }
+#"
+###}}} YAYFZF HELP
+
+###}}}
+
+###{{{ MESSEGES
+
+_yayfzf_error()  { printf "${yayfzf_color[Bold]}${yayfzf_color[BG_Red]}${yayfzf_color[White]} ERROR ${yayfzf_color[reset]}:\t${yayfzf_color[Italic]}${yayfzf_color[Red]}%s${yayfzf_color[reset]}\n"         "${@}" >/dev/stderr; }
+_yayfzf_warning(){ printf "${yayfzf_color[Bold]}${yayfzf_color[BG_Yellow]}${yayfzf_color[Black]} WARNING ${yayfzf_color[reset]}:\t${yayfzf_color[Italic]}${yayfzf_color[Yellow]}%s${yayfzf_color[reset]}\n" "${@}" >/dev/stderr; }
+_yayfzf_verbose(){ printf "${yayfzf_color[Bold]}${yayfzf_color[BG_Blue]}${yayfzf_color[Yellow]} VERBOSE ${yayfzf_color[reset]}:\t${yayfzf_color[Italic]}${yayfzf_color[Cyan]}%s${yayfzf_color[reset]}\n"    "${@}";              }
+
+###}}}
+
+###{{{ FUNCTIONS
+
+###{{{ SEARCH PACKAGES
 function _search_packagemgr() {
   # echo -en '\e]0;yayfzf\e\\' # set title
   local searchQuery
@@ -159,18 +385,18 @@ function _list_installed_packagemgr() {
     yay --query --singlelineresults \
       --sortby "$packages_sort_by"
 }
-##}}}
+###}}}
 
-##{{{ MKDIR HISTORY
+###{{{ MKDIR HISTORY
 function _yayfzf_create_history(){
   if [[ ! -d "$(dirname "${YAYFZF_HISTORY}")" ]]; then
     mkdir -p "$(dirname "$YAYFZF_HISTORY")" 2>/dev/null
     touch "$YAYFZF_HISTORY" 2>/dev/null
   fi
 }
-##}}}
+###}}}
 
-##{{{ FZF
+###{{{ FZF
 
 ## Main script. Run fzf with package manager search results.
 function _fzf() {
@@ -182,76 +408,86 @@ function _fzf() {
   SearchInput="${*}"
   [[ -n "${SearchInput}" ]] && SearchHeader="${SearchInput}" && label="${SearchInput}" || label="yayfzf"
 
+  #TODO: Add --bind "ctrl-h:preview(echo '$(_yayfzf_help_full)')"              \
   fzf \
     --bind "ctrl-i:execute: echo 'Installing: {+}' && sleep 1 && yay -Sv {+}" \
-    --bind "ctrl-r:execute: echo 'Removing ...' && sleep 1 ; yay -Rv {+}" \
-    --bind "ctrl-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv" \
+    --bind "ctrl-r:execute: echo 'Removing ...' && sleep 1 ; yay -Rv {+}"     \
+    --bind "ctrl-u:execute: echo 'Updating ...' && sleep 1 ; yay -Syuv"       \
     --bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
-    --bind 'ctrl-l:clear-query+clear-screen+clear-selection' \
-    --bind 'alt-bspace:clear-query'             \
-    --bind 'alt-left:kill-word'                 \
-    --bind "esc:abort"                          \
-    --bind 'ctrl-c:abort'                       \
-    --bind 'ctrl-d:deselect-all'                \
-    --bind 'ctrl-q:print-query'                 \
-    --bind 'ctrl-v:toggle-preview'              \
-    --bind 'ctrl-n:next-history'                \
-    --bind 'ctrl-p:previous-history'            \
-    --bind 'right:first'                        \
-    --bind 'left:first'                         \
-    --bind 'end:first'                          \
-    --bind 'home:last'                          \
-    --bind 'pgdn:page-down'                     \
-    --bind 'pgup:page-up'                       \
-    --bind 'shift-tab:deselect'                 \
-    --bind 'tab:select'                         \
-    --bind 'ctrl-s:select'                      \
-    --bind change:first                         \
-    --bind "?:preview(echo '$(_yayfzf_keys)')"  \
-    --bind "ctrl-h:preview(echo '$(_yayfzf_help_full)')"  \
-    --header 'Press ? for keybindings'          \
+    --bind 'ctrl-l:clear-query+clear-screen+clear-selection'          \
+    --bind 'alt-bspace:clear-query'                                   \
+    --bind 'alt-left:kill-word'                                       \
+    --bind "esc:abort"                                                \
+    --bind 'ctrl-c:abort'                                             \
+    --bind 'ctrl-d:deselect-all'                                      \
+    --bind 'ctrl-q:print-query'                                       \
+    --bind 'ctrl-v:toggle-preview'                                    \
+    --bind 'ctrl-n:next-history'                                      \
+    --bind 'ctrl-p:previous-history'                                  \
+    --bind 'right:first'                                              \
+    --bind 'left:first'                                               \
+    --bind 'end:first'                                                \
+    --bind 'home:last'                                                \
+    --bind 'pgdn:page-down'                                           \
+    --bind 'pgup:page-up'                                             \
+    --bind 'shift-tab:deselect'                                       \
+    --bind 'tab:select'                                               \
+    --bind 'ctrl-s:select'                                            \
+    --bind "?:preview(echo '$(_yayfzf_keys)')"                        \
+    --bind change:first                                               \
+    --header 'Press ? for keybindings'                                \
     --preview 'cat <(yay -Si {1}) <(yay -Fl {1} | awk "{print \$2}")' \
-    --preview-window 'bottom,43%,border-double' \
-    --history="$YAYFZF_HISTORY"                 \
-    --query="${SearchInput}"                    \
-    --preview-label-pos=top                     \
-    --border-label-pos=3                        \
-    --border 'horizontal'                       \
-    --preview-label="╡${label}╞"                \
-    --border-label="╡${PROG}╞"                  \
-    --info inline                               \
-    --scroll-off=20                             \
-    --hscroll-off=30                            \
-    --ellipsis="⣿"                              \
-    --tiebreak=begin                            \
-    --sync                                      \
-    --multi                                     \
-    --delimiter ' '                             \
-    --ansi                                      \
-    --color="${colortheme}" < <( yay -Ss "${SearchInput}" \
-                                   --singlelineresults    \
-                                   --color always         \
-                                   --bottomup 2>/dev/null \
-                                       | grep --invert-match --extended-regexp '(\(Orphan.*\)|\(Out.*\))' \
-                                       | cut --delimiter=' ' --fields=1,7-                                \
-                                       | column --separator=$'\t' --output-separator=': ' --table --output-width=$(( COLUMNS / 4 ))
-                              )
+    --preview-window 'bottom,43%,border-double'                       \
+    --history="$YAYFZF_HISTORY"                                       \
+    --query="${SearchInput}"                                          \
+    --preview-label-pos=top                                           \
+    --border-label-pos=3                                              \
+    --border 'horizontal'                                             \
+    --preview-label="╡${label}╞"                                      \
+    --border-label="╡${PROG}╞"                                        \
+    --info inline                                                     \
+    --scroll-off=20                                                   \
+    --hscroll-off=30                                                  \
+    --ellipsis="⣿"                                                    \
+    --tiebreak=begin                                                  \
+    --sync                                                            \
+    --multi                                                           \
+    --delimiter ' '                                                   \
+    --ansi                                                            \
+    --color="${fzf_colortheme}" \
+      < <( \
+          yay \
+            -Ss "${SearchInput}"    \
+            --singlelineresults     \
+            --color "${COLOR_WHEN}" \
+            --bottomup 2>/dev/null  \
+            | grep \
+                --invert-match                               \
+                --extended-regexp '(\(Orphan.*\)|\(Out.*\))' \
+              | cut \
+                  --delimiter=' ' \
+                  --fields=1,7-   \
+                | column \
+                    --separator=$'\t'                 \
+                    --output-separator=': '           \
+                    --table                           \
+                    --output-width=$(( COLUMNS / 4 )) \
+        )
 
-    # --bind "?:change-preview-window(right,26%|down,43%)+preview(echo '$(_yayfzf_keys)')"  \
-    # tput rmcup
     returnSIG=$?
     echo $returnSIG
     return $returnSIG
 }
 
-##}}}
+###}}}
 
-##}}}
+###}}}
 
-##{{{ MAIN
+###{{{ MAIN
+
+###{{{ MAIN CASE
 
 function _main() {
-  # echo -en '\e[22;0t' # save title
   if [[ -n "$1" ]]; then
     while [[ -n $1 ]]; do
       case $1 in
@@ -268,8 +504,8 @@ function _main() {
     _fzf "${@}"; return $?
   fi
 }
-  # # echo -en '\e[23;0t' # restore title
-##}}}
+
+###}}}
 
 function yayfzf() {
   _yayfzf_create_history
@@ -280,4 +516,52 @@ function yayfzf() {
 (return 0 2>/dev/null) && sourced=1 || sourced=0
 [[ $sourced -eq 0 ]] && yayfzf "${@}"
 
-##}}}
+###}}}
+
+
+
+
+	#
+ #  ## Full help
+	# if [[ "${1}" == "--help" ]] || [[ "${1}" == "help" ]]; then
+ #    _yayfzf_help_full
+ #    return
+	#
+ #  ## Short help
+	# elif [[ "${1}" == "-h" ]] || [[ "${1}" == "h" ]];then
+ #    _yayfzf_help_name; _yayfzf_help
+ #    printf "\nrun '%s --help' to see the full help menu\n" "${PROG}"
+ #    return
+	#
+ #  ## Usage
+ #  elif [[ "${1}" == "--usage" ]] || [[ "${1}" == "usage" ]];then
+ #    _yayfzf_help_name; _yayfzf_help
+ #    printf "\nrun '%s --help' to see the full help menu\n" "${PROG}"
+ #    return
+	#
+ #  ## Examples
+ #  elif [[ "${1}" == "--examples" ]] || [[ "${1}" == "examples" ]];then
+ #    _yayfzf_help_name; _yayfzf_help_examples; _yayfzf_help_more_info
+ #    printf "\nrun '%s --help' to see the full help menu\n" "${PROG}"
+ #    return
+	#
+
+  ###{{{ commented out
+  # opterr() { printf >&2 "%s:${colors[reset]}${colors[Blue]}%s ${colors[yellow]}%s${colors[reset]}" "${1}" "${2}" "${3}"; printf "%s\n" $usage && return 1; }
+  #
+  # while (( $# )); do
+  #   case $1 in
+  #     --)                 shift; printstring+=("${@[@]}"); break ;;
+  #     -h|--help|h|help)          printf "%s\n" $usage && return         ;;
+  #     -A|--all|A|all|add-all)          shift; fill=${1}                         ;;
+  #     -u|--up|u|up|upload)          shift; fill=${1}                         ;;
+  #     -u=*|--up=*|--upload=*)      fill="${1#*=}"                         ;;
+  #     -a|a|--add|add)      shift; surround=${1}                     ;;
+  #     -a=*|--add=*)      fill="${1#*=}"                         ;;
+  #     -*)                 opterr "${0}" "Unknowm option:" ${1} && printf "%s\n" $usage && return 2                  ;;
+  #     *)                  printstring+=("${@[@]}"); break        ;;
+  #   esac
+  #   shift
+  # done
+  #
+  ###}}} commented out
