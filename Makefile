@@ -19,8 +19,8 @@ PKGBUILD: VERSION $(ARCHIVE)
 aur-release: PKGBUILD
 	git commit -am 'Update PKGBUILD'
 	git push origin main
-	cp PKGBUILD ~/src/aur/yayfzf/PKGBUILD
-	cd ~/src/aur/yayfzf/
+	cp PKGBUILD ~/MYPROJECTS/ConnerWill/yayfzf/PKGBUILD
+	cd ~/MYPROJECTS/ConnerWill/yayfzf/
 	makepkg -ci
 	git commit -am "Release $(VERSION)"
 	git push origin main
