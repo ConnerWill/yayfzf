@@ -8,7 +8,7 @@
 ###{{{ OPTIONS/VARIABLES
 
 PROG="yayfzf"                               ## Name of this program
-yayfzf_VERSION="0.1.0"                      ## Version of this program
+YAYFZF_VERSION="0.1.0"                      ## Version of this program
 AUTHOR="ConnerWill"                         ## Author
 REPO="https://github.com/ConnerWill/yayfzf" ## Source
 
@@ -184,7 +184,7 @@ EOF
 }
 
 _yayfzf_version(){
-  echo "${PROG}: ${yayfzf_VERSION}"
+  echo "${PROG}: ${YAYFZF_VERSION}"
   return 0
 }
 
