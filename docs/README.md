@@ -33,6 +33,7 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
 * [<strong>ｙａｙｆｚｆ</strong>](#ｙａｙｆｚｆ)
 * [Description](#description)
 * [Table of Contents](#table-of-contents)
+* [Screenshots](#screenshots)
 * [Installation](#installation)
   * [Dependencies](#dependencies)
 * [Usage](#usage)
@@ -44,6 +45,16 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
   * [Donate](#donate)
 
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
+
+# Screenshots
+
+ <div align="center">
+
+| ![demo screenshot](/assets/demo-screenshot.png) | ![demo screenshot_old-theme](/assets/demo-screenshot-OLDTHEME.png) |
+| ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+
+</div>
+
 
 
 # Installation
