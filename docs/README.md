@@ -55,6 +55,8 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
 
 </div>
 
+See the [wiki][wiki-screenshots-url] for more screenshots/demos
+
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
 # Installation
@@ -281,6 +283,7 @@ git push origin AmazingNewFeature
 [wiki-url]: https://github.com/ConnerWill/yayfzf/wiki
 [wiki-customization-url]: https://github.com/ConnerWill/yayfzf/wiki/Customization
 [wiki-installation-url]: https://github.com/ConnerWill/yayfzf/wiki/Installation
+[wiki-screenshots-url]: https://github.com/ConnerWill/yayfzf/wiki/Screenshots
 
 [fzf-url]: httaps://github.com/junegunn/fzf
 [yay-url]: https://github.com/Jguer/yay
