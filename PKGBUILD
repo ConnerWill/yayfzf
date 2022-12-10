@@ -1,4 +1,4 @@
-# Maintainer: Conner Will (ConnerWill) <conner.will@connerwill.com>
+# Maintainer: Conner Will (DampSock) <conner.will@connerwill.com>
 
 pkgname=yayfzf
 pkgver=1.0.0
@@ -9,7 +9,7 @@ url="https://github.com/ConnerWill/$pkgname"
 license=("GPL")
 depends=('bash' 'fzf' 'yay')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-# sha256sums=('')
+sha256sums=('SKIP')
 
 package() {
   install -Dm775 "$srcdir/$pkgname-$pkgver/$pkgname" "$pkgdir/usr/bin/$pkgname"
