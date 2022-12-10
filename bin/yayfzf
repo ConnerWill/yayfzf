@@ -7,10 +7,10 @@
 ########################################
 ###{{{ OPTIONS/VARIABLES
 
-PROG="yayfzf"                               ## Name of this program
-YAYFZF_VERSION="0.1.0"                      ## Version of this program
-AUTHOR="ConnerWill"                         ## Author
-REPO="https://github.com/ConnerWill/yayfzf" ## Source
+PROG="yayfzf"
+YAYFZF_VERSION=0.1.0
+AUTHOR="ConnerWill"
+REPO="https://github.com/ConnerWill/yayfzf"
 
 YAYFZF_HISTORY=${YAYFZF_HISTORY:-${XDG_CACHE_HOME:-${HOME:-~}/.cache}/yayfzf/yayfzf_history} ## yayfzf history file
 ## Environment variable 'YAYFZF_HISTORY' will be used if defined.
