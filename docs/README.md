@@ -59,41 +59,7 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
 
 # Installation
 
-```console
-git clone https://github.com/ConnerWill/yayfzf.git
-```
-
-To run this script from anywhere as the current user, source the script in your shell init scripts *(`.zshrc` `.bashrc`)* or symlink/move the script to a directory in your `$PATH`
-
-**Adding line to source `yayfzf` to your shell init**
-
-
-> zsh
-
-```shell
-echo "source (PATH-TO-REPO)/yayfzf/bin/yayfzf" >> "${ZDOTDIR}/.zshrc"
-```
-
-> bash
-
-```shell
-echo 'source (PATH-TO-REPO)/yayfzf/bin/yayfzf' >> ~/.bashrc
-```
-
-**Adding script to your `$PATH`**
-
-> > *Assuming `~/.bin` is in your $PATH*
-
-> Symbolic linking to `~/.bin`
-
-```shell
-ln -s ./yayfzf/bin/yayfzf ~/.bin/
-```
-> Copy/Move to `~/.bin`
-
-```shell
-cp ./yayfzf/bin/yayfzf ~/.bin/
-```
+See the [wiki][wiki-installation-url] for installation instructions
 
 ## Dependencies
 
