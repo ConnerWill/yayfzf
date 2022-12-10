@@ -4,8 +4,7 @@
 
 # **ｙａｙｆｚｆ**
 
-
-> ***[fzf][fzf-url]** wrapper for **[yay][yay-url]***
+> *AUR package **[fzf][fzf-url]** finder to search, install, remove, and manage packages using yay **[yay][yay-url]***
 
 [![Shellcheck][shellcheck-badge]][shellcheck-workflow]
 [![GitHub last commit][github-last-commit-badge]][github-commits]
