@@ -8,7 +8,7 @@
 ###{{{ OPTIONS/VARIABLES
 
 PROG="yayfzf"                               ## Name of this program
-YAYFZF_VERSION="1.0.0"                      ## Version of this program
+yayfzf_VERSION="0.1.0"                      ## Version of this program
 AUTHOR="ConnerWill"                         ## Author
 REPO="https://github.com/ConnerWill/yayfzf" ## Source
 
@@ -184,171 +184,11 @@ EOF
 }
 
 _yayfzf_version(){
-  echo "${PROG}: ${YAYFZF_VERSION}"
+  echo "${PROG}: ${yayfzf_VERSION}"
   return 0
 }
 
 ###}}}
-
-###{{{ YAYFZF HELP
-
-  function _yayfzf_version(){
-    printf "%s %s\n" "${PROG}" "${YAYFZF_VERSION}"
-  }
-
-  function _yayfzf_help_name(){
-    printf "$(cat <<HELPMENUNAME
-
-${colors[bold]}${colors[Blue]}NAME${colors[reset]}
-
-  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]}
-
-
-HELPMENUNAME
-    )\n\n"
-  }
-
-  function _yayfzf_help(){
-    printf "$(cat <<HELPMENU
-
-${colors[bold]}${colors[Blue]}DESCRIPTION${colors[reset]}
-
-  ${colors[White]}Manage, backup, develop, sync your .yayfzfiles with ease${colors[reset]}
-
-
-${colors[bold]}${colors[Blue]}USAGE${colors[reset]}
-
-  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} [-AapufhV] [-a|a|--add|add <files>] [-A|A|--all|all|add-all]
-       [-u|u|--up|up|--upload|upload [message]] [--fzf|fzf]
-       [-h|h] [--help|help] [-V|--version] [-- <git command|git options>]]
-
-  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} [-AapufhV]
-
-  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} [options] [-- <git command|git options>]
-
-  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} [git subcommand]
-
-
-${colors[bold]}${colors[Blue]}OPTIONS${colors[reset]}
-
-    -a, --add, a, add <files>
-          Add files to be tracked ${colors[italic]}(git add)${colors[reset]}
-
-    -A, A, --all, add-all
-          Add all tracked files that have been modified
-
-    -u, u, --up, --upload [message]
-          Commit and push changes, including an option commit message
-
-    --fzf, fzf
-          Run interactive yayfzf interface to manage repository with fzf
-
-    -- <git commands|git options>
-          Run git commands
-
-
-${colors[bold]}${colors[Blue]}META OPTIONS${colors[reset]}
-
-    -h, h
-        Show the help menu
-
-    --help, help
-        Show the full ${PROG} help menu
-
-    --usage, usage
-        Show ${PROG} usage
-
-    --examples, examples
-        Show ${PROG} examples
-
-    -V, --version
-        Show ${PROG} version
-
-HELPMENU
-    )\n\n"
-  }
-
-  function _yayfzf_help_aliases(){
-    printf "$(cat <<HELPMENUALIASES
-
-${colors[bold]}${colors[Blue]}ALIASES${colors[reset]}
-
-  To add convenience when working with ${colors[bold]}${colors[Green]}${PROG}${colors[reset]},
-  several aliases exist that are assigned to specific ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} commands.
-
-  Here are the aliases that are currently defined:
-
-    ${colors[Cyan]}d${colors[reset]}         ${colors[DarkGray]}:${colors[reset]} alias for '${colors[bold]}${colors[Green]}${PROG}${colors[reset]}'
-    ${colors[Cyan]}yayfzfa${colors[reset]}     ${colors[DarkGray]}:${colors[reset]} alias for '${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}add${colors[reset]}'
-    ${colors[Cyan]}yayfzfc${colors[reset]}     ${colors[DarkGray]}:${colors[reset]} alias for '${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}commit${colors[reset]}'
-    ${colors[Cyan]}yayfzfp${colors[reset]}     ${colors[DarkGray]}:${colors[reset]} alias for '${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}pull${colors[reset]}'
-    ${colors[Cyan]}yayfzfallup${colors[reset]} ${colors[DarkGray]}:${colors[reset]} alias for '${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}add-all${colors[reset]} && ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}up${colors[reset]}'
-
-
-HELPMENUALIASES
-    )\n\n"
-  }
-
-
-  function _yayfzf_help_examples(){
-    printf "$(cat <<HELPMENUEXAMPLES
-
-${colors[bold]}${colors[Blue]}EXAMPLES${colors[reset]}
-
-  Running '${colors[bold]}${colors[Green]}${PROG}${colors[reset]}' with no subcommands, options, or arguments
-  will show the current status of the repository:
-     ${colors[italic]}(Equivalent to running: '${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}status${colors[reset]}${colors[italic]}')${colors[reset]}
-
-    ${colors[DarkGray]}\$${colors[reset]}  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]}
-
-
-  Adding all modified files currently checked into yayfzf.
-  It will not add new files that are not being tracked.
-
-    ${colors[DarkGray]}\$${colors[reset]}  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}add-all${colors[reset]}
-
-
-  These next two command will do the exact same thing.
-  Showing you how the subcommands/options can be used.
-
-  These examples will commit and push changes to the remote repository
-  with a commit message of 'Added help menu to function'
-
-    ${colors[DarkGray]}\$${colors[reset]}  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}upload${colors[reset]} 'Added help menu to function'
-
-    ${colors[DarkGray]}\$${colors[reset]}  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}--upload${colors[reset]}='Added help menutofunctinon'
-
-
-  This little command is a shorthand way of running multiple commands
-  to add all modified files that are checked into ${PROG}, commit changes
-  with a commit message of 'Expanded help menu', and then pushing to the remote.
-
-    ${colors[DarkGray]}\$${colors[reset]}  ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} ${colors[Yellow]}a${colors[reset]} && ${colors[bold]}${colors[Green]}${PROG}${colors[reset]} 'Expanded help menu'
-
-HELPMENUEXAMPLES
-    )\n\n"
-  }
-
-  function _yayfzf_help_more_info(){
-    printf "$(cat <<HELPMENUMOREINFO
-
-${colors[bold]}${colors[Blue]}MORE${colors[reset]}
-
-  For more information, view the README on the ${PROG} repository
-  https://github.com/connerwill/${PROG}
-HELPMENUMOREINFO
-    )\n\n"
-  }
-
-  function _yayfzf_help_full(){
-    _yayfzf_help_name
-    _yayfzf_help
-    _yayfzf_help_aliases
-    _yayfzf_help_examples
-    _yayfzf_help_more_info
-  }
-#"
-###}}} YAYFZF HELP
 
 ###}}}
 
@@ -517,51 +357,3 @@ function yayfzf() {
 [[ $sourced -eq 0 ]] && yayfzf "${@}"
 
 ###}}}
-
-
-
-
-	#
- #  ## Full help
-	# if [[ "${1}" == "--help" ]] || [[ "${1}" == "help" ]]; then
- #    _yayfzf_help_full
- #    return
-	#
- #  ## Short help
-	# elif [[ "${1}" == "-h" ]] || [[ "${1}" == "h" ]];then
- #    _yayfzf_help_name; _yayfzf_help
- #    printf "\nrun '%s --help' to see the full help menu\n" "${PROG}"
- #    return
-	#
- #  ## Usage
- #  elif [[ "${1}" == "--usage" ]] || [[ "${1}" == "usage" ]];then
- #    _yayfzf_help_name; _yayfzf_help
- #    printf "\nrun '%s --help' to see the full help menu\n" "${PROG}"
- #    return
-	#
- #  ## Examples
- #  elif [[ "${1}" == "--examples" ]] || [[ "${1}" == "examples" ]];then
- #    _yayfzf_help_name; _yayfzf_help_examples; _yayfzf_help_more_info
- #    printf "\nrun '%s --help' to see the full help menu\n" "${PROG}"
- #    return
-	#
-
-  ###{{{ commented out
-  # opterr() { printf >&2 "%s:${colors[reset]}${colors[Blue]}%s ${colors[yellow]}%s${colors[reset]}" "${1}" "${2}" "${3}"; printf "%s\n" $usage && return 1; }
-  #
-  # while (( $# )); do
-  #   case $1 in
-  #     --)                 shift; printstring+=("${@[@]}"); break ;;
-  #     -h|--help|h|help)          printf "%s\n" $usage && return         ;;
-  #     -A|--all|A|all|add-all)          shift; fill=${1}                         ;;
-  #     -u|--up|u|up|upload)          shift; fill=${1}                         ;;
-  #     -u=*|--up=*|--upload=*)      fill="${1#*=}"                         ;;
-  #     -a|a|--add|add)      shift; surround=${1}                     ;;
-  #     -a=*|--add=*)      fill="${1#*=}"                         ;;
-  #     -*)                 opterr "${0}" "Unknowm option:" ${1} && printf "%s\n" $usage && return 2                  ;;
-  #     *)                  printstring+=("${@[@]}"); break        ;;
-  #   esac
-  #   shift
-  # done
-  #
-  ###}}} commented out
