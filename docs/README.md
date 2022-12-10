@@ -56,7 +56,7 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
 
 </div>
 
-
+<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
 # Installation
 
