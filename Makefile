@@ -34,3 +34,6 @@ release: yayfzf README.md github-release
 
 install:
 	install -m755 yayfzf /usr/local/bin/
+
+uninstall:
+	rm /usr/local/bin/yayfzf
