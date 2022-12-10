@@ -1,0 +1,16 @@
+
+*IGNORE*
+*.zip
+*.tar*
+*.gz
+*.xz
+*yayfzf.wiki*
+*.wiki*
+*.ORIG
+*.orig
+*.BAK
+*.bak
+*.temp
+*.tmp
+*.wop
+*.WOP
