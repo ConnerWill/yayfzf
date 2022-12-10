@@ -276,6 +276,7 @@ function _fzf() {
     --bind "?:preview(echo '$(_yayfzf_keys)')"                        \
     --bind change:first                                               \
     --header 'Press ? for keybindings'                                \
+    --header-lines=1                                                  \
     --preview 'cat <(yay -Si {1}) <(yay -Fl {1} | awk "{print \$2}")' \
     --preview-window 'bottom,43%,border-double'                       \
     --history="$YAYFZF_HISTORY"                                       \
