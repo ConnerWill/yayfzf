@@ -1,12 +1,12 @@
-VERSION := $(shell cat VERSION)
+VERSION := $(shell cat docs/VERSION)
 ARCHIVE := yayfzf-$(VERSION).tar.gz
 .PHONY: install clean release archive
 .ONESHELL: aur-release
 
 yayfzf: VERSION
-	sed -i -e "s/^YAYFZF_VERSION=.*/YAYFZF_VERSION=$(VERSION)/" yayfzf
+	sed -i -e "s/^YAYFZF_VERSION=.*/YAYFZF_VERSION=$(VERSION)/" bin/yayfzf
 
-$(ARCHIVE): yayfzf README.md
+$(ARCHIVE): bin/yayfzf docs/README.md
 	git archive --format=tar.gz -o $(ARCHIVE) --prefix yayfzf-$(VERSION)/ $(VERSION)
 
 archive: $(ARCHIVE)
@@ -25,12 +25,12 @@ aur-release: PKGBUILD
 	git commit -am "Release $(VERSION)"
 	git push origin main
 
-github-release: VERSION yayfzf README.md
+github-release: docs/VERSION bin/yayfzf docs/README.md
 	git commit -am 'Release $(VERSION)'
 	git tag $(VERSION)
 	git push origin $(VERSION)
 
-release: yayfzf README.md github-release
+release: bin/yayfzf docs/README.md github-release
 
 install:
 	install -m755 yayfzf /usr/local/bin/
