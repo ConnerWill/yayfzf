@@ -259,11 +259,11 @@ function _fzf() {
   SearchInput="${*}"
   [[ -n "${SearchInput}" ]] && SearchHeader="${SearchInput}" && label="${SearchInput}" || label="yayfzf"
 
-  #TODO: Add --bind "ctrl-h:preview(echo '$(_yayfzf_help_full)')"              \
+  #TODO: Add --bind "ctrl-h:preview(echo '$(_yayfzf_help_full)')" \
   fzf \
-    --bind "ctrl-i:execute:'yay -Sv {+}'" \
-    --bind "ctrl-r:execute:'yay -Rv {+}'" \
-    --bind "ctrl-u:execute:'yay -Syuv"    \
+    --bind "ctrl-i:execute:'yay -S {+}'" \
+    --bind "ctrl-r:execute:'yay -R {+}'" \
+    --bind "ctrl-u:execute:'yay -Syu'"   \
     --bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
     --bind 'ctrl-l:clear-query+clear-screen+clear-selection'          \
     --bind 'alt-bspace:clear-query'                                   \
