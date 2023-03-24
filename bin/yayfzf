@@ -261,8 +261,8 @@ function _fzf() {
 
   #TODO: Add --bind "ctrl-h:preview(echo '$(_yayfzf_help_full)')" \
   fzf \
-    --bind "ctrl-i:execute:yay -S {+}" \
-    --bind "ctrl-r:execute:yay -R {+}" \
+    --bind 'ctrl-x:execute:yay -S $(echo {+} | cut -d" " -f1)' \
+    --bind 'ctrl-r:execute:yay -R $(echo {1} | cut -d"/" -f2)' \
     --bind "ctrl-u:execute:yay -Syu"   \
     --bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
     --bind 'ctrl-l:clear-query+clear-screen+clear-selection'          \
