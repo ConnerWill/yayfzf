@@ -261,6 +261,7 @@ function _fzf() {
 
   #TODO: Add --bind "ctrl-h:preview(echo '$(_yayfzf_help_full)')" \
   fzf \
+    --bind 'ctrl-i:execute:yay -S $(echo {+} | cut -d" " -f1)' \
     --bind 'ctrl-x:execute:yay -S $(echo {+} | cut -d" " -f1)' \
     --bind 'ctrl-r:execute:yay -R $(echo {1} | cut -d"/" -f2)' \
     --bind "ctrl-u:execute:yay -Syu"   \
