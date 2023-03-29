@@ -13,6 +13,7 @@
 [![GitHub top language][github-top-language-badge]][github-repo]
 [![GitHub language count][github-language-count-badge]][github-repo]
 [![License][license-badge]][license]
+[![GitHub Release Version][github-release-badge]][github-release-url]
 [![AUR Version][aur-version-badge]][aur-url]
 [![GitLab][gitlab-badge]][gitlab]
 <!--[![GitHub repo stars][github-repo-stars-badge]][github-repo]
@@ -281,6 +282,8 @@ git push origin AmazingNewFeature
 [license]: https://github.com/ConnerWill/yayfzf/blob/main/docs/LICENSE
 [github-repo-stars-badge]: https://img.shields.io/github/stars/ConnerWill/yayfzf?style=social
 [github-repo-downloads-badge]: https://img.shields.io/github/downloads/ConnerWill/yayfzf/total?style=social
+[github-release-badge]: https://img.shields.io/github/v/release/ConnerWill/yayfzf
+[github-release-url]: https://github.com/ConnerWill/yayfzf/releases
 [aur-version-badge]: https://img.shields.io/aur/version/yayfzf
 [aur-url]: https://aur.archlinux.org/packages/yayfzf
 
