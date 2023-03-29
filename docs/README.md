@@ -15,6 +15,7 @@
 [![License][license-badge]][license]
 [![GitHub repo stars][github-repo-stars-badge]][github-repo]
 [![GitHub repo downloads][github-repo-downloads-badge]][github-repo]
+[![AUR Version][aur-version-badge]][aur-url]
 [![GitLab][gitlab-badge]][gitlab]
 
 </div>
@@ -280,6 +281,8 @@ git push origin AmazingNewFeature
 [license]: https://github.com/ConnerWill/yayfzf/blob/main/docs/LICENSE
 [github-repo-stars-badge]: https://img.shields.io/github/stars/ConnerWill/yayfzf?style=social
 [github-repo-downloads-badge]: https://img.shields.io/github/downloads/ConnerWill/yayfzf/total?style=social
+[aur-version-badge]: https://img.shields.io/aur/version/yayfzf
+[aur-url]: https://aur.archlinux.org/packages/yayfzf
 
 [rainbow-line]: https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png
 [wiki-url]: https://github.com/ConnerWill/yayfzf/wiki
