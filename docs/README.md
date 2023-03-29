@@ -13,10 +13,10 @@
 [![GitHub top language][github-top-language-badge]][github-repo]
 [![GitHub language count][github-language-count-badge]][github-repo]
 [![License][license-badge]][license]
-<!--[![GitHub repo stars][github-repo-stars-badge]][github-repo]
-[![GitHub repo downloads][github-repo-downloads-badge]][github-repo]-->
 [![AUR Version][aur-version-badge]][aur-url]
 [![GitLab][gitlab-badge]][gitlab]
+<!--[![GitHub repo stars][github-repo-stars-badge]][github-repo]
+[![GitHub repo downloads][github-repo-downloads-badge]][github-repo]-->
 
 </div>
 
