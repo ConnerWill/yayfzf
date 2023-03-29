@@ -8,7 +8,7 @@
 ###{{{ OPTIONS/VARIABLES
 
 PROG="yayfzf"
-YAYFZF_VERSION=1.0.0
+YAYFZF_VERSION=1.0.2
 AUTHOR="ConnerWill"
 REPO="https://github.com/ConnerWill/yayfzf"
 
