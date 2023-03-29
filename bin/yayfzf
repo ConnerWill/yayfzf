@@ -109,8 +109,6 @@ fi
 
 ###}}} COLORS/FX
 
-###{{{ HELP
-
 ###{{{ HELP MENU
 
 _yayfzf_keys() {
@@ -198,8 +196,6 @@ _yayfzf_version(){
   echo "${PROG}: ${YAYFZF_VERSION}"
   return 0
 }
-
-###}}}
 
 ###}}}
 
