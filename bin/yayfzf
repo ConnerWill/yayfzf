@@ -255,6 +255,11 @@ function _fzf() {
   SearchInput="${*}"
   [[ -n "${SearchInput}" ]] && SearchHeader="${SearchInput}" && label="${SearchInput}" || label="yayfzf"
 
+  # We need bash in order the handle the stdin redirection correctly in --preview
+  if [[ "$(basename "$SHELL")" == "fish" ]]; then
+      export SHELL="$(which bash)"
+  fi
+
   #TODO: Add --bind "ctrl-h:preview(echo '$(_yayfzf_help_full)')" \
   fzf \
     --bind 'ctrl-i:execute:yay -S $(echo {+} | cut -d" " -f1)' \
