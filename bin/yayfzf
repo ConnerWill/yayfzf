@@ -8,9 +8,9 @@
 ###{{{ OPTIONS/VARIABLES
 
 PROG="yayfzf"
-YAYFZF_VERSION=1.0.2
+YAYFZF_VERSION=1.0.4
 AUTHOR="ConnerWill"
-REPO="https://github.com/ConnerWill/yayfzf"
+REPO="https://github.com/${AUTHOR}/yayfzf"
 
 YAYFZF_HISTORY=${YAYFZF_HISTORY:-${XDG_CACHE_HOME:-${HOME:-~}/.cache}/yayfzf/yayfzf_history} ## yayfzf history file
 ## Environment variable 'YAYFZF_HISTORY' will be used if defined.
