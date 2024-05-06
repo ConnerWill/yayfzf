@@ -392,3 +392,6 @@ function yayfzf() {
 [[ $sourced -eq 0 ]] && yayfzf "${@}"
 
 ###}}}
+
+#TODO:
+# Use 'yay --show --complete' to list all packages in the AUR instead of searching for all
