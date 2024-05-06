@@ -10,9 +10,9 @@
 PROG="yayfzf"
 YAYFZF_VERSION=1.0.4
 AUTHOR="ConnerWill"
-REPO="https://github.com/${AUTHOR}/yayfzf"
+REPO="https://github.com/${AUTHOR}/${PROG}"
 
-YAYFZF_HISTORY=${YAYFZF_HISTORY:-${XDG_CACHE_HOME:-${HOME:-~}/.cache}/yayfzf/yayfzf_history} ## yayfzf history file
+YAYFZF_HISTORY=${YAYFZF_HISTORY:-${XDG_CACHE_HOME:-${HOME:-~}/.cache}/${PROG}/${PROG}_history} ## yayfzf history file
 ## Environment variable 'YAYFZF_HISTORY' will be used if defined.
 ## Otherwise yayfzf will use the following for the history file,
 ## falling back to next entry if variable is not defined:
