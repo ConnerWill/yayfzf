@@ -219,6 +219,11 @@ function _search_packagemgr() {
 		"$searchQuery"
 }
 
+## List add packages
+function _yay_list_all(){
+  yay --show --complete | column --separator=$'\t' --output-separator=': ' --table --output-width=$((COLUMNS / 4))
+}
+
 ## List all packages
 function _list_packagemgr() {
 	# echo -en '\e]0;yayfzf\e\\' # set title
@@ -310,24 +315,7 @@ function _fzf() {
 		--delimiter ' ' \
 		--ansi \
 		--color="${yayfzf_colortheme}" \
-		< <(
-			yay \
-				-Ss "${SearchInput}" \
-				--singlelineresults \
-				--color "${COLOR_WHEN}" \
-				--bottomup 2>/dev/null |
-				grep \
-					--invert-match \
-					--extended-regexp '(\(Orphan.*\)|\(Out.*\))' |
-				cut \
-					--delimiter=' ' \
-					--fields=1,7- |
-				column \
-					--separator=$'\t' \
-					--output-separator=': ' \
-					--table \
-					--output-width=$((COLUMNS / 4))
-		)
+		< <(_yay_list_all)
 
 	returnSIG=$?
 	echo $returnSIG
