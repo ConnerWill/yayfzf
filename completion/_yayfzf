@@ -4,12 +4,9 @@ _yayfzf() {
   local -a args
 
   args=(
-    '-h:Show the help menu'
-    '--help:Show the extended help menu of yayfzf'
-    '-k:List keybindings for yayfzf'
-    '--keybindings:List keybindings for yayfzf'
-    '-V:Show version of yayfzf'
-    '--version:Show version of yayfzf'
+    '(-h --help:)'{-h,--help}'[Show the help documentation (-h shows simple help, --help shows extended help)]'
+    '(-k --keybindings)'{-k,--keybindings}'[List keybindings for yayfzf]'
+    '(-V --version)'{-V,--version}'[Show version of yayfzf]'
   )
 
   _arguments -C \
@@ -17,4 +14,4 @@ _yayfzf() {
     ':query:_files'
 }
 
-_yayfzf "$@"
+_yayfzf "${@}"
