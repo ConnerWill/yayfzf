@@ -32,6 +32,7 @@ if [[ "${YAYFZF_HISTORY}" == "false" ]] ||
 	[[ "${YAYFZF_HISTORY}" == "No" ]]; then
 	YAYFZF_HISTORY="/dev/null"
 fi
+YAYFZF_PREVIEW_WINDOW="${YAYFZF_PREVIEW_WINDOW:-"bottom,43%,border-double"}"
 
 packages_sort_by="votes"
 use_color="always"
@@ -292,7 +293,7 @@ function _fzf() {
 		--header 'Press ? for keybindings' \
 		--header-lines=1 \
 		--preview 'cat <(yay -Si {1}) <(yay -Fl {1} | awk "{print \$2}")' \
-		--preview-window 'bottom,43%,border-double' \
+		--preview-window="$YAYFZF_PREVIEW_WINDOW" \
 		--history="$YAYFZF_HISTORY" \
 		--query="${SearchInput}" \
 		--preview-label-pos=top \
