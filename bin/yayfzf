@@ -292,7 +292,7 @@ function _fzf() {
 		--bind change:first \
 		--header 'Press ? for keybindings' \
 		--header-lines=1 \
-		--preview 'cat <(yay -Si {1}) <(yay -Fl {1} | awk "{print \$2}")' \
+		--preview 'cat <(yay -Si {1}) <(yay -Fl {1} 2> /dev/null | awk "{print \$2}")' \
 		--preview-window="$YAYFZF_PREVIEW_WINDOW" \
 		--history="$YAYFZF_HISTORY" \
 		--query="${SearchInput}" \
