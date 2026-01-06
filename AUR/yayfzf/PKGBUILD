@@ -1,0 +1,28 @@
+# Maintainer: Conner Will (DampSock) <conner.will@connerwill.com>
+#shellcheck disable=2148,2034,2154
+
+pkgname=yayfzf
+pkgver=1.0.5
+pkgrel=1
+pkgdesc="fzf-based interface for searching, installing, removing, and managing packages using yay"
+arch=("any")
+url="https://github.com/ConnerWill/${pkgname}"
+license=("GPL-3.0-or-later")
+depends=('bash' 'fzf' 'yay')
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('SKIP')
+
+package() {
+  ## Main executable
+  install -Dm755 "${srcdir}/${pkgname}-${pkgver}/${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
+
+  ## Documentation
+  install -Dm644 "${srcdir}/${pkgname}-${pkgver}/docs/README.md" "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+
+  ## License
+  install -Dm644 "${srcdir}/${pkgname}-${pkgver}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+
+  ## Completions
+  install -Dm644 "${srcdir}/${pkgname}-${pkgver}/completion/_${pkgname}" "${pkgdir}/usr/share/zsh/site-functions/_${pkgname}"
+  install -Dm644 "${srcdir}/${pkgname}-${pkgver}/completion/${pkgname}_completion.sh" "${pkgdir}/usr/share/bash-completion/completions/${pkgname}"
+}
