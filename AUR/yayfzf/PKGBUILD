@@ -24,6 +24,8 @@ package() {
 
   ## Documentation
   install -Dm644 "docs/README.md" "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+
+  ## Man page
   install -Dm644 "docs/${pkgname}.1" "${pkgdir}/usr/share/man/man1/${pkgname}.1"
 
   ## License
