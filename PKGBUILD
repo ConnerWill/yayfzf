@@ -2,7 +2,7 @@
 #shellcheck disable=2148,2034,2154
 
 pkgname=yayfzf
-pkgver=1.0.4
+pkgver=1.0.5
 pkgrel=0
 pkgdesc="AUR package fzf finder to search, install, remove, and manage packages using yay"
 arch=("any")
