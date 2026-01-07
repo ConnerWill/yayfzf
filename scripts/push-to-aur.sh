@@ -31,6 +31,9 @@ readonly PUSH_GIT="${PUSH_GIT:-true}"
 readonly CLEANUP="${CLEANUP:-true}"
 readonly AUR_REPO_URL="ssh://aur@aur.archlinux.org/yayfzf.git"
 readonly AUR_REPO_URL_GIT="ssh://aur@aur.archlinux.org/yayfzf-git.git"
+readonly SSH_DIR="${SSH_DIR:-${SSH_HOME:-${HOME}/.ssh}}"
+readonly SSH_PRIV_KEY_NAME="Arch_Linux_AUR_Work_Laptop-2026-01-06-ed25519"
+readonly SSH_PRIV_KEY_PATH="${SSH_DIR}/${SSH_PRIV_KEY_NAME}"
 
 if [[ -e "${SCRIPT_LIB}" ]]; then
   if ! source "${SCRIPT_LIB}"; then
