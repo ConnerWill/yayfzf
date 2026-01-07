@@ -110,3 +110,6 @@ check_version_updated "${CURRENT_VERSION}" "${NEW_VERSION}"
 is_installed "gh"
 
 create_release "${NEW_VERSION}" "${ASSET}"
+
+
+# gh release delete --yes --cleanup-tag v1.0.6
