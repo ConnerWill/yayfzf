@@ -49,7 +49,7 @@ is_installed() {
 validate_version() {
   local version="${1}"
   if [[ ! "${version}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-    die "invalid version '${version}' (expected x.x.x)"
+    die "invalid version format: '${version}' (expected x.x.x)"
   fi
 }
 
