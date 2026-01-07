@@ -26,6 +26,7 @@ fi
 #######################################
 readonly BRANCH="main"
 readonly ASSET="${REPO_ROOT}/bin/yayfzf"
+readonly VERBOSE=true
 
 if [[ -e "${SCRIPT_LIB}" ]]; then
   if ! source "${SCRIPT_LIB}"; then
@@ -73,9 +74,11 @@ EOF
 }
 
 create_release() {
-  local release_version="${1}"
+  local release_version="v${1}"
   local asset_path="${2}"
-
+  if [[ -n "${VERBOSE}" && "${VERBOSE}" != false ]]; then
+    info "Creating release: ${release_version} ..."
+  fi
   if gh release create "${release_version}" --latest --generate-notes --fail-on-no-commits "${asset_path}"; then
     success "Created release: ${release_version}"
   else
@@ -96,24 +99,14 @@ cd_directory "${REPO_ROOT}"
 
 check_uncommitted_files
 
-echo "checkout branch"
-
 checkout_branch "${BRANCH}"
-
-echo "get version"
 
 readonly NEW_VERSION="${1}"
 readonly CURRENT_VERSION="$(get_latest_tag)"
 
-echo "validate version"
-
 validate_version "${NEW_VERSION}"
 
-echo "Compare version"
-
 compare_versions "${CURRENT_VERSION}" "${NEW_VERSION}"
-
-echo "check version updated"
 
 check_version_updated "${CURRENT_VERSION}" "${NEW_VERSION}"
 

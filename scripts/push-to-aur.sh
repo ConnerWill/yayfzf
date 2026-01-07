@@ -24,6 +24,7 @@ fi
 #######################################
 # Configuration
 #######################################
+readonly VERBOSE=true
 readonly AUR_STABLE_DIR="${REPO_ROOT}/AUR/yayfzf/yayfzf"
 readonly AUR_GIT_DIR="${REPO_ROOT}/AUR/yayfzf-git/yayfzf-git"
 readonly GH_REPO="ConnerWill/yayfzf"
