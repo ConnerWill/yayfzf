@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#vim:filetype=zsh:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
+#shellcheck disable=2155,2034,2034,2059
 set -Eeuo pipefail
 
 #######################################
@@ -101,7 +103,7 @@ printf '\n'
 
 # Perform in-place replacement
 for file in "${VERSION_FILES[@]}"; do
-  sed -i -e "s/\b${CURRENT_VERSION}\b/${NEW_VERSION}/g" "${file}"
+  sed -i -E -e "s/(v?)${CURRENT_VERSION}/\1${NEW_VERSION}/g" "${file}"
 done
 
 printf "${TEXT_GREEN}Version bump complete${TEXT_RESET}\n\n"
