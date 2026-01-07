@@ -19,28 +19,34 @@ source=("git+${url}.git")
 sha256sums=('SKIP')
 
 pkgver() {
-  cd yayfzf
-  git describe --tags --long --dirty | sed 's/^v//;s/-/.r/;s/-/./'
+  cd yayfzf || return 1
+  local ver
+  ver=$(git describe --tags --long --dirty 2>/dev/null) || return 1
+  printf '%s\n' "${ver#v}" | sed 's/-/.r/;s/-/./'
+}
+
+build() {
+  true
 }
 
 package() {
   cd "yayfzf"
 
   ## Main executable
-  install -Dm755 "bin/yayfzf" "${pkgdir}/usr/bin/yayfzf"
+  install -vDm755 "bin/yayfzf" "${pkgdir}/usr/bin/yayfzf"
 
   ## Documentation
-  install -Dm644 "docs/README.md" "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+  install -vDm644 "docs/README.md" "${pkgdir}/usr/share/doc/${pkgname}/README.md"
 
   ## Man page
-  install -Dm644 "docs/yayfzf.1" "${pkgdir}/usr/share/man/man1/yayfzf.1"
+  install -vDm644 "docs/yayfzf.1" "${pkgdir}/usr/share/man/man1/yayfzf.1"
 
   ## License
-  install -Dm644 "LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -vDm644 "LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 
   ## Zsh completion
-  install -Dm644 "completion/_yayfzf" "${pkgdir}/usr/share/zsh/site-functions/_yayfzf"
+  install -vDm644 "completion/_yayfzf" "${pkgdir}/usr/share/zsh/site-functions/_yayfzf"
 
   ## Bash completion
-  install -Dm644 "completion/yayfzf_completion.sh" "${pkgdir}/usr/share/bash-completion/completions/yayfzf"
+  install -vDm644 "completion/yayfzf_completion.sh" "${pkgdir}/usr/share/bash-completion/completions/yayfzf"
 }
