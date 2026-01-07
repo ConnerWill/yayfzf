@@ -96,7 +96,11 @@ cd_directory "${REPO_ROOT}"
 
 check_uncommitted_files
 
+echo "checkout branch"
+
 checkout_branch "${BRANCH}"
+
+echo "get version"
 
 readonly NEW_VERSION="${1}"
 readonly CURRENT_VERSION="$(get_latest_tag)"
@@ -110,6 +114,5 @@ check_version_updated "${CURRENT_VERSION}" "${NEW_VERSION}"
 is_installed "gh"
 
 create_release "${NEW_VERSION}" "${ASSET}"
-
 
 # gh release delete --yes --cleanup-tag v1.0.6
