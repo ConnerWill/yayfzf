@@ -5,7 +5,7 @@
 #shellcheck disable=2148,2034,2154
 
 pkgname=yayfzf-git
-pkgver=1.0.5.r8.g0612f8d # Placeholder, required for git PKGBUILD
+pkgver=1.0.5.r0.g0000000
 pkgrel=1
 pkgdesc='Development (git) version of yayfzf, fzf-based interface for searching, installing, removing, and managing packages using yay'
 arch=('any')
