@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #vim:filetype=sh:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
 #shellcheck disable=2155,2034,2154,2059
-set -Eeuo pipefail
+set -Eeo pipefail
 
 #######################################
 # Script metadata
@@ -14,6 +14,8 @@ if [[ -z "${NO_COLOR}" ]]; then
   TEXT_YELLOW='\x1B[0;38;5;226m'
   TEXT_GREEN='\x1B[0;38;5;46m'
   TEXT_BOLD='\x1B[1m'
+  TEXT_UNDERLINE='\x1B[4m'
+  TEXT_ITALIC='\x1B[3m'
   TEXT_RESET='\x1B[0m'
 fi
 

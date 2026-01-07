@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #vim:filetype=zsh:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
 #shellcheck disable=2155,2034,2034,2059
-set -Eeuo pipefail
+set -Eeo pipefail
 
 #######################################
 # Configuration
@@ -10,13 +10,16 @@ readonly REPO_ROOT="$(git rev-parse --show-toplevel)"
 readonly SCRIPT_DIR="${REPO_ROOT}/scripts"
 readonly PROG="$(basename "${BASH_SOURCE[0]}")"
 readonly SCRIPT_DESCRIPTION="Script to update semantic version in all files in a repo"
-TEXT_RED='\x1B[0;38;5;196m'
-TEXT_YELLOW='\x1B[0;38;5;226m'
-TEXT_GREEN='\x1B[0;38;5;46m'
-TEXT_BOLD='\x1B[1m'
-TEXT_UNDERLINE='\x1B[4m'
-TEXT_ITALIC='\x1B[3m'
-TEXT_RESET='\x1B[0m'
+
+if [[ -z "${NO_COLOR}" ]]; then
+  TEXT_RED='\x1B[0;38;5;196m'
+  TEXT_YELLOW='\x1B[0;38;5;226m'
+  TEXT_GREEN='\x1B[0;38;5;46m'
+  TEXT_BOLD='\x1B[1m'
+  TEXT_UNDERLINE='\x1B[4m'
+  TEXT_ITALIC='\x1B[3m'
+  TEXT_RESET='\x1B[0m'
+fi
 
 #######################################
 # Functions
