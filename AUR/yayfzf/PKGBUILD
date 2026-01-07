@@ -3,7 +3,7 @@
 # Contributor: Sergey Shepelev (temoto) <temotor@gmail.com>
 # Contributor: Giuseppe Pagano (giuseongit) <giuseongit@latana.rocks>
 # Contributor: Daniel Voogsgerd (DanielVoogsgerd)
-#shellcheck disable=2148,2034,2154
+#shellcheck disable=2148,2034,2154,2164
 
 pkgname=yayfzf
 pkgver=1.0.6
@@ -31,7 +31,9 @@ package() {
   ## License
   install -Dm644 "LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 
-  ## Completions
+  ## Zsh completion
   install -Dm644 "completion/_${pkgname}" "${pkgdir}/usr/share/zsh/site-functions/_${pkgname}"
+
+  ## Bash completion
   install -Dm644 "completion/${pkgname}_completion.sh" "${pkgdir}/usr/share/bash-completion/completions/${pkgname}"
 }

@@ -2,7 +2,7 @@
 # Contributor: Sergey Shepelev (temoto) <temotor@gmail.com>
 # Contributor: Giuseppe Pagano (giuseongit) <giuseongit@latana.rocks>
 # Contributor: Daniel Voogsgerd (DanielVoogsgerd)
-#shellcheck disable=2148,2034,2154
+#shellcheck disable=2148,2034,2154,2164
 
 pkgname=yayfzf-git
 pkgver=1.0.5.r0.g0000000
