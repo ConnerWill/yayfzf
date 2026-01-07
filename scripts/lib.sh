@@ -74,3 +74,8 @@ check_version_updated() {
     die "You may have not updated the version in every file. Run 'bump-version.sh' to update the version"
   fi
 }
+
+cd_directory() {
+  local directory="${1}"
+  cd "${directory}" || die "Cannot move to directory: '${directory}'"
+}

@@ -89,7 +89,7 @@ if [[ "${#}" -ne 1 ]]; then
   usage
 fi
 
-cd "${REPO_ROOT}" || die "Cannot move to directory: ${REPO_ROOT}"
+cd_directory "${REPO_ROOT}"
 
 check_uncommitted_files
 

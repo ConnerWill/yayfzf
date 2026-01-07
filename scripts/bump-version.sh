@@ -83,7 +83,7 @@ validate_version "${NEW_VERSION}"
 
 compare_versions "${CURRENT_VERSION}" "${NEW_VERSION}"
 
-cd "${REPO_ROOT}"
+cd_directory "${REPO_ROOT}"
 
 # Find tracked files containing the current version
 mapfile -t VERSION_FILES < <(

@@ -100,7 +100,7 @@ update_pkgbuild() {
   # Copy canonical PKGBUILD into the cloned AUR repo
   cp "${REPO_ROOT}/AUR/${package_name}/PKGBUILD" "${aur_dir}/PKGBUILD"
 
-  cd "${aur_dir}" || die "Cannot cd into '${aur_dir}'"
+  cd_directory "${aur_dir}"
 
   # Regenerate .SRCINFO
   info "Updating .SRCINFO"
@@ -115,7 +115,8 @@ update_pkgbuild() {
   git push origin main
 
   success "Version: '${package_name}' pushed."
-  cd "${REPO_ROOT}" || die "Cannot return to repo root"
+
+  cd_directory "${REPO_ROOT}"
 }
 
 #######################################
