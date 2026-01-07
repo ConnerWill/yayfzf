@@ -24,7 +24,7 @@ fi
 #######################################
 # CONFIGURATION
 #######################################
-readonly VERBOSE=true
+readonly VERBOSE=${VERBOSE:-true}
 if [[ -e "${SCRIPT_LIB}" ]]; then
   if ! source "${SCRIPT_LIB}"; then
     die "Unable to source library: ${SCRIPT_LIB}"

@@ -26,7 +26,7 @@ fi
 #######################################
 readonly BRANCH="main"
 readonly ASSET="${REPO_ROOT}/bin/yayfzf"
-readonly VERBOSE=true
+readonly VERBOSE=${VERBOSE:-true}
 
 if [[ -e "${SCRIPT_LIB}" ]]; then
   if ! source "${SCRIPT_LIB}"; then
