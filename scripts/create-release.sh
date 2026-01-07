@@ -74,7 +74,7 @@ EOF
 
 checkout_branch() {
   local branch="${1}"
-  if ! git checkout "${branch}"; then
+  if ! git checkout "${branch}" >/dev/null 2>&1; then
     die "Unable to checkout branch: ${branch}"
   fi
 }
@@ -150,6 +150,8 @@ if [[ "${#}" -ne 1 ]]; then
 fi
 
 cd "${REPO_ROOT}" || die "Cannot move to directory: ${REPO_ROOT}"
+
+check_uncommitted_files
 
 checkout_branch "${BRANCH}"
 
