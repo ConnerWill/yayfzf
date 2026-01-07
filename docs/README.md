@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="720" height="480" src="/assets/demo-screenshot.png">
+<img width="720" height="480" src="/docs/images/demo-screenshot.png">
 
 # **ｙａｙｆｚｆ**
 
@@ -52,8 +52,7 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
 
  <div align="center">
 
-
-| ![demo screenshot](/assets/demo-screenshot.png) | ![demo screenshot_old-theme](/assets/demo-screenshot-OLDTHEME.png) |
+| ![demo screenshot](/docs/images/demo-screenshot.png) | ![demo screenshot_old-theme](/docs/images/demo-screenshot-OLDTHEME.png) |
 | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 
 </div>
@@ -78,7 +77,6 @@ If you are not using [yay] and would like to use a different package manager, se
 -->
 
 See the [wiki][wiki-installation-url] for more information
-
 
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
@@ -169,7 +167,6 @@ Allowing you to install/remove packages, nagivate and view other packages, and c
 
 <kbd>`ESC`</kbd> : Exit
 
-
 ```manpage
 KEYBINDINGS:
 
@@ -203,7 +200,6 @@ KEYBINDINGS:
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
 ## Customization
 
 See the [wiki][wiki-customization-url]
@@ -211,7 +207,6 @@ See the [wiki][wiki-customization-url]
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
 # Other
-
 
 ## Wiki
 
