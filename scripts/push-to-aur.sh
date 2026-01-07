@@ -106,7 +106,7 @@ update_pkgbuild() {
   # Commit & push
   git add PKGBUILD .SRCINFO
   git commit -m "${commit_msg}" || info "No changes to commit"
-  echo git push origin main
+  git push origin main
 
   success "Pushed version: '${package_name}'"
 
