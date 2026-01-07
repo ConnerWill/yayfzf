@@ -24,8 +24,8 @@ fi
 #######################################
 # Configuration
 #######################################
-readonly AUR_STABLE_DIR="${REPO_ROOT}/AUR/yayfzf"
-readonly AUR_GIT_DIR="${REPO_ROOT}/AUR/yayfzf-git"
+readonly AUR_STABLE_DIR="${REPO_ROOT}/AUR/yayfzf/yayfzf"
+readonly AUR_GIT_DIR="${REPO_ROOT}/AUR/yayfzf-git/yayfzf-git"
 readonly GH_REPO="ConnerWill/yayfzf"
 readonly PUSH_GIT="${PUSH_GIT:-true}"
 readonly CLEANUP="${CLEANUP:-true}"
@@ -73,8 +73,8 @@ cleanup_dirs() {
 
 # Update PKGBUILD and .SRCINFO files and publish
 update_pkgbuild() {
-  local version="${1}"
-  local package_name="${2}"
+  local package_name="${1}"
+  local version="${2}"
 
   if [[ "${package_name}" == "yayfzf" ]]; then
     local commit_msg="[AUTOMATED] Update PKGBUILD for v${version}"
@@ -102,7 +102,7 @@ update_pkgbuild() {
   # Commit & push
   git add PKGBUILD .SRCINFO
   git commit -m "${commit_msg}" || info "No changes to commit"
-  git push origin main
+  echo git push origin main
 
   success "Version: '${package_name}' pushed."
 
