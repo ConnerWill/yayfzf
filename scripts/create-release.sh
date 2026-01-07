@@ -105,6 +105,8 @@ echo "get version"
 readonly NEW_VERSION="${1}"
 readonly CURRENT_VERSION="$(get_latest_tag)"
 
+echo "validate version"
+
 validate_version "${NEW_VERSION}"
 
 compare_versions "${CURRENT_VERSION}" "${NEW_VERSION}"
