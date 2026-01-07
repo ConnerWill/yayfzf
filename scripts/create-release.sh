@@ -115,7 +115,7 @@ check_version_updated() {
     success "No occurrences of current version: '${current_version}' found"
   else
     printf "Found occurrences of current version '${current_version}' in the following files:\n"
-    printf " %s\n" "${matches}"
+    printf "  %s\n" "${matches}"
     die "You may have not updated the version in every file. Run 'bump-version.sh' to update the version"
   fi
 }
@@ -124,7 +124,8 @@ check_uncommitted_files() {
   local git_status_output
   git_status_output="$(git status --porcelain)"
   if [[ -n "${git_status_output}" ]]; then
-    printf " %s\n" "${git_status_output}"
+    printf "Files not committed:\n"
+    printf "  %s\n" "${git_status_output}"
     die "There are uncommitted changes in this repository"
   else
     success "Working directory is clean."
