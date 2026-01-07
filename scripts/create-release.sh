@@ -106,9 +106,9 @@ readonly CURRENT_VERSION="$(get_latest_tag)"
 
 validate_version "${NEW_VERSION}"
 
-compare_versions "${CURRENT_VERSION}" "${NEW_VERSION}"
-
 check_version_updated "${CURRENT_VERSION}" "${NEW_VERSION}"
+
+compare_versions "${CURRENT_VERSION}" "${NEW_VERSION}"
 
 is_installed "gh"
 
