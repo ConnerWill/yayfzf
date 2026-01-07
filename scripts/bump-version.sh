@@ -75,6 +75,8 @@ if [[ "${#}" -ne 2 ]]; then
   usage
 fi
 
+is_installed "git"
+
 readonly CURRENT_VERSION="${1}"
 readonly NEW_VERSION="${2}"
 

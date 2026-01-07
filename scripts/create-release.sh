@@ -25,6 +25,7 @@ fi
 # CONFIGURATION
 #######################################
 readonly BRANCH="main"
+readonly ASSET="${REPO_ROOT}/bin/yayfzf"
 
 if [[ -e "${SCRIPT_LIB}" ]]; then
   if ! source "${SCRIPT_LIB}"; then
@@ -72,8 +73,8 @@ EOF
 }
 
 create_release() {
-  local release_version
-  local asset_path
+  local release_version="${1}"
+  local asset_path="${2}"
 
   if gh release create "${release_version}" --latest --generate-notes --fail-on-no-commits "${asset_path}"; then
     success "Created release: ${release_version}"
@@ -88,6 +89,8 @@ create_release() {
 if [[ "${#}" -ne 1 ]]; then
   usage
 fi
+
+is_installed "git"
 
 cd_directory "${REPO_ROOT}"
 
@@ -105,3 +108,5 @@ compare_versions "${CURRENT_VERSION}" "${NEW_VERSION}"
 check_version_updated "${CURRENT_VERSION}" "${NEW_VERSION}"
 
 is_installed "gh"
+
+create_release "${NEW_VERSION}" "${ASSET}"

@@ -122,7 +122,8 @@ update_pkgbuild() {
 #######################################
 # Main
 #######################################
-# Ensure AUR repos exist
+is_installed "git"
+
 ensure_aur_repo "${AUR_STABLE_DIR}" "${AUR_REPO_URL}"
 ensure_aur_repo "${AUR_GIT_DIR}" "${AUR_REPO_URL_GIT}"
 
