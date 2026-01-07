@@ -25,6 +25,8 @@ fi
 # Configuration
 #######################################
 readonly VERBOSE=${VERBOSE:-true}
+readonly BRANCH="main"
+readonly AUR_BRANCH="master"
 readonly AUR_STABLE_DIR="${REPO_ROOT}/AUR/yayfzf/yayfzf"
 readonly AUR_GIT_DIR="${REPO_ROOT}/AUR/yayfzf-git/yayfzf-git"
 readonly GH_REPO="ConnerWill/yayfzf"
@@ -106,7 +108,7 @@ update_pkgbuild() {
   # Commit & push
   git add PKGBUILD .SRCINFO
   git commit -m "${commit_msg}" || info "No changes to commit"
-  git push origin main
+  git push origin "${AUR_BRANCH}"
 
   success "Pushed version: '${package_name}'"
 
@@ -117,6 +119,8 @@ update_pkgbuild() {
 # Main
 #######################################
 is_installed "git"
+
+checkout_branch "${BRANCH}"
 
 clone_repo "${AUR_STABLE_DIR}" "${AUR_REPO_URL}"
 clone_repo "${AUR_GIT_DIR}" "${AUR_REPO_URL_GIT}"
