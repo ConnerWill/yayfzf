@@ -109,7 +109,11 @@ echo "validate version"
 
 validate_version "${NEW_VERSION}"
 
+echo "Compare version"
+
 compare_versions "${CURRENT_VERSION}" "${NEW_VERSION}"
+
+echo "check version updated"
 
 check_version_updated "${CURRENT_VERSION}" "${NEW_VERSION}"
 
