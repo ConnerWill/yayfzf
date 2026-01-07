@@ -1,36 +1,215 @@
 .\" Manpage for yayfzf
 .TH yayfzf 1 "2026-01-06" "1.0.6" "yayfzf manual"
+
 .SH NAME
 yayfzf \- interactively search, install, and remove AUR packages using fzf
+
+
 .SH SYNOPSIS
-.B yayfzf
-[\fIOPTIONS\fR] [\fISEARCH QUERY\fR]
+.B yayfzf [\fIOPTIONS\fR] [\fISEARCH QUERY\fR]
+
+
 .SH DESCRIPTION
 Search, install, and remove packages from the AUR interactively with fzf.
+
+
 .SH OPTIONS
 .TP
-\-h
+.B \-h
 Show the help menu
+
 .TP
-\-\-help
+.B \-\-help
 Show the extended help menu
+
 .TP
-\-k, \-\-keybindings
+.B \-k, \-\-keybindings
 List keybindings for yayfzf
+
 .TP
-\-V, \-\-version
+.B \-V, \-\-version
 Show version of yayfzf
+
 .SH EXAMPLES
-$ yayfzf
+.TP
+.B $ yayfzf
 Run yayfzf with no search query
-$ yayfzf fzf
+
+.TP
+.B $ yayfzf fzf
 Search for 'fzf' with yayfzf
-$ yayfzf
+
+.TP
+.B $ yayfzf \-h
 Show the help menu
+
+
 .SH KEYBINDINGS
-See the tool for a full list of keybindings.
+.TP
+.B TAB
+Select item
+
+.TP
+.B Shift\-TAB
+Unselect item
+
+.TP
+.B Ctrl\-d
+Deselect all items
+
+.TP
+.B Ctrl\-i
+Install selected packages
+
+.TP
+.B Ctrl\-r
+Uninstall selected packages
+
+.TP
+.B Ctrl\-u
+Update all packages
+
+.TP
+.B Ctrl\-n
+Next history entry
+
+.TP
+.B Ctrl\-p
+Previous history entry
+
+.TP
+.B Ctrl\-/
+Change layout
+
+.TP
+.B Ctrl\-v
+Toggle preview window
+
+.TP
+.B HOME
+Jump to top
+
+.TP
+.B END
+Jump to bottom
+
+.TP
+.B PAGEUP
+Scroll one page up
+
+.TP
+.B PAGEDOWN
+Scroll one page down
+
+.TP
+.B Ctrl\-l
+Clear search query
+
+.TP
+.B Alt\-Backspace
+Clear search query
+
+.TP
+.B Alt\-Left
+Delete previous word
+
+.TP
+.B Ctrl\-h
+Show help
+
+.TP
+.B ?
+Show keybindings
+
+.TP
+.B Ctrl\-c
+Exit yayfzf
+
+.TP
+.B Ctrl\-q
+Exit yayfzf
+
+.TP
+.B ESC
+Exit yayfzf
+
+
+.SH ENVIRONMENT
+.TP
+.B YAYFZF_HISTORY
+Path to the yayfzf history file.
+
+If the environment variable
+.B YAYFZF_HISTORY
+is defined, it will be used directly.
+
+Otherwise, yayfzf determines the history file path using the first
+available value in the following order:
+.RS
+.IP \(bu 2
+.B $XDG_CACHE_HOME/yayfzf/yayfzf_history
+.IP \(bu 2
+.B $HOME/.cache/yayfzf/yayfzf_history
+.IP \(bu 2
+.B ~/.cache/yayfzf/yayfzf_history
+
+.PP
+If
+.B YAYFZF_HISTORY
+is set to any of the following values, history will be disabled and
+no history file will be written:
+.IP \(bu 2
+.B false
+.IP \(bu 2
+.B False
+.IP \(bu 2
+.B no
+.IP \(bu 2
+.B No
+.RE
+
+.TP
+.B YAYFZF_PREVIEW_WINDOW
+Controls the layout and size of the fzf preview window.
+
+The value is passed directly to fzf’s
+.BR --preview-window
+option.
+
+Default:
+.RS
+.B bottom,43%,border-double
+.RE
+
+.TP
+.B NO_COLOR
+Disable all ANSI color output.
+
+When set, yayfzf disables:
+.RS
+.IP \(bu 2
+fzf color themes
+.IP \(bu 2
+ANSI color output in messages
+
+.PP
+This follows the
+.B NO_COLOR
+convention used by many CLI tools.
+.RE
+
+.TP
+.B NO_FX
+Disable terminal effects.
+
+When set, yayfzf will not use terminal title save and restore
+sequences.
+
+
 .SH SEE ALSO
 .BR fzf (1)
 .BR yay (1)
+
+
 .SH AUTHOR
 Conner Will <conner.will@connerwill.com>

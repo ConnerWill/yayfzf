@@ -5,6 +5,7 @@
 #shellcheck disable=2148,2034,2154
 
 pkgname=yayfzf-git
+pkgver=1.0.5.r8.g0612f8d # Placeholder, required for git PKGBUILD
 pkgrel=1
 pkgdesc='Development (git) version of yayfzf, fzf-based interface for searching, installing, removing, and managing packages using yay'
 arch=('any')
@@ -19,29 +20,27 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd yayfzf
-  # Convert git describe output to Arch-compatible pkgver
   git describe --tags --long --dirty | sed 's/^v//;s/-/.r/;s/-/./'
 }
 
 package() {
-  cd "${pkgname}"
+  cd "yayfzf"
 
   ## Main executable
-  install -Dm755 "bin/${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
+  install -Dm755 "bin/yayfzf" "${pkgdir}/usr/bin/yayfzf"
 
   ## Documentation
   install -Dm644 "docs/README.md" "${pkgdir}/usr/share/doc/${pkgname}/README.md"
 
   ## Man page
-  install -Dm644 "docs/${pkgname}.1" "${pkgdir}/usr/share/man/man1/${pkgname}.1"
+  install -Dm644 "docs/yayfzf.1" "${pkgdir}/usr/share/man/man1/yayfzf.1"
 
   ## License
   install -Dm644 "LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 
   ## Zsh completion
-  install -Dm644 "completion/_${pkgname}" "${pkgdir}/usr/share/zsh/site-functions/_${pkgname}"
+  install -Dm644 "completion/_yayfzf" "${pkgdir}/usr/share/zsh/site-functions/_yayfzf"
 
   ## Bash completion
-  install -Dm644 "completion/${pkgname}_completion.sh" "${pkgdir}/usr/share/bash-completion/completions/${pkgname}"
+  install -Dm644 "completion/yayfzf_completion.sh" "${pkgdir}/usr/share/bash-completion/completions/yayfzf"
 }
-

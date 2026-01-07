@@ -49,18 +49,18 @@ declare -Al yayfzf_fx
 
 ## Check if 'NO_COLOR' environment variable is defined. if 'NO_COLOR' is defined, do not define color array
 if [[ -z ${NO_COLOR} ]]; then
-	#OLDFZFTHEME #yayfzf_colortheme='hl:#FFFF00,hl+:#FF0000,fg:#CCCCEE,fg+:#00FFFF,bg:#010101,bg+:#090909,query:#FF0000,info:#99BBEE,spinner:#FF00FF,border:#770AFF,label:bold:#770AFF,preview-fg:#FFFFFF,preview-bg:#090909,marker:#00FF00,gutter:#101010,pointer:#FF0000,info:#020202,header:#191919'
+	#OLDFZFTHEME #YAYFZF_COLORTHEME='hl:#FFFF00,hl+:#FF0000,fg:#CCCCEE,fg+:#00FFFF,bg:#010101,bg+:#090909,query:#FF0000,info:#99BBEE,spinner:#FF00FF,border:#770AFF,label:bold:#770AFF,preview-fg:#FFFFFF,preview-bg:#090909,marker:#00FF00,gutter:#101010,pointer:#FF0000,info:#020202,header:#191919'
 
 	## fzf colors
-	## Set environment variable 'yayfzf_colortheme' to a list of fzf colors to override default theme below
-	if [[ -z "${yayfzf_colortheme}" ]]; then
-		yayfzf_colortheme="hl:italic:#FFFF00,hl+:bold:underline:#FF0000"
-		yayfzf_colortheme="${yayfzf_colortheme},fg:#98A0C5,fg+:bold:underline:#FFFFFF"
-		yayfzf_colortheme="${yayfzf_colortheme},bg:#13172A,bg+:#0F1222"
-		yayfzf_colortheme="${yayfzf_colortheme},border:#75A2F7,label:bold:#75A2F7"
-		yayfzf_colortheme="${yayfzf_colortheme},preview-fg:bold:#C0CAF5,preview-bg:#0F1222"
-		yayfzf_colortheme="${yayfzf_colortheme},marker:#00FF00,gutter:#0F1222,pointer:#FF0000"
-		yayfzf_colortheme="${yayfzf_colortheme},query:#FF0000,info:italic:#98A0C5,spinner:#00FFFF,header:italic:#75A2F7"
+	## Set environment variable 'YAYFZF_COLORTHEME' to a list of fzf colors to override default theme below
+	if [[ -z "${YAYFZF_COLORTHEME}" ]]; then
+		YAYFZF_COLORTHEME="hl:italic:#FFFF00,hl+:bold:underline:#FF0000"
+		YAYFZF_COLORTHEME="${YAYFZF_COLORTHEME},fg:#98A0C5,fg+:bold:underline:#FFFFFF"
+		YAYFZF_COLORTHEME="${YAYFZF_COLORTHEME},bg:#13172A,bg+:#0F1222"
+		YAYFZF_COLORTHEME="${YAYFZF_COLORTHEME},border:#75A2F7,label:bold:#75A2F7"
+		YAYFZF_COLORTHEME="${YAYFZF_COLORTHEME},preview-fg:bold:#C0CAF5,preview-bg:#0F1222"
+		YAYFZF_COLORTHEME="${YAYFZF_COLORTHEME},marker:#00FF00,gutter:#0F1222,pointer:#FF0000"
+		YAYFZF_COLORTHEME="${YAYFZF_COLORTHEME},query:#FF0000,info:italic:#98A0C5,spinner:#00FFFF,header:italic:#75A2F7"
 	fi
 	## yay colors
 	COLOR_WHEN="always"
@@ -96,7 +96,7 @@ if [[ -z ${NO_COLOR} ]]; then
 	yayfzf_color[BG_Magenta]='\x1B[48;5;201m' #
 	yayfzf_color[BG_Cyan]='\x1B[48;5;87m'     #
 else
-	yayfzf_colortheme="fg:#FFFFFF"
+	YAYFZF_COLORTHEME="fg:#FFFFFF"
 	COLOR_WHEN="never"
 fi
 
@@ -310,7 +310,7 @@ function _fzf() {
 		--multi \
 		--delimiter ' ' \
 		--ansi \
-		--color="${yayfzf_colortheme}" \
+		--color="${YAYFZF_COLORTHEME}" \
 		< <(
 			yay \
 				-Ss "${SearchInput}" \
