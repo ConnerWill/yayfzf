@@ -7,6 +7,8 @@ set -Eeo pipefail
 # Script metadata
 #######################################
 readonly REPO_ROOT="$(git rev-parse --show-toplevel)"
+readonly SCRIPT_DIR="${REPO_ROOT}/scripts"
+readonly SCRIPT_LIB="${SCRIPT_DIR}/lib.sh"
 readonly PROG="$(basename "${BASH_SOURCE[0]}")"
 readonly SCRIPT_DESCRIPTION="Push yayfzf PKGBUILD(s) to the AUR (stable and git versions)"
 if [[ -z "${NO_COLOR}" ]]; then
@@ -30,21 +32,17 @@ readonly CLEANUP="${CLEANUP:-true}"
 readonly AUR_REPO_URL="ssh://aur@aur.archlinux.org/yayfzf.git"
 readonly AUR_REPO_URL_GIT="ssh://aur@aur.archlinux.org/yayfzf-git.git"
 
+if [[ -e "${SCRIPT_LIB}" ]]; then
+  if ! source "${SCRIPT_LIB}"; then
+    die "Unable to source library: ${SCRIPT_LIB}"
+  fi
+else
+  die "Cannot find library file: ${SCRIPT_LIB}"
+fi
+
 #######################################
 # Functions
 #######################################
-die() {
-  printf "${TEXT_RED}${TEXT_BOLD}ERROR:${TEXT_RESET} ${TEXT_YELLOW}%s${TEXT_RESET}\n" "${1}" >&2
-  exit 1
-}
-
-info() {
-  printf "${TEXT_YELLOW}%s${TEXT_RESET}\n" "${1}"
-}
-
-success() {
-  printf "${TEXT_GREEN}%s${TEXT_RESET}\n" "${1}"
-}
 
 # Function to clean up directories if they exist and CLEANUP is set
 cleanup_dirs() {
@@ -71,12 +69,6 @@ cleanup_dirs() {
   else
     info "CLEANUP not set. Skipping cleanup.\n"
   fi
-}
-
-# Get latest semantic version tag
-get_latest_tag() {
-  git fetch --tags --quiet
-  git describe --tags "$(git rev-list --tags --max-count=1)" | sed 's/^v//'
 }
 
 # Clone AUR repo if missing
@@ -136,6 +128,8 @@ ensure_aur_repo "${AUR_GIT_DIR}" "${AUR_REPO_URL_GIT}"
 info "Fetching latest GitHub tag..."
 LATEST_TAG="$(get_latest_tag)"
 success "Latest tag detected: ${LATEST_TAG}"
+
+is_installed "makepkg"
 
 update_pkgbuild "yayfzf" "${LATEST_TAG}"
 update_pkgbuild "yayfzf-git" "${LATEST_TAG}"

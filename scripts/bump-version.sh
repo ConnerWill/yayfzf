@@ -4,13 +4,13 @@
 set -Eeo pipefail
 
 #######################################
-# Configuration
+# METADATA
 #######################################
 readonly REPO_ROOT="$(git rev-parse --show-toplevel)"
 readonly SCRIPT_DIR="${REPO_ROOT}/scripts"
+readonly SCRIPT_LIB="${SCRIPT_DIR}/lib.sh"
 readonly PROG="$(basename "${BASH_SOURCE[0]}")"
 readonly SCRIPT_DESCRIPTION="Script to update semantic version in all files in a repo"
-
 if [[ -z "${NO_COLOR}" ]]; then
   TEXT_RED='\x1B[0;38;5;196m'
   TEXT_YELLOW='\x1B[0;38;5;226m'
@@ -22,12 +22,19 @@ if [[ -z "${NO_COLOR}" ]]; then
 fi
 
 #######################################
-# Functions
+# CONFIGURATION
 #######################################
-die() {
-  printf "${TEXT_RED}${TEXT_BOLD}ERROR:${TEXT_RESET} ${TEXT_YELLOW}%s${TEXT_RESET}\n" "${1}" >&2
-  exit 1
-}
+if [[ -e "${SCRIPT_LIB}" ]]; then
+  if ! source "${SCRIPT_LIB}"; then
+    die "Unable to source library: ${SCRIPT_LIB}"
+  fi
+else
+  die "Cannot find library file: ${SCRIPT_LIB}"
+fi
+
+#######################################
+# FUNCTIONS
+#######################################
 
 usage() {
   cat >&2 <<EOF
@@ -61,16 +68,8 @@ EOF
   exit 1
 }
 
-validate_version() {
-  local version="${1}"
-
-  if [[ ! "${version}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-    die "invalid version '${version}' (expected x.x.x)"
-  fi
-}
-
 #######################################
-# Main
+# MAIN
 #######################################
 if [[ "${#}" -ne 2 ]]; then
   usage
@@ -82,9 +81,7 @@ readonly NEW_VERSION="${2}"
 validate_version "${CURRENT_VERSION}"
 validate_version "${NEW_VERSION}"
 
-if [[ "${NEW_VERSION}" == "${CURRENT_VERSION}" ]]; then
-  die "new version is the same as current version (${CURRENT_VERSION})"
-fi
+compare_versions "${CURRENT_VERSION}" "${NEW_VERSION}"
 
 cd "${REPO_ROOT}"
 
@@ -110,13 +107,3 @@ for file in "${VERSION_FILES[@]}"; do
 done
 
 printf "${TEXT_GREEN}Version bump complete${TEXT_RESET}\n\n"
-
-cat <<EOF
-Next steps:
-  git diff
-  git add --all
-  git commit -am "bump version to ${NEW_VERSION}"
-
-
-EOF
-
