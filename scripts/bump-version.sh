@@ -4,24 +4,55 @@ set -Eeuo pipefail
 #######################################
 # Configuration
 #######################################
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
-
-# Update this when the current version changes
-readonly CURRENT_VERSION="1.0.6"
+readonly REPO_ROOT="$(git rev-parse --show-toplevel)"
+readonly SCRIPT_DIR="${REPO_ROOT}/scripts"
+readonly PROG="$(basename "${BASH_SOURCE[0]}")"
+readonly SCRIPT_DESCRIPTION="Script to update semantic version in all files in a repo"
+TEXT_RED='\x1B[0;38;5;196m'
+TEXT_YELLOW='\x1B[0;38;5;226m'
+TEXT_GREEN='\x1B[0;38;5;46m'
+TEXT_BOLD='\x1B[1m'
+TEXT_UNDERLINE='\x1B[4m'
+TEXT_ITALIC='\x1B[3m'
+TEXT_RESET='\x1B[0m'
 
 #######################################
 # Functions
 #######################################
 die() {
-  printf 'error: %s\n' "${1}" >&2
+  printf "${TEXT_RED}${TEXT_BOLD}ERROR:${TEXT_RESET} ${TEXT_YELLOW}%s${TEXT_RESET}\n" "${1}" >&2
   exit 1
 }
 
 usage() {
-  printf 'Usage: %s <new_version>\n\n' "$(basename "${0}")" >&2
-  printf 'Example:\n  %s 1.0.7\n\n' "$(basename "${0}")" >&2
-  printf 'Version format must be x.x.x\n' >&2
+  cat >&2 <<EOF
+NAME:
+
+    ${PROG}
+
+
+DESCRIPTION:
+
+    ${SCRIPT_DESCRIPTION}
+
+
+SYNOPSIS:
+
+    ${PROG} <current_version> <new_version>
+
+
+EXAMPLES:
+
+    Update version '1.0.0' to version '1.0.1'
+
+        $ ${PROG} 1.0.0 1.0.1
+
+    Show this help
+
+        $ ${PROG}
+
+
+EOF
   exit 1
 }
 
@@ -36,12 +67,14 @@ validate_version() {
 #######################################
 # Main
 #######################################
-if [[ "${#}" -ne 1 ]]; then
+if [[ "${#}" -ne 2 ]]; then
   usage
 fi
 
-readonly NEW_VERSION="${1}"
+readonly CURRENT_VERSION="${1}"
+readonly NEW_VERSION="${2}"
 
+validate_version "${CURRENT_VERSION}"
 validate_version "${NEW_VERSION}"
 
 if [[ "${NEW_VERSION}" == "${CURRENT_VERSION}" ]]; then
@@ -59,23 +92,26 @@ if [[ "${#VERSION_FILES[@]}" -eq 0 ]]; then
   die "no files found containing version ${CURRENT_VERSION}"
 fi
 
-printf 'Updating version %s -> %s\n' "${CURRENT_VERSION}" "${NEW_VERSION}"
-printf 'Files to be updated:\n'
+printf "${TEXT_YELLOW}Updating version ${TEXT_GREEN}${TEXT_BOLD}%s${TEXT_RESET} ${TEXT_YELLOW}->${TEXT_RESET} ${TEXT_GREEN}${TEXT_BOLD}%s${TEXT_RESET}\n\n" "${CURRENT_VERSION}" "${NEW_VERSION}"
+printf "${TEXT_YELLOW}${TEXT_BOLD}${TEXT_UNDERLINE}Files to be updated${TEXT_RESET}:${TEXT_RESET}\n"
 for file in "${VERSION_FILES[@]}"; do
   printf '  - %s\n' "${file}"
 done
+printf '\n'
 
 # Perform in-place replacement
 for file in "${VERSION_FILES[@]}"; do
   sed -i -e "s/\b${CURRENT_VERSION}\b/${NEW_VERSION}/g" "${file}"
 done
 
-printf 'Version bump complete.\n\n'
+printf "${TEXT_GREEN}Version bump complete${TEXT_RESET}\n\n"
 
 cat <<EOF
 Next steps:
   git diff
-  git commit -am "bump version to "${NEW_VERSION}"
-EOF
+  git add --all
+  git commit -am "bump version to ${NEW_VERSION}"
 
+
+EOF
 
