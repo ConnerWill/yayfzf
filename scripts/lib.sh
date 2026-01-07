@@ -27,6 +27,15 @@ checkout_branch() {
   fi
 }
 
+clone_repo() {
+  local repo_dir="${1}"
+  local repo_url="${2}"
+  if [[ ! -d "${repo_dir}" ]]; then
+    info "Cloning repository ${repo_url}..."
+    git clone "${repo_url}" "${repo_dir}" || die "Failed to clone ${repo_url}"
+  fi
+}
+
 check_uncommitted_files() {
   local git_status_output
   git_status_output="$(git status --porcelain)"

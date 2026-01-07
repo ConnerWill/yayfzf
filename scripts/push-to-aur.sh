@@ -71,16 +71,6 @@ cleanup_dirs() {
   fi
 }
 
-# Clone AUR repo if missing
-ensure_aur_repo() {
-  local repo_dir="${1}"
-  local aur_url="${2}"
-  if [[ ! -d "${repo_dir}" ]]; then
-    info "Cloning AUR repo ${aur_url}..."
-    git clone "${aur_url}" "${repo_dir}" || die "Failed to clone ${aur_url}"
-  fi
-}
-
 # Update PKGBUILD and .SRCINFO files and publish
 update_pkgbuild() {
   local version="${1}"
@@ -124,8 +114,8 @@ update_pkgbuild() {
 #######################################
 is_installed "git"
 
-ensure_aur_repo "${AUR_STABLE_DIR}" "${AUR_REPO_URL}"
-ensure_aur_repo "${AUR_GIT_DIR}" "${AUR_REPO_URL_GIT}"
+clone_repo "${AUR_STABLE_DIR}" "${AUR_REPO_URL}"
+clone_repo "${AUR_GIT_DIR}" "${AUR_REPO_URL_GIT}"
 
 info "Fetching latest GitHub tag..."
 LATEST_TAG="$(get_latest_tag)"
