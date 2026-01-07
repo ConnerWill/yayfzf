@@ -87,7 +87,7 @@ update_pkgbuild() {
     [[ "${PUSH_GIT}" != true ]] && return
     local commit_msg="[AUTOMATED] Update PKGBUILD for git snapshot"
     local aur_dir="${AUR_GIT_DIR}"
-    info "Updating git PKGBUILD..."
+    info "Updating git PKGBUILD ..."
   fi
 
   # Copy canonical PKGBUILD into the cloned AUR repo
@@ -107,7 +107,7 @@ update_pkgbuild() {
   git commit -m "${commit_msg}" || info "No changes to commit"
   echo git push origin main
 
-  success "Version: '${package_name}' pushed."
+  success "Pushed version: '${package_name}'"
 
   cd_directory "${REPO_ROOT}"
 }
@@ -128,5 +128,7 @@ is_installed "makepkg"
 
 update_pkgbuild "yayfzf" "${LATEST_TAG}"
 update_pkgbuild "yayfzf-git" "${LATEST_TAG}"
+
+cleanup_dirs
 
 success "All done!"

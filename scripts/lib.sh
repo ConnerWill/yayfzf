@@ -12,7 +12,7 @@ info() {
 }
 
 success() {
-  printf "${TEXT_GREEN}%s${TEXT_RESET}\n" "${1}"
+  printf "${TEXT_GREEN}%s${TEXT_RESET}\n\n" "${1}"
 }
 
 get_latest_tag() {
