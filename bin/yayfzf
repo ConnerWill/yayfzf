@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #vim:filetype=sh:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
-#shellcheck disable=1090,2016,2034,2154,2249,2310
+#shellcheck disable=2016,2034,2154,2249,2310
 
 set -Eeuo pipefail
 IFS=$'\n\t'
@@ -150,6 +150,7 @@ load_config() {
   for cfg in "${CONFIG_PATHS[@]}"; do
     if [[ -f "${cfg}" ]]; then
       verbose "Using config file: '${cfg}' ..."
+      # shellcheck disable=SC1090
       source "${cfg}"
       return
     fi
@@ -262,10 +263,14 @@ OPTIONS:
 EOF
 }
 
+# TODO: Add more keybindings
+#  ?                   Show keybindings
+#  Ctrl-h              Show help
 show_keybindings() {
   cat <<'EOF'
 KEYBINDINGS:
 
+  ENTER               Perform action on selection
   TAB / Shift-TAB     Select / Unselect
   Ctrl-d              Deselect all
   Ctrl-i              Install selected
@@ -274,8 +279,6 @@ KEYBINDINGS:
   Ctrl-v              Toggle preview
   Ctrl-/              Toggle layout
   Ctrl-l              Clear query
-  ?                   Show keybindings
-  Ctrl-h              Show help
   Ctrl-c / ESC        Exit
 
 
@@ -283,12 +286,10 @@ EOF
 }
 
 show_config_files() {
-  cat <<'EOF'
+  cat <<EOF
 CONFIG FILES (in order):
 
-  ${XDG_CONFIG_DIR}/yayfzf.conf
-  ${HOME}/.config/yayfzf/yayfzf.conf
-  ~/.yayfzf.conf
+$(printf '  %s\n' "${CONFIG_PATHS[@]}")
 
 
 EOF
@@ -449,13 +450,13 @@ remove_packages() {
   pkgs="$(yay -Qq | fzf "${FZF_OPTS[@]}" --multi --preview 'yay -Qi {}' || true)"
   [[ -z "${pkgs}" ]] && info "No packages selected for removal." && return
 
+  mapfile -t pkgs_arr <<< "${pkgs}"
+
   # Confirm removal
   if ! confirm "Remove packages: ${pkgs_arr[*]} ?"; then
     info "Removal cancelled."
     return
   fi
-
-  mapfile -t pkgs_arr <<< "${pkgs}"
 
   # Remove packages
   info "Removing packages: ${pkgs_arr[*]} ..."
