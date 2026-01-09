@@ -33,6 +33,7 @@ BORDER="rounded"
 PROMPT="${SCRIPT_NAME}> "
 ENABLE_PREVIEW=true
 VERBOSE=true
+YAYFZF_PAGER="${PAGER:-less}"
 
 #######################################
 # Built-in themes
@@ -309,7 +310,7 @@ show_help_full() {
 #######################################
 
 example_config() {
-  cat <<'EOF'
+  cat <<EOF
 # yayfzf configuration file (example)
 # Override defaults here
 
@@ -337,6 +338,9 @@ ENABLE_PREVIEW=true
 # Verbose output
 VERBOSE=false
 
+# Pager (less, bat, etc.)
+YAYFZF_PAGER="${PAGER:-less}"
+
 
 #vim:filetype=conf:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
 EOF
@@ -347,14 +351,12 @@ install_example_config() {
   local cfg_file="${XDG_CONFIG_DIR}/yayfzf.conf"
 
   mkdir -p "$(dirname "${cfg_file}")"
-
   if [[ -f "${cfg_file}" ]]; then
     warn "Configuration file already exists: '${cfg_file}', skipping creation."
     return
   fi
 
   example_config > "${cfg_file}"
-
   success "Created configuration file: '${cfg_file}'"
 }
 
@@ -363,9 +365,6 @@ show_example_config() {
   printf "\n\n# Configuration file locations:\n"
   printf '#\t%s\n' "${CONFIG_PATHS[@]}"
 }
-
-
-show_example_config
 
 #######################################
 # Command line argument parsing
@@ -489,6 +488,8 @@ main_menu() {
     "Install packages" \
     "Remove packages"  \
     "Update system"    \
+    "Install config"   \
+    "Show config"      \
     "Help"             \
     "Exit" |
     fzf "${FZF_OPTS[@]}"
@@ -504,11 +505,13 @@ main() {
     [[ -z "${choice}" ]] && continue
 
     case "${choice}" in
-      "Install packages") install_packages ;;
-      "Remove packages")  remove_packages  ;;
-      "Update system")    update_system    ;;
-      "Help")             show_help | less ;;
-      "Exit"|"" )         exit 0           ;;
+      "Install packages") install_packages                                ;;
+      "Remove packages")  remove_packages                                 ;;
+      "Update system")    update_system                                   ;;
+      "Install config")   install_example_config;                  exit 0 ;;
+      "Show config")      show_example_config | "${YAYFZF_PAGER}"; exit 0 ;;
+      "Help")             show_help_full | "${YAYFZF_PAGER}";      exit 0 ;;
+      "Exit"|"" )         exit 0                                          ;;
     esac
   done
 }
