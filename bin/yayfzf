@@ -219,6 +219,15 @@ require_cmd() {
   fi
 }
 
+confirm() {
+  local prompt="${1:-Are you sure?}"
+  local response
+  printf '%b%s%b ' "${text_color[BG_Cyan]}${text_color[Black]}${text_color[Bold]}" " CONFIRM " "${text_color[reset]}"
+  printf "${text_color[Bold]}${text_color[Yellow]}%s ${text_color[reset]}${text_color[Bold]}${text_color[White]}[${text_color[Green]}y${text_color[White]}/${text_color[Red]}N${text_color[White]}]: ${text_color[reset]}" "${prompt}"
+  read -r response
+  [[ "${response}" =~ ^[Yy]$ ]]
+}
+
 #######################################
 # Help / version
 #######################################
@@ -241,11 +250,12 @@ USAGE:
 
 OPTIONS:
 
-  -i, --init-config  Install example config file
   -k, --keybindings  Show keybindings
-  -V, --version      Show version
+  --init-config      Install example configuration file
+  --show-config      Show example configuration file content
   -h                 Show help
   --help             Show full help
+  -V, --version      Show version
 
 
 EOF
@@ -295,19 +305,11 @@ show_help_full() {
 }
 
 #######################################
-# Example config installer
+# Example config
 #######################################
-install_example_config() {
-  local cfg_file="${XDG_CONFIG_DIR}/yayfzf.conf"
 
-  mkdir -p "$(dirname "${cfg_file}")"
-
-  if [[ -f "${cfg_file}" ]]; then
-    warn "Configuration file already exists: '${cfg_file}', skipping creation."
-    return
-  fi
-
-  cat > "${cfg_file}" <<'EOF'
+example_config() {
+  cat <<'EOF'
 # yayfzf configuration file (example)
 # Override defaults here
 
@@ -327,20 +329,43 @@ LAYOUT="reverse"
 BORDER="rounded"
 
 # Prompt for fzf
-PROMPT="yayfzf> "
+PROMPT="${SCRIPT_NAME}> "
 
 # Enable preview window
 ENABLE_PREVIEW=true
 
 # Verbose output
-VERBOSE=true
+VERBOSE=false
 
 
 #vim:filetype=conf:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
 EOF
+}
+
+
+install_example_config() {
+  local cfg_file="${XDG_CONFIG_DIR}/yayfzf.conf"
+
+  mkdir -p "$(dirname "${cfg_file}")"
+
+  if [[ -f "${cfg_file}" ]]; then
+    warn "Configuration file already exists: '${cfg_file}', skipping creation."
+    return
+  fi
+
+  example_config > "${cfg_file}"
 
   success "Created configuration file: '${cfg_file}'"
 }
+
+show_example_config() {
+  example_config
+  printf "\n\n# Configuration file locations:\n"
+  printf '#\t%s\n' "${CONFIG_PATHS[@]}"
+}
+
+
+show_example_config
 
 #######################################
 # Command line argument parsing
@@ -350,11 +375,12 @@ CONFIG_INIT=false
 
 while [[ $# -gt 0 ]]; do
   case "${1}" in
-    -i|--init-config) CONFIG_INIT=true; shift  ;;
-    -k|--keybindings) show_keybindings; exit 0 ;;
-    -h)               show_help;        exit 0 ;;
-    --help)           show_help_full;   exit 0 ;;
-    -V|--version)     show_version;     exit 0 ;;
+    -k|--keybindings) show_keybindings;    exit 0 ;;
+    --init-config)    CONFIG_INIT=true;    shift  ;;
+    --show-config)    show_example_config; exit 0 ;;
+    -h)               show_help;           exit 0 ;;
+    --help)           show_help_full;      exit 0 ;;
+    -V|--version)     show_version;        exit 0 ;;
     *) SEARCH_QUERY="${1}"; shift ;;
   esac
 done
@@ -420,11 +446,19 @@ install_packages() {
 remove_packages() {
   local pkgs pkgs_arr
 
+  # Gather list of selected packages
   pkgs="$(yay -Qq | fzf "${FZF_OPTS[@]}" --multi --preview 'yay -Qi {}' || true)"
   [[ -z "${pkgs}" ]] && info "No packages selected for removal." && return
 
+  # Confirm removal
+  if ! confirm "Remove packages: ${pkgs_arr[*]} ?"; then
+    info "Removal cancelled."
+    return
+  fi
+
   mapfile -t pkgs_arr <<< "${pkgs}"
 
+  # Remove packages
   info "Removing packages: ${pkgs_arr[*]} ..."
   if yay -Rns "${pkgs_arr[@]}"; then
     success "Removal complete."
@@ -434,8 +468,12 @@ remove_packages() {
 }
 
 update_system() {
-  info "Starting system update (syncing all packages) ..."
+  if ! confirm "Update entire system?"; then
+    info "Update cancelled."
+    return
+  fi
 
+  info "Starting system update (syncing all packages) ..."
   if yay -Syu; then
     success "System update completed successfully."
   else
@@ -463,6 +501,7 @@ main() {
   while true; do
     local choice
     choice="$(main_menu || true)"
+    [[ -z "${choice}" ]] && continue
 
     case "${choice}" in
       "Install packages") install_packages ;;
