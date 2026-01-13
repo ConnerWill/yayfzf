@@ -1,17 +1,30 @@
 #compdef yayfzf
 
 _yayfzf() {
-  local -a args
+  local -a opts main_actions
 
-  args=(
-    '(-h --help:)'{-h,--help}'[Show the help documentation (-h shows simple help, --help shows extended help)]'
-    '(-k --keybindings)'{-k,--keybindings}'[List keybindings for yayfzf]'
-    '(-V --version)'{-V,--version}'[Show version of yayfzf]'
+  main_actions=(
+    'Install packages:Search and install packages (AUR + repos)'
+    'Remove packages:Search installed packages and remove them'
+    'Update system:Update the whole system (yay -Syu)'
+    'Install config:Install example config file'
+    'Show config:Show example config content'
+    'Help:Show help / keybindings'
+    'Exit:Quit'
   )
 
+  opts=(
+    '(-h --help)'{-h,--help}'[Show help (short or full)]'
+    '(-k --keybindings)'{-k,--keybindings}'[Show keybindings]'
+    '(--init-config)'{--init-config}'[Install example configuration file]'
+    '(--show-config)'{--show-config}'[Show example configuration file content]'
+    '(-V --version)'{-V,--version}'[Show version]'
+  )
+
+  # No positional arguments anymore → only options or nothing
   _arguments -C \
-    "${args[@]}" \
-    ':query:_files'
+    "${opts[@]}" \
+    '*: :( )'   # explicitly say no more arguments after options
 }
 
 _yayfzf "${@}"

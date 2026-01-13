@@ -1,27 +1,41 @@
 #!/usr/bin/env bash
 
-# yayfzf Bash completion script
+# yayfzf - bash completion
 
-_yayfzf() {
-  local cur prev opts
-  COMPREPLY=()
-  cur="${COMP_WORDS[COMP_CWORD]}"
-  prev="${COMP_WORDS[COMP_CWORD-1]}"
-  opts="-h --help -k --keybindings -V --version"
+_yayfzf_complete() {
+    local cur prev words cword
+    _init_completion || return
 
-  case "${prev}" in
-    -h|--help|-k|--keybindings|-V|--version)
-      return 0
-      ;;
-  esac
+    COMPREPLY=()
 
-  if [[ "${cur}" == -* ]]; then
-    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    # Complete --long-options
+    if [[ ${cur} == --* ]]; then
+        COMPREPLY=( $(compgen -W "--help --keybindings --init-config --show-config --version" -- "$cur") )
+        return
+    fi
+
+    # Complete -short options
+    if [[ ${cur} == -* ]]; then
+        COMPREPLY=( $(compgen -W "-h -k -V" -- "$cur") )
+        return
+    fi
+
+    # If we're at position 1 (first word after command) → show options only
+    if (( cword == 1 )); then
+        local opts="-h --help -k --keybindings --init-config --show-config -V --version"
+        COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+        return 0
+    fi
+
+    # After any recognized option → nothing more
+    case "${prev}" in
+        -h|--help|-k|--keybindings|--init-config|--show-config|-V|--version)
+            return 0
+            ;;
+    esac
+
+    # Fallback: nothing
     return 0
-  fi
-
-  COMPREPLY=( $(compgen -f -- "${cur}") )
 }
 
-complete -F _yayfzf yayfzf
-
+complete -F _yayfzf_complete yayfzf
