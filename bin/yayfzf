@@ -25,7 +25,7 @@ readonly CONFIG_PATHS=(
 #######################################
 # Defaults (override via config)
 #######################################
-THEME="neon"
+THEME="default"
 SORT_BY="popularity"
 PREVIEW_WINDOW="right:60%:wrap"
 LAYOUT="reverse"
