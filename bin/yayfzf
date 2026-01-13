@@ -33,6 +33,7 @@ BORDER="rounded"
 PROMPT="${SCRIPT_NAME}> "
 ENABLE_PREVIEW=true
 VERBOSE=true
+CTRL_C_CLOSE=true
 YAYFZF_PAGER="${PAGER:-less}"
 
 #######################################
@@ -266,19 +267,19 @@ EOF
 # TODO: Add more keybindings
 #  ?                   Show keybindings
 #  Ctrl-h              Show help
+#  Ctrl-d              Deselect all
+#  Ctrl-i              Install selected
+#  Ctrl-r              Remove selected
+#  Ctrl-u              Update system
+#  Ctrl-v              Toggle preview
+#  Ctrl-/              Toggle layout
+#  Ctrl-l              Clear query
 show_keybindings() {
   cat <<'EOF'
 KEYBINDINGS:
 
   ENTER               Perform action on selection
   TAB / Shift-TAB     Select / Unselect
-  Ctrl-d              Deselect all
-  Ctrl-i              Install selected
-  Ctrl-r              Remove selected
-  Ctrl-u              Update system
-  Ctrl-v              Toggle preview
-  Ctrl-/              Toggle layout
-  Ctrl-l              Clear query
   Ctrl-c / ESC        Exit
 
 
@@ -342,6 +343,8 @@ VERBOSE=false
 # Pager (less, bat, etc.)
 YAYFZF_PAGER="${PAGER:-less}"
 
+# Close yayfzf with 'ctrl-c' keypress
+CTRL_C_CLOSE=true
 
 #vim:filetype=conf:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
 EOF
@@ -503,7 +506,9 @@ main() {
   while true; do
     local choice
     choice="$(main_menu || true)"
-    [[ -z "${choice}" ]] && continue
+    if [[ -n "${CTRL_C_CLOSE}" && "${CTRL_C_CLOSE}" != true ]]; then
+      [[ -z "${choice}" ]] && continue
+    fi
 
     case "${choice}" in
       "Install packages") install_packages                                ;;
