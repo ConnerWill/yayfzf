@@ -1,398 +1,525 @@
 #!/usr/bin/env bash
-#vim:filetype=zsh:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
-#shellcheck disable=2016,2034,2154
+#vim:filetype=sh:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
+#shellcheck disable=2016,2034,2154,2249,2310
 
-########################################
-#[============== YAYFZF ==============]#
-########################################
-###{{{ OPTIONS/VARIABLES
+set -Eeuo pipefail
+IFS=$'\n\t'
 
-PROG="yayfzf"
-YAYFZF_VERSION=1.0.6
-AUTHOR="ConnerWill"
-REPO="https://github.com/${AUTHOR}/${PROG}"
+#######################################
+# Script metadata
+#######################################
+readonly SCRIPT_NAME="${0##*/}"
+readonly SCRIPT_DESCRIPTION="Fullscreen interactive AUR / repo package manager using yay + fzf"
+readonly VERSION="2.0.0"
 
-YAYFZF_HISTORY=${YAYFZF_HISTORY:-${XDG_CACHE_HOME:-${HOME:-~}/.cache}/${PROG}/${PROG}_history} ## yayfzf history file
-## Environment variable 'YAYFZF_HISTORY' will be used if defined.
-## Otherwise yayfzf will use the following for the history file,
-## falling back to next entry if variable is not defined:
-##     '$YAYFZF_HISTORY'
-##     '$XDG_CACHE_HOME/yayfzf/yayfzf_history'
-##     '$HOME/.cache/yayfzf/yayfzf_history'
-##     '~/.cache/yayfzf/yayfzf_history'
-##
-## If 'YAYFZF_HISTORY' is defined to any of the following, history will not be saved:
-##     'false'
-##     'False'
-##     'no'
-##     'No'
-if [[ "${YAYFZF_HISTORY}" == "false" ]] ||
-	[[ "${YAYFZF_HISTORY}" == "False" ]] ||
-	[[ "${YAYFZF_HISTORY}" == "no" ]] ||
-	[[ "${YAYFZF_HISTORY}" == "No" ]]; then
-	YAYFZF_HISTORY="/dev/null"
-fi
-YAYFZF_PREVIEW_WINDOW="${YAYFZF_PREVIEW_WINDOW:-"bottom,43%,border-double"}"
+#######################################
+# Config locations (precedence order)
+#######################################
+readonly XDG_CONFIG_DIR="${XDG_CONFIG_HOME:-${HOME}/.config}/yayfzf"
+readonly CONFIG_PATHS=(
+  "${XDG_CONFIG_DIR}/yayfzf.conf"
+  "${HOME}/.config/yayfzf/yayfzf.conf"
+  "${HOME}/.yayfzf.conf"
+)
 
-packages_sort_by="votes"
-use_color="always"
-detailedPreview="yay --sync --info --info --verbose --color $use_color "
-installPackage="yay -syv && yay --sync --verbose --color $use_color --nobatchinstall --confirm"
-updatePackages="yay -syuv"
+#######################################
+# Defaults (override via config)
+#######################################
+THEME="default"
+SORT_BY="popularity"
+PREVIEW_WINDOW="right:60%:wrap"
+LAYOUT="reverse"
+BORDER="rounded"
+PROMPT="${SCRIPT_NAME}> "
+ENABLE_PREVIEW=true
+VERBOSE=false
+CTRL_C_CLOSE=true
+YAYFZF_PAGER="${PAGER:-less}"
 
-###}}}
+#######################################
+# Built-in themes
+#######################################
+declare -A BUILTIN_THEMES
 
-###{{{ COLORS/FX
+BUILTIN_THEMES[default]="
+fg:#c0caf5
+bg:#1a1b26
+hl:#7aa2f7
+fg+:#c0caf5
+bg+:#24283b
+hl+:#7dcfff
+info:#7aa2f7
+prompt:#7dcfff
+pointer:#7dcfff
+marker:#9ece6a
+spinner:#9ece6a
+header:#9ece6a
+"
 
-declare -Al yayfzf_color
-declare -Al yayfzf_fx
+BUILTIN_THEMES[light]="
+fg:#000000
+bg:#ffffff
+hl:#005faf
+fg+:#000000
+bg+:#eaeaea
+hl+:#005faf
+info:#5f5f5f
+prompt:#005faf
+pointer:#005faf
+marker:#008700
+spinner:#008700
+header:#008700
+"
 
-## Check if 'NO_COLOR' environment variable is defined. if 'NO_COLOR' is defined, do not define color array
-if [[ -z ${NO_COLOR} ]]; then
-	#OLDFZFTHEME #YAYFZF_COLORTHEME='hl:#FFFF00,hl+:#FF0000,fg:#CCCCEE,fg+:#00FFFF,bg:#010101,bg+:#090909,query:#FF0000,info:#99BBEE,spinner:#FF00FF,border:#770AFF,label:bold:#770AFF,preview-fg:#FFFFFF,preview-bg:#090909,marker:#00FF00,gutter:#101010,pointer:#FF0000,info:#020202,header:#191919'
+BUILTIN_THEMES[tokyo-night]="
+fg:#C0CAF5
+bg:#1A1B26
+hl:#FF9E64
+fg+:#c0caf5
+bg+:#24283b
+hl+:#e0af68
+info:#7aa2f7
+prompt:#bb9af7
+pointer:#e0af68
+marker:#9ece6a
+spinner:#7dcfff
+header:#9ece6a
+"
 
-	## fzf colors
-	## Set environment variable 'YAYFZF_COLORTHEME' to a list of fzf colors to override default theme below
-	if [[ -z "${YAYFZF_COLORTHEME}" ]]; then
-		YAYFZF_COLORTHEME="hl:italic:#FFFF00,hl+:bold:underline:#FF0000"
-		YAYFZF_COLORTHEME="${YAYFZF_COLORTHEME},fg:#98A0C5,fg+:bold:underline:#FFFFFF"
-		YAYFZF_COLORTHEME="${YAYFZF_COLORTHEME},bg:#13172A,bg+:#0F1222"
-		YAYFZF_COLORTHEME="${YAYFZF_COLORTHEME},border:#75A2F7,label:bold:#75A2F7"
-		YAYFZF_COLORTHEME="${YAYFZF_COLORTHEME},preview-fg:bold:#C0CAF5,preview-bg:#0F1222"
-		YAYFZF_COLORTHEME="${YAYFZF_COLORTHEME},marker:#00FF00,gutter:#0F1222,pointer:#FF0000"
-		YAYFZF_COLORTHEME="${YAYFZF_COLORTHEME},query:#FF0000,info:italic:#98A0C5,spinner:#00FFFF,header:italic:#75A2F7"
-	fi
-	## yay colors
-	COLOR_WHEN="always"
-	## yayfzf colors
-	yayfzf_color[Reset]='\x1B[0m'             ## Reset Colors/Styles
-	yayfzf_color[reset]='\x1B[0m'             #
-	yayfzf_color[Bold]='\x1B[1m'              ## Bold style
-	yayfzf_color[bold]='\x1B[1m'              #
-	yayfzf_color[Italic]='\x1B[3m'            ## Italic style
-	yayfzf_color[italic]='\x1B[3m'            #
-	yayfzf_color[Underline]='\x1B[4m'         ## Underline style
-	yayfzf_color[underline]='\x1B[4m'         #
-	yayfzf_color[Black]='\x1B[38;5;0m'        ## Foreground color
-	yayfzf_color[Gray]='\x1B[38;5;245m'       #
-	yayfzf_color[DarkGray]='\x1B[38;5;8m'     #
-	yayfzf_color[White]='\x1B[38;5;15m'       #
-	yayfzf_color[Red]='\x1B[38;5;196m'        #
-	yayfzf_color[Green]='\x1B[38;5;46m'       #
-	yayfzf_color[Yellow]='\x1B[38;5;190m'     #
-	yayfzf_color[Blue]='\x1B[38;5;33m'        #
-	yayfzf_color[Purple]='\x1B[38;5;93m'      #
-	yayfzf_color[Magenta]='\x1B[38;5;201m'    #
-	yayfzf_color[Cyan]='\x1B[38;5;87m'        #
-	yayfzf_color[BG_Black]='\x1B[48;5;0m'     ## Background color
-	yayfzf_color[BG_Gray]='\x1B[48;5;245m'    #
-	yayfzf_color[BG_DarkGray]='\x1B[48;5;8m'  #
-	yayfzf_color[BG_White]='\x1B[48;5;15m'    #
-	yayfzf_color[BG_Red]='\x1B[48;5;196m'     #
-	yayfzf_color[BG_Green]='\x1B[48;5;46m'    #
-	yayfzf_color[BG_Yellow]='\x1B[48;5;190m'  #
-	yayfzf_color[BG_Blue]='\x1B[48;5;33m'     #
-	yayfzf_color[BG_Purple]='\x1B[48;5;93m'   #
-	yayfzf_color[BG_Magenta]='\x1B[48;5;201m' #
-	yayfzf_color[BG_Cyan]='\x1B[48;5;87m'     #
-else
-	YAYFZF_COLORTHEME="fg:#FFFFFF"
-	COLOR_WHEN="never"
-fi
+BUILTIN_THEMES[neon]="
+fg:#E0D0FF
+bg:#1A1B26
+hl:#FF66FF
+fg+:#FFFFFF
+bg+:#24283b
+hl+:#FF99FF
+info:#00FFFF
+prompt:#D0A0FF
+pointer:#FF00FF
+marker:#00FFFF
+spinner:#00FFFF
+header:#FF99FF
+"
 
-## Check if 'NO_FX' environment variable is defined. if 'NO_FX' is defined, do not define effects array
-if [[ -z ${NO_FX} ]]; then
-	yayfzf_fx[Save_Title]='\x1B[22;0t'    ## Save title
-	yayfzf_fx[save_title]='\x1B[22;0t'    #
-	yayfzf_fx[Restore_Title]='\x1B[23;0t' ## Restore title
-	yayfzf_fx[restore_title]='\x1B[23;0t' #
-fi
+#######################################
+# Text colors
+#######################################
+declare -Al text_color
+declare -Al text_fx
 
-###}}} COLORS/FX
+text_color[Reset]='\x1B[0m'             ## Reset Colors/Styles
+text_color[reset]='\x1B[0m'             #
+text_color[Bold]='\x1B[1m'              ## Bold style
+text_color[bold]='\x1B[1m'              #
+text_color[Italic]='\x1B[3m'            ## Italic style
+text_color[italic]='\x1B[3m'            #
+text_color[Underline]='\x1B[4m'         ## Underline style
+text_color[underline]='\x1B[4m'         #
+text_color[Black]='\x1B[38;5;0m'        ## Foreground color
+text_color[Gray]='\x1B[38;5;245m'       #
+text_color[DarkGray]='\x1B[38;5;8m'     #
+text_color[White]='\x1B[38;5;15m'       #
+text_color[Red]='\x1B[38;5;196m'        #
+text_color[Green]='\x1B[38;5;46m'       #
+text_color[Yellow]='\x1B[38;5;190m'     #
+text_color[Blue]='\x1B[38;5;33m'        #
+text_color[Purple]='\x1B[38;5;93m'      #
+text_color[Magenta]='\x1B[38;5;201m'    #
+text_color[Cyan]='\x1B[38;5;87m'        #
+text_color[BG_Black]='\x1B[48;5;0m'     ## Background color
+text_color[BG_Gray]='\x1B[48;5;245m'    #
+text_color[BG_DarkGray]='\x1B[48;5;8m'  #
+text_color[BG_White]='\x1B[48;5;15m'    #
+text_color[BG_Red]='\x1B[48;5;196m'     #
+text_color[BG_Green]='\x1B[48;5;46m'    #
+text_color[BG_Yellow]='\x1B[48;5;190m'  #
+text_color[BG_Blue]='\x1B[48;5;33m'     #
+text_color[BG_Purple]='\x1B[48;5;93m'   #
+text_color[BG_Magenta]='\x1B[48;5;201m' #
+text_color[BG_Cyan]='\x1B[48;5;87m'     #
+text_fx[Save_Title]='\x1B[22;0t'        ## Save title
+text_fx[save_title]='\x1B[22;0t'        #
+text_fx[Restore_Title]='\x1B[23;0t'     ## Restore title
+text_fx[restore_title]='\x1B[23;0t'     #
 
-###{{{ HELP MENU
-
-_yayfzf_keys() {
-	cat <<EOF
-KEYBINDINGS:
-
-                     TAB : Select
-               Shift-TAB : Unselect
-                  Ctrl-d : Deselect all
-                  Ctrl-i : Install selected
-                  Ctrl-r : Uninstall selected
-                  Ctrl-u : Update all packages
-                  Ctrl-n : History next
-                  Ctrl-p : History previous
-                  Ctrl-/ : Change layout
-                  Ctrl-v : Hide/show preview
-                    HOME : Top
-                     END : Bottom
-                  PAGEUP : Scroll one page up
-                PAGEDOWN : Scroll one page down
-                  Ctrl-l : Clear query
-           Alt-backspace : Clear query
-                Alt-left : Delete word
-                 Ctrl-h  : Show help
-                       ? : Show keybindings
-                  Ctrl-c : Exit
-                  Ctrl-q : Exit
-                     ESC : Exit
-EOF
+#######################################
+# Load config
+#######################################
+load_config() {
+  local cfg
+  verbose "Searching for config files ..."
+  for cfg in "${CONFIG_PATHS[@]}"; do
+    if [[ -f "${cfg}" ]]; then
+      verbose "Using config file: '${cfg}' ..."
+      # shellcheck disable=SC1090
+      source "${cfg}"
+      return
+    fi
+  done
 }
 
-_yayfzf_help() {
-	cat >&2 <<EOF
+#######################################
+# Theme resolution
+#######################################
+resolve_theme() {
+  verbose "Loading theme ..."
+  # User-defined colors override everything
+  if [[ -n "${FZF_COLORS:-}" ]]; then
+    return
+  fi
 
+  if [[ -n "${BUILTIN_THEMES[${THEME}]:-}" ]]; then
+    FZF_COLORS="${BUILTIN_THEMES[${THEME}]}"
+    return
+  fi
+
+  warn "Unknown theme: '${THEME}', reverting to 'default' theme"
+  FZF_COLORS="${BUILTIN_THEMES[default]}"
+}
+
+#######################################
+# Utilities
+#######################################
+die() {
+  local msg="${1:-Unknown error}"
+  printf '%b%s%b%s%b\n' "${text_color[BG_Red]}${text_color[White]}${text_color[Bold]}" "  ERROR  " "${text_color[reset]}${text_color[Red]}" " ${msg}" "${text_color[reset]}" >&2
+  exit 1
+}
+
+warn() {
+  local msg="${1:-}"
+  [[ -z "${msg}" ]] && return
+  printf '%b%s%b%s%b\n' "${text_color[BG_Yellow]}${text_color[Black]}${text_color[Bold]}" " WARNING " "${text_color[reset]}${text_color[Yellow]}" " ${msg}" "${text_color[reset]}" >&2
+}
+
+info() {
+  local msg="${1:-}"
+  [[ -z "${msg}" ]] && return
+  printf '%b%s%b%s%b\n' "${text_color[BG_Blue]}${text_color[White]}${text_color[Bold]}" "   INFO  " "${text_color[reset]}${text_color[Blue]}" " ${msg}" "${text_color[reset]}"
+}
+
+verbose() {
+  local msg="${1:-}"
+  [[ -z "${msg}" ]] && return
+  if [[ -n "${VERBOSE}" && "${VERBOSE}" != false ]]; then
+    printf '%b%s%b%s%b\n' "${text_color[BG_Purple]}${text_color[White]}${text_color[Bold]}" " VERBOSE " "${text_color[reset]}${text_color[Purple]}" " ${msg}" "${text_color[reset]}"
+  fi
+}
+
+success() {
+  local msg="${1:-}"
+  [[ -z "${msg}" ]] && return
+  printf '%b%s%b%s%b\n' "${text_color[BG_Green]}${text_color[Black]}${text_color[Bold]}" " SUCCESS " "${text_color[reset]}${text_color[Green]}" " ${msg}" "${text_color[reset]}"
+}
+
+require_cmd() {
+  local input=${1}
+  verbose "Checking dependency: ${input} ..."
+  if command -v "${input}" >/dev/null 2>&1; then
+    verbose "Found '${input}' in PATH ..."
+  else
+    die "Could not find '${input}' in PATH. Make sure it is installed and is in your PATH"
+  fi
+}
+
+confirm() {
+  local prompt="${1:-Are you sure?}"
+  local response
+  printf '%b%s%b ' "${text_color[BG_Cyan]}${text_color[Black]}${text_color[Bold]}" " CONFIRM " "${text_color[reset]}"
+  printf "${text_color[Bold]}${text_color[Yellow]}%s ${text_color[reset]}${text_color[Bold]}${text_color[White]}[${text_color[Green]}y${text_color[White]}/${text_color[Red]}N${text_color[White]}]: ${text_color[reset]}" "${prompt}"
+  read -r response
+  [[ "${response}" =~ ^[Yy]$ ]]
+}
+
+#######################################
+# Help / version
+#######################################
+show_help() {
+  cat <<EOF
 NAME:
 
-  $PROG
+  ${SCRIPT_NAME}
 
 
 DESCRIPTION:
 
-  Search, install, remove packages from the AUR interactively with fzf
+  ${SCRIPT_DESCRIPTION}
 
 
 USAGE:
 
-  $PROG [options] [search query]
-
-  $PROG [-V|--version] [-k|--keybindings] [-h] [--help] [search query]
+  ${SCRIPT_NAME} [options] [search query]
 
 
-OPTIONS
+OPTIONS:
 
-  -h                   Show the help menu
-  --help               Show the extended help menu of $PROG
-  -k, --keybindings    List keybindings for $PROG
-  -V, --version        Show version of $PROG
+  -k, --keybindings  Show keybindings
+  --init-config      Install example configuration file
+  --show-config      Show example configuration file content
+  -h                 Show help
+  --help             Show full help
+  -V, --version      Show version
+
 
 EOF
 }
 
-_yayfzf_help_full() {
-	cat >&2 <<EOF
-$(_yayfzf_help)
-EXAMPLES:
+# TODO: Add more keybindings
+#  ?                   Show keybindings
+#  Ctrl-h              Show help
+#  Ctrl-d              Deselect all
+#  Ctrl-i              Install selected
+#  Ctrl-r              Remove selected
+#  Ctrl-u              Update system
+#  Ctrl-v              Toggle preview
+#  Ctrl-/              Toggle layout
+#  Ctrl-l              Clear query
+show_keybindings() {
+  cat <<'EOF'
+KEYBINDINGS:
 
-  $ $PROG        : Run $PROG with no search query
-
-  $ $PROG fzf    : Search for 'fzf' with $PROG
-
-  $ $PROG        : Show the help menu for $PROG
+  ENTER               Perform action on selection
+  TAB / Shift-TAB     Select / Unselect
+  Ctrl-c / ESC        Exit
 
 
-$(_yayfzf_keys)
-
-
-For more information, check out the yayfzf README
-https://github.com/ConnerWill/yayfzf/blob/main/docs/README.md
 EOF
-
-	return 0
 }
 
-_yayfzf_version() {
-	echo "${PROG}: ${YAYFZF_VERSION}"
-	return 0
+show_config_files() {
+  cat <<EOF
+CONFIG FILES (in order):
+
+$(printf '  %s\n' "${CONFIG_PATHS[@]}")
+
+
+EOF
 }
 
-###}}}
-
-###{{{ MESSEGES
-
-_yayfzf_error() { printf "${yayfzf_color[Bold]}${yayfzf_color[BG_Red]}${yayfzf_color[White]} ERROR ${yayfzf_color[reset]}:\t${yayfzf_color[Italic]}${yayfzf_color[Red]}%s${yayfzf_color[reset]}\n" "${@}" >/dev/stderr; }
-_yayfzf_warning() { printf "${yayfzf_color[Bold]}${yayfzf_color[BG_Yellow]}${yayfzf_color[Black]} WARNING ${yayfzf_color[reset]}:\t${yayfzf_color[Italic]}${yayfzf_color[Yellow]}%s${yayfzf_color[reset]}\n" "${@}" >/dev/stderr; }
-_yayfzf_verbose() { printf "${yayfzf_color[Bold]}${yayfzf_color[BG_Blue]}${yayfzf_color[Yellow]} VERBOSE ${yayfzf_color[reset]}:\t${yayfzf_color[Italic]}${yayfzf_color[Cyan]}%s${yayfzf_color[reset]}\n" "${@}"; }
-
-###}}}
-
-###{{{ FUNCTIONS
-
-###{{{ SEARCH PACKAGES
-function _search_packagemgr() {
-	# echo -en '\e]0;yayfzf\e\\' # set title
-	local searchQuery
-	searchQuery="${*}"
-	yay --sync --search --quiet --singlelineresults \
-		--sortby "${packages_sort_by}" \
-		"$searchQuery"
+show_version() {
+  printf '%s %s\n' "${SCRIPT_NAME}" "${VERSION}"
 }
 
-## List all packages
-function _list_packagemgr() {
-	# echo -en '\e]0;yayfzf\e\\' # set title
-	yay --sync --list --quiet --singlelineresults \
-		--sortby "$packages_sort_by"
+show_help_full() {
+  show_help
+  show_keybindings
+  show_config_files
+  show_version
 }
 
-## List all installed packages
-function _list_installed_packagemgr() {
-	# echo -en '\e]0;yayfzf\e\\' # set title
-	yay --query --singlelineresults \
-		--sortby "$packages_sort_by"
-}
-###}}}
+#######################################
+# Example config
+#######################################
 
-###{{{ MKDIR HISTORY
-function _yayfzf_create_history() {
-	if [[ ! -d "$(dirname "${YAYFZF_HISTORY}")" ]]; then
-		mkdir -p "$(dirname "$YAYFZF_HISTORY")" 2>/dev/null
-		touch "$YAYFZF_HISTORY" 2>/dev/null
-	fi
-}
-###}}}
+example_config() {
+  cat <<EOF
+# yayfzf configuration file (example)
+# Override defaults here
 
-###{{{ FZF
+# Theme: default, light, tokyo-night, neon
+THEME="neon"
 
-## Main script. Run fzf with package manager search results.
-function _fzf() {
-	# tput smcup
-	# trap 'tput rmcup' SIGINT
+# Package sort order: popularity, votes, last_updated
+SORT_BY="popularity"
 
-	#echo -en '\e]0;yayfzf\e\\' # set title
-	local SearchInput SearchHeader
-	SearchInput="${*}"
-	[[ -n "${SearchInput}" ]] && SearchHeader="${SearchInput}" && label="${SearchInput}" || label="yayfzf"
+# Preview window options for fzf
+PREVIEW_WINDOW="right:60%:wrap"
 
-	# We need bash in order the handle the stdin redirection correctly in --preview
-	if [[ "$(basename "$SHELL")" == "fish" ]]; then
-		SHELL="$(which bash)"
-		export SHELL
-	fi
+# Layout: default, reverse
+LAYOUT="reverse"
 
-	#TODO: Add --bind "ctrl-h:preview(echo '$(_yayfzf_help_full)')" \
-	fzf \
-		--bind 'ctrl-i:execute:yay -S $(echo {+} | cut -d" " -f1)' \
-		--bind 'ctrl-x:execute:yay -S $(echo {+} | cut -d" " -f1)' \
-		--bind 'ctrl-r:execute:yay -R $(echo {1} | cut -d"/" -f2)' \
-		--bind "ctrl-u:execute:yay -Syu" \
-		--bind 'ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)' \
-		--bind 'ctrl-l:clear-query+clear-screen+clear-selection' \
-		--bind 'alt-bspace:clear-query' \
-		--bind 'alt-left:kill-word' \
-		--bind "esc:abort" \
-		--bind 'ctrl-c:abort' \
-		--bind 'ctrl-d:deselect-all' \
-		--bind 'ctrl-q:print-query' \
-		--bind 'ctrl-v:toggle-preview' \
-		--bind 'ctrl-n:next-history' \
-		--bind 'ctrl-p:previous-history' \
-		--bind 'right:first' \
-		--bind 'left:first' \
-		--bind 'end:first' \
-		--bind 'home:last' \
-		--bind 'pgdn:page-down' \
-		--bind 'pgup:page-up' \
-		--bind 'shift-tab:deselect' \
-		--bind 'tab:select' \
-		--bind 'ctrl-s:select' \
-		--bind "?:preview(echo '$(_yayfzf_keys)')" \
-		--bind change:first \
-		--header 'Press ? for keybindings' \
-		--header-lines=1 \
-		--preview 'cat <(yay -Si {1}) <(yay -Fl {1} 2> /dev/null | awk "{print \$2}")' \
-		--preview-window="$YAYFZF_PREVIEW_WINDOW" \
-		--history="$YAYFZF_HISTORY" \
-		--query="${SearchInput}" \
-		--preview-label-pos=top \
-		--border-label-pos=3 \
-		--border 'top' \
-		--preview-label="╣${label}╠" \
-		--border-label="┨${PROG}┠" \
-		--info=inline \
-		--scroll-off=20 \
-		--hscroll-off=30 \
-		--ellipsis="⣿" \
-		--tiebreak=begin \
-		--sync \
-		--multi \
-		--delimiter ' ' \
-		--ansi \
-		--color="${YAYFZF_COLORTHEME}" \
-		< <(
-			yay \
-				-Ss "${SearchInput}" \
-				--singlelineresults \
-				--color "${COLOR_WHEN}" \
-				--bottomup 2>/dev/null |
-				grep \
-					--invert-match \
-					--extended-regexp '(\(Orphan.*\)|\(Out.*\))' |
-				cut \
-					--delimiter=' ' \
-					--fields=1,7- |
-				column \
-					--separator=$'\t' \
-					--output-separator=': ' \
-					--table \
-					--output-width=$((COLUMNS / 4))
-		)
+# Border style: default, rounded
+BORDER="rounded"
 
-	returnSIG=$?
-	echo $returnSIG
-	return $returnSIG
+# Prompt for fzf
+PROMPT="${SCRIPT_NAME}> "
+
+# Enable preview window
+ENABLE_PREVIEW=true
+
+# Verbose output
+VERBOSE=false
+
+# Pager (less, bat, etc.)
+YAYFZF_PAGER="${PAGER:-less}"
+
+# Close yayfzf with 'ctrl-c' keypress
+CTRL_C_CLOSE=true
+
+#vim:filetype=conf:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
+EOF
 }
 
-###}}}
 
-###}}}
+install_example_config() {
+  local cfg_file="${XDG_CONFIG_DIR}/yayfzf.conf"
 
-###{{{ MAIN
+  mkdir -p "$(dirname "${cfg_file}")"
+  if [[ -f "${cfg_file}" ]]; then
+    warn "Configuration file already exists: '${cfg_file}', skipping creation."
+    return
+  fi
 
-###{{{ MAIN CASE
-
-function _main() {
-	if [[ -n "$1" ]]; then
-		while [[ -n $1 ]]; do
-			case $1 in
-			-h*)
-				_yayfzf_help
-				return 0
-				;;
-			--h* | help)
-				_yayfzf_help_full
-				return 0
-				;;
-			-V | --ver*)
-				_yayfzf_version
-				return 0
-				;;
-			-k | --key*)
-				_yayfzf_keys
-				return 0
-				;;
-			-*)
-				_yayfzf_error "Unknown option '${1}'"
-				_yayfzf_help
-				return 1
-				;;
-			*)
-				_fzf "${@}"
-				return $?
-				;;
-			esac
-			shift
-		done
-	else
-		_fzf "${@}"
-		return $?
-	fi
+  example_config > "${cfg_file}"
+  success "Created configuration file: '${cfg_file}'"
 }
 
-###}}}
-
-function yayfzf() {
-	_yayfzf_create_history
-	_main "${@}"
+show_example_config() {
+  example_config
+  printf "\n\n# Configuration file locations:\n"
+  printf '#\t%s\n' "${CONFIG_PATHS[@]}"
 }
 
-## check if sourced or run directly
-(return 0 2>/dev/null) && sourced=1 || sourced=0
-[[ $sourced -eq 0 ]] && yayfzf "${@}"
+#######################################
+# Command line argument parsing
+#######################################
+SEARCH_QUERY=""
+CONFIG_INIT=false
 
-###}}}
+while [[ $# -gt 0 ]]; do
+  case "${1}" in
+    -k|--keybindings) show_keybindings;    exit 0 ;;
+    --init-config)    CONFIG_INIT=true;    shift  ;;
+    --show-config)    show_example_config; exit 0 ;;
+    -h)               show_help;           exit 0 ;;
+    --help)           show_help_full;      exit 0 ;;
+    -V|--version)     show_version;        exit 0 ;;
+    *) SEARCH_QUERY="${1}"; shift ;;
+  esac
+done
 
-#TODO:
-# Use 'yay --show --complete' to list all packages in the AUR instead of searching for all
+#######################################
+# Init
+#######################################
+load_config
+resolve_theme
+require_cmd "yay"
+require_cmd "fzf"
+
+if [[ "${CONFIG_INIT}" == true ]]; then
+  install_example_config
+  exit 0
+fi
+
+#######################################
+# Build fzf options (fullscreen only)
+#######################################
+FZF_OPTS=(
+  --ansi
+  --layout="${LAYOUT}"
+  --border="${BORDER}"
+  --prompt="${PROMPT}"
+  --color="$(printf '%s' "${FZF_COLORS}" | tr '\n' ',' | sed 's/,$//')"
+)
+
+if [[ -n "${ENABLE_PREVIEW}" && "${ENABLE_PREVIEW}" != false ]]; then
+  FZF_OPTS+=( --preview-window="${PREVIEW_WINDOW}" )
+fi
+
+readonly FZF_OPTS
+
+#######################################
+# Core actions
+#######################################
+search_packages() {
+  yay -Ss --sortby "${SORT_BY}" |
+    awk '/^[^[:space:]]/ { print $1 }' |
+    fzf "${FZF_OPTS[@]}" \
+      --query="${SEARCH_QUERY}" \
+      --multi \
+      --preview 'yay -Si {}'
+}
+
+install_packages() {
+  local pkgs pkgs_arr
+
+  pkgs="$(search_packages || true)"
+  [[ -z "${pkgs}" ]] && info "No packages selected for installation." && return
+
+  mapfile -t pkgs_arr <<< "${pkgs}"
+
+  info "Installing packages: ${pkgs_arr[*]} ..."
+  if yay -S --needed "${pkgs_arr[@]}"; then
+    success "Installation complete."
+  else
+    die "Installation failed for: ${pkgs_arr[*]}"
+  fi
+}
+
+remove_packages() {
+  local pkgs pkgs_arr
+
+  # Gather list of selected packages
+  pkgs="$(yay -Qq | fzf "${FZF_OPTS[@]}" --multi --preview 'yay -Qi {}' || true)"
+  [[ -z "${pkgs}" ]] && info "No packages selected for removal." && return
+
+  mapfile -t pkgs_arr <<< "${pkgs}"
+
+  # Confirm removal
+  if ! confirm "Remove packages: ${pkgs_arr[*]} ?"; then
+    info "Removal cancelled."
+    return
+  fi
+
+  # Remove packages
+  info "Removing packages: ${pkgs_arr[*]} ..."
+  if yay -Rns "${pkgs_arr[@]}"; then
+    success "Removal complete."
+  else
+    die "Removal failed for: ${pkgs_arr[*]}"
+  fi
+}
+
+update_system() {
+  if ! confirm "Update entire system?"; then
+    info "Update cancelled."
+    return
+  fi
+
+  info "Starting system update (syncing all packages) ..."
+  if yay -Syu; then
+    success "System update completed successfully."
+  else
+    die "System update failed. Check above output for errors."
+  fi
+}
+
+#######################################
+# Main menu
+#######################################
+main_menu() {
+  printf '%s\n'        \
+    "Install packages" \
+    "Remove packages"  \
+    "Update system"    \
+    "Install config"   \
+    "Show config"      \
+    "Help"             \
+    "Exit" |
+    fzf "${FZF_OPTS[@]}"
+}
+
+#######################################
+# Main loop
+#######################################
+main() {
+  while true; do
+    local choice
+    choice="$(main_menu || true)"
+    if [[ -n "${CTRL_C_CLOSE}" && "${CTRL_C_CLOSE}" != true ]]; then
+      [[ -z "${choice}" ]] && continue
+    fi
+
+    case "${choice}" in
+      "Install packages") install_packages                                ;;
+      "Remove packages")  remove_packages                                 ;;
+      "Update system")    update_system                                   ;;
+      "Install config")   install_example_config;                  exit 0 ;;
+      "Show config")      show_example_config | "${YAYFZF_PAGER}"; exit 0 ;;
+      "Help")             show_help_full | "${YAYFZF_PAGER}";      exit 0 ;;
+      "Exit"|"" )         exit 0                                          ;;
+    esac
+  done
+}
+
+main
