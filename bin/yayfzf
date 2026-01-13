@@ -32,7 +32,7 @@ LAYOUT="reverse"
 BORDER="rounded"
 PROMPT="${SCRIPT_NAME}> "
 ENABLE_PREVIEW=true
-VERBOSE=true
+VERBOSE=false
 CTRL_C_CLOSE=true
 YAYFZF_PAGER="${PAGER:-less}"
 
