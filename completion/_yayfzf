@@ -16,8 +16,8 @@ _yayfzf() {
   opts=(
     '(-h --help)'{-h,--help}'[Show help (short or full)]'
     '(-k --keybindings)'{-k,--keybindings}'[Show keybindings]'
-    '(--init-config)'{--init-config}'[Install example configuration file]'
-    '(--show-config)'{--show-config}'[Show example configuration file content]'
+    '--init-config[Install example configuration file]'
+    '--show-config[Show example configuration file content]'
     '(-V --version)'{-V,--version}'[Show version]'
   )
 
