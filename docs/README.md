@@ -2,7 +2,7 @@
 
 <img width="720" height="480" src="/docs/images/demo-screenshot.png">
 
-# **ｙａｙｆｚｆ**
+# yayfzf
 
 > *AUR package **[fzf][fzf-url]** finder to search, install, remove, and manage packages using yay **[yay][yay-url]***
 
@@ -32,19 +32,10 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
 
 # Table of Contents
 
-* [<strong>ｙａｙｆｚｆ</strong>](#ｙａｙｆｚｆ)
-* [Description](#description)
-* [Table of Contents](#table-of-contents)
-* [Screenshots](#screenshots)
-* [Installation](#installation)
-  * [Dependencies](#dependencies)
-* [Usage](#usage)
-  * [Hotkeys](#hotkeys)
-  * [Customization](#customization)
-* [Other](#other)
-  * [Wiki](#wiki)
-  * [Contributing](#contributing)
-  * [Donate](#donate)
+<!--toc:start-->
+
+<!--toc:end-->
+
 
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
@@ -57,160 +48,56 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
 
 </div>
 
-See the [wiki][wiki-screenshots-url] for more screenshots/demos
-
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
-# Installation
+## Features
 
-See the [wiki][wiki-installation-url] for installation instructions
+* Interactive menu for Arch Linux package manager
+* Inline package information preview
+* Multi-select support via fzf
+* Toggleable preview window
+* Multiple built-in color themes
+* Configurable layout, borders, and keybindings
+* XDG-compliant configuration file support
 
-## Dependencies
+## Requirements
 
-* **fzf**
-* **yay**
+* `yay`
+* `fzf`
 
-*Make sure you have **[fzf][fzf-url]** and **[yay][yay-url]** installed as they are the meat and potatoes of this script*
+## Installation
 
-<!--TODO
-If you are not using [yay] and would like to use a different package manager, see [Using a Different Package Manager](#using-a-different-package-manager) below
--->
+### AUR
 
-See the [wiki][wiki-installation-url] for more information
-
-<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
-
-# Usage
-
-If you added the script to your PATH as mentioned [above](#installation), you can run the command `yayfzf`
-
-`yayfzf` can be either be executed directly or can be sourced to be invoked later
-
-> Running directly
-```console
-./yayfzf
+```bash
+yay -S yayfzf
 ```
 
-> Running if added to *$PATH*
-```console
-yayfzf
+### Git
+
+Clone the repository and make the script executable:
+
+```bash
+git clone https://github.com/connerwill/yayfzf.git
+cd yayfzf
+chmod +x bin/yayfzf
 ```
 
-> Sourcing and invoking later
-```shell
-source yayfzf
+Optionally, move it to a directory in your PATH:
 
-yayfzf
+```bash
+sudo install -Dm755 "bin/yayfzf" "/usr/local/bin/yayfzf"  # Main executable
+sudo install -Dm644 "docs/README.md" "/usr/share/doc/yayfzf/README.md"  # Documentation
+sudo install -Dm644 "docs/yayfzf.1" "/usr/share/man/man1/yayfzf.1"  # Man page
+sudo install -Dm644 "LICENSE" "/usr/share/licenses/yayfzf/LICENSE"  # License
+sudo install -Dm644 "completion/_yayfzf" "/usr/share/zsh/site-functions/_yayfzf"  # ZSH completion
+sudo install -Dm644 "completion/yayfzf_completion.sh" "/usr/share/bash-completion/completions/yayfzf"  # Bash completion
 ```
-
-Running `yayfzf` without any arguments or queries will list *all availiable packages* to be interactively searched using [fzf][fzf-url]
-
-> *Example of running the script with no search query*
-
-```shell
-yayfzf
-```
-
-> *Example of running the script with input searching for "fzf"*
-
-```shell
-yayfzf fzf
-```
-
-## Hotkeys
-
-There are specific hotkeys that allow you to interact with [yayfzf][github-repo]
-Allowing you to install/remove packages, nagivate and view other packages, and change the fzf window formatting.
-
-<details>
-  <summary>Click to hotkeys section</summary>
-
-<br>
-
-> *Here is a list of the default hotkeys*
-
-<kbd>`TAB`</kbd>+<kbd>`d`</kbd> : Select
-
-<kbd>`SHIFT`</kbd>+<kbd>`TAB`</kbd> : Unselect
-
-<kbd>`CTRL`</kbd>+<kbd>`d`</kbd> : Deselect all
-
-<kbd>`CTRL`</kbd>+<kbd>`i`</kbd> : Install selected packages
-
-<kbd>`CTRL`</kbd>+<kbd>`r`</kbd> : Uninstall selected packages
-
-<kbd>`CTRL`</kbd>+<kbd>`u`</kbd> : Update all packages
-
-<kbd>`CTRL`</kbd>+<kbd>`n`</kbd> : History next
-
-<kbd>`CTRL`</kbd>+<kbd>`p`</kbd> : History previous
-
-<kbd>`CTRL`</kbd>+<kbd>`/`</kbd> : Change layout
-
-<kbd>`CTRL`</kbd>+<kbd>`v`</kbd> : Hide/show preview
-
-<kbd>`HOME`</kbd> : Top
-
-<kbd>`END`</kbd> : Bottom
-
-<kbd>`PGUP`</kbd> : Scroll one page up
-
-<kbd>`PGDN`</kbd> : Scroll one page down
-
-<kbd>`CTRL`</kbd>+<kbd>`h`</kbd> : Show help
-
-<kbd>`?`</kbd> : Show keybindings
-
-<kbd>`CTRL`</kbd>+<kbd>`c`</kbd> : Exit
-
-<kbd>`CTRL`</kbd>+<kbd>`q`</kbd> : Exit
-
-<kbd>`ESC`</kbd> : Exit
-
-```manpage
-KEYBINDINGS:
-
-                     TAB : Select
-               Shift-TAB : Unselect
-                  Ctrl-d : Deselect all
-                  Ctrl-i : Install selected
-                  Ctrl-r : Uninstall selected
-                  Ctrl-u : Update all packages
-                  Ctrl-n : History next
-                  Ctrl-p : History previous
-                  Ctrl-/ : Change layout
-                  Ctrl-v : Hide/show preview
-                    HOME : Top
-                     END : Bottom
-                  PAGEUP : Scroll one page up
-                PAGEDOWN : Scroll one page down
-                  Ctrl-l : Clear query
-           Alt-backspace : Clear query
-                Alt-left : Delete word
-                 Ctrl-h  : Show help
-                       ? : Show keybindings
-                  Ctrl-c : Exit
-                  Ctrl-q : Exit
-                     ESC : Exit
-```
-
-> *Other than running the script and finding out for yourself, I suggest reading the [fzf][fzf-url] documentation if you want to learn more about the keybindings.*
-
-</details>
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-## Customization
-
-See the [wiki][wiki-customization-url]
 
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
 # Other
 
-## Wiki
-
-Check out the [wiki][wiki-url] for more information
 
 <!-- CONTRIBUTING -->
 ## Contributing
