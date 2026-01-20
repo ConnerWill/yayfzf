@@ -312,10 +312,6 @@ show_help_full() {
 #######################################
 
 example_config() {
-  local cfg_file="${XDG_CONFIG_DIR}/yayfzf.conf"
-  if [[ -f "${cfg_file}" ]]; then
-    "${YAYFZF_PAGER}" "${cfg_file}"
-  else
     cat <<EOF
 # yayfzf configuration file (example)
 # Override defaults here
@@ -352,7 +348,6 @@ CTRL_C_CLOSE=true
 
 #vim:filetype=conf:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
 EOF
-  fi
 }
 
 
@@ -370,7 +365,12 @@ install_example_config() {
 }
 
 show_example_config() {
-  example_config
+  local cfg_file="${XDG_CONFIG_DIR}/yayfzf.conf"
+  if [[ -f "${cfg_file}" ]]; then
+    "${YAYFZF_PAGER}" "${cfg_file}"
+  else
+    example_config
+  fi
   printf "\n\n# Configuration file locations:\n"
   printf '#\t%s\n' "${CONFIG_PATHS[@]}"
 }
