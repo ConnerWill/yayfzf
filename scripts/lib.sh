@@ -61,6 +61,29 @@ check_uncommitted_files() {
   fi
 }
 
+commit_files() {
+  local commit_msg="${1}"
+  if git add --all --verbose; then
+    if [[ -n "${VERBOSE}" && "${VERBOSE}" != false ]]; then
+    [[ -n "${VERBOSE}" && "${VERBOSE}" != false ]] && info "Added files ..."
+    fi
+  else
+    die "Unable to add files to commit"
+  fi
+
+  if git commit --message="${commit_msg}" --verbose; then
+    [[ -n "${VERBOSE}" && "${VERBOSE}" != false ]] && info "Committed files ..."
+  else
+    die "Unable to commit files"
+  fi
+
+  if git push --verbose; then
+    [[ -n "${VERBOSE}" && "${VERBOSE}" != false ]] && info "pushing files ..."
+  else
+    die "Unable to push"
+  fi
+}
+
 is_installed() {
   local input_program="${1}"
   if [[ -n "${VERBOSE}" && "${VERBOSE}" != false ]]; then
