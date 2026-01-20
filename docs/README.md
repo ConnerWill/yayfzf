@@ -33,7 +33,18 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
 # Table of Contents
 
 <!--toc:start-->
-
+- [yayfzf](#yayfzf)
+- [Description](#description)
+- [Table of Contents](#table-of-contents)
+- [Screenshots](#screenshots)
+  - [Features](#features)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+    - [AUR](#aur)
+    - [Git](#git)
+- [Other](#other)
+  - [Contributing](#contributing)
+  - [Donate](#donate)
 <!--toc:end-->
 
 
