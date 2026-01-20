@@ -60,9 +60,9 @@ SYNOPSIS:
 
 EXAMPLES:
 
-    Delete 2.0.2 release
+    Delete 2.0.3 release
 
-        $ ${PROG} 2.0.2
+        $ ${PROG} 2.0.3
 
     Delete latest release
 

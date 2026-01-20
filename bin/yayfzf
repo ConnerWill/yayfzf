@@ -10,7 +10,7 @@ IFS=$'\n\t'
 #######################################
 readonly SCRIPT_NAME="${0##*/}"
 readonly SCRIPT_DESCRIPTION="Fullscreen interactive AUR / repo package manager using yay + fzf"
-readonly VERSION="2.0.2"
+readonly VERSION="2.0.3"
 
 #######################################
 # Config locations (precedence order)
