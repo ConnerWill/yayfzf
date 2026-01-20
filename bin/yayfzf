@@ -312,7 +312,7 @@ show_help_full() {
 #######################################
 
 example_config() {
-    cat <<EOF
+  cat <<EOF
 # yayfzf configuration file (example)
 # Override defaults here
 
