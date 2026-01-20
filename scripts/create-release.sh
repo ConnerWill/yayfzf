@@ -60,9 +60,9 @@ SYNOPSIS:
 
 EXAMPLES:
 
-    Create 2.0.3 release
+    Create 2.0.4 release
 
-        $ ${PROG} 2.0.3
+        $ ${PROG} 2.0.4
 
     Show this help
 
@@ -114,4 +114,4 @@ is_installed "gh"
 
 create_release "${NEW_VERSION}" "${ASSET}"
 
-# gh release delete --yes --cleanup-tag v2.0.3
+# gh release delete --yes --cleanup-tag v2.0.4
