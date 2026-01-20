@@ -42,9 +42,15 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
   - [Installation](#installation)
     - [AUR](#aur)
     - [Git](#git)
-- [Other](#other)
-  - [Contributing](#contributing)
-  - [Donate](#donate)
+  - [Usage](#usage)
+    - [Command Line Options](#command-line-options)
+    - [Keybindings](#keybindings)
+  - [Configuration](#configuration)
+    - [Configuration Files](#configuration-files)
+    - [Configuration Options](#configuration-options)
+  - [Other](#other)
+    - [Contributing](#contributing)
+    - [Donate](#donate)
 <!--toc:end-->
 
 
