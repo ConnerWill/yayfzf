@@ -59,7 +59,6 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
 
 </div>
 
-<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
 ## Features
 
@@ -73,8 +72,8 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
 
 ## Requirements
 
-* `yay`
-* `fzf`
+- `yay`
+- `fzf`
 
 ## Installation
 
@@ -105,13 +104,64 @@ sudo install -Dm644 "completion/_yayfzf" "/usr/share/zsh/site-functions/_yayfzf"
 sudo install -Dm644 "completion/yayfzf_completion.sh" "/usr/share/bash-completion/completions/yayfzf"  # Bash completion
 ```
 
-<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
+## Usage
 
-# Other
+Launch the interactive interface:
 
+```bash
+yayfzf
+```
+
+### Command Line Options
+
+| Option | Description |
+|--------|-------------|
+| `-k`, `--keybindings` | Show keybindings and exit |
+| `--init-config` | Install example configuration file |
+| `--show-config` | Show example configuration file content |
+| `-h` | Show short help |
+| `--help` | Show full help |
+| `-V`, `--version` | Show version |
+
+### Keybindings
+
+| Key | Action |
+|-----|--------|
+| <kbd>ENTER</kbd> | Perform action on selection |
+| <kbd>TAB</kbd> | Select item |
+| <kbd>Shift</kbd>+<kbd>TAB</kbd> | Unselect item |
+| <kbd>Ctrl</kbd>+<kbd>c</kbd> | Exit yayfzf |
+| <kbd>ESC</kbd> | Exit yayfzf |
+
+## Configuration
+
+### Configuration Files
+
+`yayfzf` looks for configuration files in this order (uses the first file found):
+
+- `$XDG_CONFIG_HOME/yayfzf/yayfzf.conf`
+- `$HOME/.config/yayfzf/yayfzf.conf`
+- `$HOME/.yayfzf.conf`
+
+### Configuration Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `THEME` | Color theme | `default` *(options: default, light, tokyo-night, neon)* |
+| `SORT_BY` | Package sort order | `popularity` *(options: popularity, votes, last_updated)* |
+| `PREVIEW_WINDOW` | fzf preview window layout and size | `right:60%:wrap` |
+| `ENABLE_PREVIEW` | Show preview window | `true` |
+| `LAYOUT` | fzf layout | `reverse` *(options: default, reverse)* |
+| `BORDER` | fzf border style | `rounded` *(options: default, rounded)* |
+| `PROMPT` | Prompt string for fzf | `"yayfzf> "` |
+| `VERBOSE` | Enable verbose logging | `false` |
+| `YAYFZF_PAGER` | Pager for help/config/keybindings | `${PAGER:-less}` |
+| `CTRL_C_CLOSE` | Close yayfzf with Ctrl-C | `true` |
+
+## Other
 
 <!-- CONTRIBUTING -->
-## Contributing
+### Contributing
 
 <details>
   <summary>Click to expand contributing section</summary>
@@ -147,7 +197,7 @@ git push origin AmazingNewFeature
 
 </details>
 
-## Donate
+### Donate
 
 <a href="https://connerwill.com/static/img/xmr-qr-connerwill.com.png"><img src="https://connerwill.com/static/img/xmr.svg" alt="Monero (XMR) icon and wallet QR code" width="2%" height="2%"> XMR</a> :  <code>86tE67soBqFb5fxNGgC4HLdwZXebP42ewfBwfKyMDKvFbgA7T8p4g4T5BBNA9LNbwaVafup973w41PdvCS7bbj6gTNQpCh1</code>
 
