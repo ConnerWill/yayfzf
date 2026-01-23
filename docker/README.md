@@ -26,8 +26,8 @@ Run docker image from root of the repo
 
 ```bash
 cd $(git rev-parse --show-toplevel)
-docker run --rm -it      \
-  -v "${PWD}:/workspace" \
+docker run --rm --interactive --tty \
+  --volume "${PWD}:/workspace"      \
   yayfzf
 ```
 
@@ -41,8 +41,8 @@ yayfzf
 
 ```bash
 cd $(git rev-parse --show-toplevel)
-docker run --rm -it      \
-  -v "${PWD}:/workspace" \
+docker run --rm --interactive --tty \
+  --volume "${PWD}:/workspace"      \
   yayfzf yayfzf
 ```
 
@@ -52,7 +52,7 @@ Test building package with `PKGBUILD` inside the container:
 
 ```bash
 cd $(git rev-parse --show-toplevel)
-docker run --rm -it      \
-  -v "${PWD}:/workspace" \
+docker run --rm --interactive --tty \
+  --volume "${PWD}:/workspace"      \
   yayfzf 'cd AUR/yayfzf ; makepkg -si'
 ```
