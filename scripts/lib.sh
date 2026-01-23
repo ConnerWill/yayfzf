@@ -154,7 +154,7 @@ check_version_updated() {
   if [[ -z "${matches}" ]]; then
     success "No occurrences of current version: '${current_version}' found"
   else
-    info "Found occurrences of current version '${current_version}' in the following files:\n"
+    info "Found occurrences of current version '${current_version}' in the following files:"
     printf "%s\n" "${matches}"
     die "You may have not updated the version in every file. Run 'bump-version.sh' to update the version"
   fi
