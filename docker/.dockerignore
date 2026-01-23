@@ -1,0 +1,24 @@
+# VCS
+.git
+.gitignore
+
+# Editor / OS junk
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+.DS_Store
+
+# Node / Python / misc (future-proofing)
+node_modules
+__pycache__
+*.pyc
+
+# Docker itself
+docker-compose.yml
+
+# AUR build artifacts (if you ever run makepkg locally)
+AUR/**/pkg/
+AUR/**/src/
+AUR/**/*.tar.*
