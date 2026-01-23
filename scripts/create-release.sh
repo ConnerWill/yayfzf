@@ -16,7 +16,7 @@ readonly SCRIPT_DESCRIPTION="Create Github release"
 # CONFIGURATION
 #######################################
 readonly BRANCH="main"
-readonly ASSET="${REPO_ROOT}/bin/rclonefzf"
+readonly ASSET="${REPO_ROOT}/bin/yayfzf"
 readonly VERBOSE=${VERBOSE:-true}
 
 if [[ -e "${SCRIPT_LIB}" ]]; then
