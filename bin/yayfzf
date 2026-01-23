@@ -32,7 +32,7 @@ LAYOUT="reverse"
 BORDER="rounded"
 PROMPT="${SCRIPT_NAME}> "
 ENABLE_PREVIEW=true
-VERBOSE=false
+VERBOSE=${VERBOSE:-false}
 CTRL_C_CLOSE=true
 YAYFZF_PAGER="${PAGER:-less}"
 
@@ -383,13 +383,14 @@ CONFIG_INIT=false
 
 while [[ $# -gt 0 ]]; do
   case "${1}" in
-    -k|--keybindings) show_keybindings;    exit 0 ;;
-    --init-config)    CONFIG_INIT=true;    shift  ;;
-    --show-config)    show_example_config; exit 0 ;;
-    -h)               show_help;           exit 0 ;;
-    --help)           show_help_full;      exit 0 ;;
-    -V|--version)     show_version;        exit 0 ;;
-    *) SEARCH_QUERY="${1}"; shift ;;
+    -k|--key*)      show_keybindings;    exit 0 ;;
+    --init-c*)      CONFIG_INIT=true;    shift  ;;
+    --show-c*)      show_example_config; exit 0 ;;
+    -v|--verb*)     export VERBOSE=true; shift  ;;
+    -h)             show_help;           exit 0 ;;
+    --he*)          show_help_full;      exit 0 ;;
+    -V|--vers*)     show_version;        exit 0 ;;
+    *)              SEARCH_QUERY="${1}"; shift  ;;
   esac
 done
 
