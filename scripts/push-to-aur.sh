@@ -10,16 +10,7 @@ readonly REPO_ROOT="$(git rev-parse --show-toplevel)"
 readonly SCRIPT_DIR="${REPO_ROOT}/scripts"
 readonly SCRIPT_LIB="${SCRIPT_DIR}/lib.sh"
 readonly PROG="$(basename "${BASH_SOURCE[0]}")"
-readonly SCRIPT_DESCRIPTION="Push yayfzf PKGBUILD(s) to the AUR (stable and git versions)"
-if [[ -z "${NO_COLOR}" ]]; then
-  TEXT_RED='\x1B[0;38;5;196m'
-  TEXT_YELLOW='\x1B[0;38;5;226m'
-  TEXT_GREEN='\x1B[0;38;5;46m'
-  TEXT_BOLD='\x1B[1m'
-  TEXT_UNDERLINE='\x1B[4m'
-  TEXT_ITALIC='\x1B[3m'
-  TEXT_RESET='\x1B[0m'
-fi
+readonly SCRIPT_DESCRIPTION="Push rclonefzf PKGBUILD(s) to the AUR (stable and git versions)"
 
 #######################################
 # Configuration
@@ -27,13 +18,13 @@ fi
 readonly VERBOSE=${VERBOSE:-true}
 readonly BRANCH="main"
 readonly AUR_BRANCH="master"
-readonly AUR_STABLE_DIR="${REPO_ROOT}/AUR/yayfzf/yayfzf"
-readonly AUR_GIT_DIR="${REPO_ROOT}/AUR/yayfzf-git/yayfzf-git"
-readonly GH_REPO="ConnerWill/yayfzf"
+readonly AUR_STABLE_DIR="${REPO_ROOT}/AUR/rclonefzf/rclonefzf"
+readonly AUR_GIT_DIR="${REPO_ROOT}/AUR/rclonefzf-git/rclonefzf-git"
+readonly GH_REPO="ConnerWill/rclonefzf"
 readonly PUSH_GIT="${PUSH_GIT:-true}"
 readonly CLEANUP="${CLEANUP:-true}"
-readonly AUR_REPO_URL="ssh://aur@aur.archlinux.org/yayfzf.git"
-readonly AUR_REPO_URL_GIT="ssh://aur@aur.archlinux.org/yayfzf-git.git"
+readonly AUR_REPO_URL="ssh://aur@aur.archlinux.org/rclonefzf.git"
+readonly AUR_REPO_URL_GIT="ssh://aur@aur.archlinux.org/rclonefzf-git.git"
 readonly SSH_DIR="${SSH_DIR:-${SSH_HOME:-${HOME}/.ssh}}"
 readonly SSH_PRIV_KEY_NAME="Arch_Linux_AUR_Work_Laptop-2026-01-06-ed25519"
 readonly SSH_PRIV_KEY_PATH="${SSH_DIR}/${SSH_PRIV_KEY_NAME}"
@@ -82,11 +73,11 @@ update_pkgbuild() {
   local package_name="${1}"
   local version="${2}"
 
-  if [[ "${package_name}" == "yayfzf" ]]; then
+  if [[ "${package_name}" == "rclonefzf" ]]; then
     local commit_msg="[AUTOMATED] Update PKGBUILD for v${version}"
     local aur_dir="${AUR_STABLE_DIR}"
     info "Updating stable PKGBUILD to version ${version}..."
-  elif [[ "${package_name}" == "yayfzf-git" ]]; then
+  elif [[ "${package_name}" == "rclonefzf-git" ]]; then
     [[ "${PUSH_GIT}" != true ]] && return
     local commit_msg="[AUTOMATED] Update PKGBUILD for git snapshot"
     local aur_dir="${AUR_GIT_DIR}"
@@ -101,13 +92,17 @@ update_pkgbuild() {
   # Regenerate .SRCINFO
   info "Updating .SRCINFO"
   if [[ -e "${aur_dir}/.SRCINFO" ]]; then
+    verbose "Removing .SRCINFO file: '${aur_dir}/.SRCINFO"
     rm -f "${aur_dir}/.SRCINFO"
   fi
+  verbose "Generating .SRCINFO file: '${aur_dir}/.SRCINFO"
   makepkg --printsrcinfo > "${aur_dir}/.SRCINFO"
 
   # Commit & push
+  verbose "Adding AUR files to git tracking"
   git add PKGBUILD .SRCINFO
   git commit -m "${commit_msg}" || info "No changes to commit"
+  verbose "Pushing files to remote ..."
   git push origin "${AUR_BRANCH}"
 
   success "Pushed version: '${package_name}'"
@@ -131,8 +126,8 @@ success "Latest tag detected: ${LATEST_TAG}"
 
 is_installed "makepkg"
 
-update_pkgbuild "yayfzf" "${LATEST_TAG}"
-update_pkgbuild "yayfzf-git" "${LATEST_TAG}"
+update_pkgbuild "rclonefzf" "${LATEST_TAG}"
+update_pkgbuild "rclonefzf-git" "${LATEST_TAG}"
 
 cleanup_dirs
 

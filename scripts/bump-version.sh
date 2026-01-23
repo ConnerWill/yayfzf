@@ -11,15 +11,6 @@ readonly SCRIPT_DIR="${REPO_ROOT}/scripts"
 readonly SCRIPT_LIB="${SCRIPT_DIR}/lib.sh"
 readonly PROG="$(basename "${BASH_SOURCE[0]}")"
 readonly SCRIPT_DESCRIPTION="Script to update semantic version in all files in a repo"
-if [[ -z "${NO_COLOR}" ]]; then
-  TEXT_RED='\x1B[0;38;5;196m'
-  TEXT_YELLOW='\x1B[0;38;5;226m'
-  TEXT_GREEN='\x1B[0;38;5;46m'
-  TEXT_BOLD='\x1B[1m'
-  TEXT_UNDERLINE='\x1B[4m'
-  TEXT_ITALIC='\x1B[3m'
-  TEXT_RESET='\x1B[0m'
-fi
 
 #######################################
 # CONFIGURATION
@@ -97,8 +88,8 @@ if [[ "${#VERSION_FILES[@]}" -eq 0 ]]; then
   die "no files found containing version ${CURRENT_VERSION}"
 fi
 
-printf "${TEXT_YELLOW}Updating version ${TEXT_GREEN}${TEXT_BOLD}%s${TEXT_RESET} ${TEXT_YELLOW}->${TEXT_RESET} ${TEXT_GREEN}${TEXT_BOLD}%s${TEXT_RESET}\n\n" "${CURRENT_VERSION}" "${NEW_VERSION}"
-printf "${TEXT_YELLOW}${TEXT_BOLD}${TEXT_UNDERLINE}Files to be updated${TEXT_RESET}:${TEXT_RESET}\n"
+info "Updating version '${CURRENT_VERSION}' -> '${NEW_VERSION}'"
+info "Files to be updated:"
 for file in "${VERSION_FILES[@]}"; do
   printf '  - %s\n' "${file}"
 done
@@ -106,7 +97,8 @@ printf '\n'
 
 # Perform in-place replacement
 for file in "${VERSION_FILES[@]}"; do
+  verbose "Performing in-place replacement in file: '${file}'. ${CURRENT_VERSION} -> ${NEW_VERSION}"
   sed -i -E -e "s/(v?)${CURRENT_VERSION}/\1${NEW_VERSION}/g" "${file}"
 done
 
-printf "${TEXT_GREEN}Version bump complete${TEXT_RESET}\n\n"
+success "Version bump complete. New version: ${NEW_VERSION}"
