@@ -15,7 +15,7 @@ readonly SCRIPT_DESCRIPTION="Script to update semantic version in all files in a
 #######################################
 # CONFIGURATION
 #######################################
-readonly VERBOSE=${VERBOSE:-true}
+VERBOSE=${VERBOSE:-true}
 if [[ -e "${SCRIPT_LIB}" ]]; then
   if ! source "${SCRIPT_LIB}"; then
     die "Unable to source library: ${SCRIPT_LIB}"

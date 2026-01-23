@@ -15,7 +15,7 @@ readonly SCRIPT_DESCRIPTION="Push yayfzf PKGBUILD(s) to the AUR (stable and git 
 #######################################
 # Configuration
 #######################################
-readonly VERBOSE=${VERBOSE:-true}
+VERBOSE=${VERBOSE:-true}
 readonly BRANCH="main"
 readonly AUR_BRANCH="master"
 readonly AUR_STABLE_DIR="${REPO_ROOT}/AUR/yayfzf/yayfzf"

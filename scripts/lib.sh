@@ -55,7 +55,8 @@ success() {
 
 get_latest_tag() {
   if [[ -n "${VERBOSE}" && "${VERBOSE}" != false ]]; then
-    printf "\n"
+    printf "\n\n"
+    sleep 1
     verbose "Finding latest git tag ..."
   fi
   git fetch --tags --quiet

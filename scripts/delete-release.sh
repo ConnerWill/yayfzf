@@ -17,7 +17,7 @@ readonly SCRIPT_DESCRIPTION="Delete Github release"
 #######################################
 readonly BRANCH="main"
 readonly ASSET="${REPO_ROOT}/bin/yayfzf"
-readonly VERBOSE=${VERBOSE:-true}
+VERBOSE=${VERBOSE:-true}
 
 if [[ -e "${SCRIPT_LIB}" ]]; then
   if ! source "${SCRIPT_LIB}"; then
