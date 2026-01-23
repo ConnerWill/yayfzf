@@ -37,7 +37,7 @@ verbose() {
   local msg="${1:-}"
   [[ -z "${msg}" ]] && return
   if [[ -n "${VERBOSE}" && "${VERBOSE}" != false ]]; then
-    printf '%b%s%b%s%b\n' "${TEXT_BG_MAGENTA}${TEXT_WHITE}${TEXT_BOLD}" " VERBOSE " "${TEXT_RESET}${TEXT_MAGENTA}" " ${msg}" "${TEXT_RESET}"
+    printf '%b%s%b%s%b\n' "${TEXT_BG_MAGENTA}${TEXT_BLACK}${TEXT_BOLD}" " VERBOSE " "${TEXT_RESET}${TEXT_MAGENTA}" " ${msg}" "${TEXT_RESET}"
   fi
 }
 
