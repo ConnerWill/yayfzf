@@ -256,6 +256,7 @@ OPTIONS:
   -k, --keybindings  Show keybindings
   --init-config      Install example configuration file
   --show-config      Show example configuration file content
+  -v, --verbose      Show verbose output
   -h                 Show help
   --help             Show full help
   -V, --version      Show version

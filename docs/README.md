@@ -125,6 +125,7 @@ yayfzf
 | `-k`, `--keybindings` | Show keybindings and exit |
 | `--init-config` | Install example configuration file |
 | `--show-config` | Show example configuration file content |
+| `-v`, `--verbose` | Show verbose output |
 | `-h` | Show short help |
 | `--help` | Show full help |
 | `-V`, `--version` | Show version |
