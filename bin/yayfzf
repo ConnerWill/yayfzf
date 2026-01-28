@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #vim:filetype=sh:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
-#shellcheck disable=2016,2034,2154,2249,2310
+#shellcheck disable=2016,2034,2059,2154,2249,2310,2312
 
 set -Eeo pipefail
 IFS=$'\n\t'
@@ -26,16 +26,16 @@ readonly CONFIG_PATHS=(
 #######################################
 # Defaults (override via config)
 #######################################
-THEME="default"
-SORT_BY="popularity"
-PREVIEW_WINDOW="right:60%:wrap"
-LAYOUT="reverse"
-BORDER="rounded"
-PROMPT="${SCRIPT_NAME}> "
-ENABLE_PREVIEW=true
+THEME="${THEME:-default}"
+SORT_BY="${SORT_BY:-popularity}"
+PREVIEW_WINDOW="${PREVIEW_WINDOW:-right:60%:wrap}"
+LAYOUT="${LAYOUT:-reverse}"
+BORDER="${BORDER:-rounded}"
+PROMPT="${PROMPT:-${SCRIPT_NAME}> }"
+ENABLE_PREVIEW=${ENABLE_PREVIEW:-true}
 VERBOSE=${VERBOSE:-false}
-CTRL_C_CLOSE=true
-YAYFZF_PAGER="${PAGER:-less}"
+CTRL_C_CLOSE=${CTRL_C_CLOSE:-true}
+YAYFZF_PAGER="${YAYFZF_PAGER:-${PAGER:-less}}"
 NO_COLOR=${NO_COLOR:-false}
 
 #######################################
