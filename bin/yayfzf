@@ -281,6 +281,9 @@ ${C_BLUE}${C_BOLD}OPTIONS${C_RESET}
   ${C_YELLOW}--help${C_RESET}
       ${C_WHITE}Show full help${C_RESET}
 
+  ${C_YELLOW}--help-man${C_RESET}
+      ${C_WHITE}Show man page${C_RESET}
+
   ${C_YELLOW}-V${C_RESET}, ${C_YELLOW}--version${C_RESET}
       ${C_WHITE}Show version${C_RESET}
 

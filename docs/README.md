@@ -128,6 +128,7 @@ yayfzf
 | `-v`, `--verbose` | Show verbose output |
 | `-h` | Show short help |
 | `--help` | Show full help |
+| `--help-man` | Show manpage help |
 | `-V`, `--version` | Show version |
 
 ### Keybindings
