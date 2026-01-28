@@ -2,7 +2,7 @@
 #vim:filetype=sh:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
 #shellcheck disable=2016,2034,2154,2249,2310
 
-set -Eeuo pipefail
+set -Eeo pipefail
 IFS=$'\n\t'
 
 #######################################
