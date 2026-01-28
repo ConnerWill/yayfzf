@@ -31,7 +31,7 @@ SORT_BY="${SORT_BY:-popularity}"
 PREVIEW_WINDOW="${PREVIEW_WINDOW:-right:60%:wrap}"
 LAYOUT="${LAYOUT:-reverse}"
 BORDER="${BORDER:-rounded}"
-PROMPT="${PROMPT:-${SCRIPT_NAME}> }"
+YAYFZF_PROMPT="${YAYFZF_PROMPT:-${SCRIPT_NAME}> }"
 ENABLE_PREVIEW=${ENABLE_PREVIEW:-true}
 VERBOSE=${VERBOSE:-false}
 CTRL_C_CLOSE=${CTRL_C_CLOSE:-true}
@@ -396,7 +396,7 @@ LAYOUT="${LAYOUT:-reverse}"
 BORDER="${BORDER:-rounded}"
 
 # Prompt for fzf
-PROMPT="${SCRIPT_NAME}> "
+YAYFZF_PROMPT="${YAYFZF_PROMPT:-${SCRIPT_NAME}> }"
 
 # Enable preview window
 ENABLE_PREVIEW=${ENABLE_PREVIEW:-true}
@@ -413,7 +413,7 @@ CTRL_C_CLOSE=${CTRL_C_CLOSE:-true}
 # Disable color output
 NO_COLOR=${NO_COLOR:-false}
 
-#vim:filetype=conf:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
+#vim:filetype=conf:shiftwidth=2:softtabstop=2:expandtab
 EOF
 }
 
@@ -485,7 +485,7 @@ FZF_OPTS=(
   --multi
   --layout="${LAYOUT}"
   --border="${BORDER}"
-  --prompt="${PROMPT}"
+  --prompt="${YAYFZF_PROMPT}"
   --color="$(printf '%s' "${FZF_COLORS}" | tr '\n' ',' | sed 's/,$//')"
 )
 
