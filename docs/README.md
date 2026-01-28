@@ -48,6 +48,7 @@ AUR package [fzf][fzf-url] finder to search, install, remove, and manage package
   - [Configuration](#configuration)
     - [Configuration Files](#configuration-files)
     - [Configuration Options](#configuration-options)
+  - [See Also](#see-also)
   - [Other](#other)
     - [Contributing](#contributing)
     - [Donate](#donate)
@@ -165,6 +166,12 @@ yayfzf
 | `VERBOSE` | Enable verbose logging | `false` |
 | `YAYFZF_PAGER` | Pager for help/config/keybindings | `${PAGER:-less}` |
 | `CTRL_C_CLOSE` | Close yayfzf with Ctrl-C | `true` |
+
+## See Also
+
+- [fzf][fzf-url]
+- [yay][yay-url]
+- [rclonefzf][rclonefzf-url]
 
 ## Other
 
