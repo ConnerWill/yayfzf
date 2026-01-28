@@ -342,6 +342,8 @@ YAYFZF_PAGER="${PAGER:-less}"
 # Close yayfzf with 'ctrl-c' keypress
 CTRL_C_CLOSE=${CTRL_C_CLOSE:-true}
 
+# Disable color output
+NO_COLOR=${NO_COLOR:-false}
 
 #vim:filetype=conf:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
 EOF
