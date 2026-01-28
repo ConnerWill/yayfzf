@@ -104,43 +104,36 @@ header:#FF99FF
 #######################################
 # Text colors
 #######################################
-declare -Al text_color
-declare -Al text_fx
-
-text_color[Reset]='\x1B[0m'             ## Reset Colors/Styles
-text_color[reset]='\x1B[0m'             #
-text_color[Bold]='\x1B[1m'              ## Bold style
-text_color[bold]='\x1B[1m'              #
-text_color[Italic]='\x1B[3m'            ## Italic style
-text_color[italic]='\x1B[3m'            #
-text_color[Underline]='\x1B[4m'         ## Underline style
-text_color[underline]='\x1B[4m'         #
-text_color[Black]='\x1B[38;5;0m'        ## Foreground color
-text_color[Gray]='\x1B[38;5;245m'       #
-text_color[DarkGray]='\x1B[38;5;8m'     #
-text_color[White]='\x1B[38;5;15m'       #
-text_color[Red]='\x1B[38;5;196m'        #
-text_color[Green]='\x1B[38;5;46m'       #
-text_color[Yellow]='\x1B[38;5;190m'     #
-text_color[Blue]='\x1B[38;5;33m'        #
-text_color[Purple]='\x1B[38;5;93m'      #
-text_color[Magenta]='\x1B[38;5;201m'    #
-text_color[Cyan]='\x1B[38;5;87m'        #
-text_color[BG_Black]='\x1B[48;5;0m'     ## Background color
-text_color[BG_Gray]='\x1B[48;5;245m'    #
-text_color[BG_DarkGray]='\x1B[48;5;8m'  #
-text_color[BG_White]='\x1B[48;5;15m'    #
-text_color[BG_Red]='\x1B[48;5;196m'     #
-text_color[BG_Green]='\x1B[48;5;46m'    #
-text_color[BG_Yellow]='\x1B[48;5;190m'  #
-text_color[BG_Blue]='\x1B[48;5;33m'     #
-text_color[BG_Purple]='\x1B[48;5;93m'   #
-text_color[BG_Magenta]='\x1B[48;5;201m' #
-text_color[BG_Cyan]='\x1B[48;5;87m'     #
-text_fx[Save_Title]='\x1B[22;0t'        ## Save title
-text_fx[save_title]='\x1B[22;0t'        #
-text_fx[Restore_Title]='\x1B[23;0t'     ## Restore title
-text_fx[restore_title]='\x1B[23;0t'     #
+if [[ -n "${NO_COLOR}" && "${NO_COLOR}" != true ]]; then
+  export C_RESET='\x1B[0m'
+  export C_BOLD='\x1B[1m'
+  export C_ITALIC='\x1B[3m'
+  export C_UNDERLINE='\x1B[4m'
+  export C_BLACK='\x1B[38;5;0m'
+  export C_GRAY='\x1B[38;5;245m'
+  export C_DARKGRAY='\x1B[38;5;8m'
+  export C_WHITE='\x1B[38;5;15m'
+  export C_RED='\x1B[38;5;196m'
+  export C_GREEN='\x1B[38;5;46m'
+  export C_YELLOW='\x1B[38;5;190m'
+  export C_BLUE='\x1B[38;5;33m'
+  export C_PURPLE='\x1B[38;5;93m'
+  export C_MAGENTA='\x1B[38;5;201m'
+  export C_CYAN='\x1B[38;5;87m'
+  export C_BG_BLACK='\x1B[48;5;0m'
+  export C_BG_GRAY='\x1B[48;5;245m'
+  export C_BG_DARKGRAY='\x1B[48;5;8m'
+  export C_BG_WHITE='\x1B[48;5;15m'
+  export C_BG_RED='\x1B[48;5;196m'
+  export C_BG_GREEN='\x1B[48;5;46m'
+  export C_BG_YELLOW='\x1B[48;5;190m'
+  export C_BG_BLUE='\x1B[48;5;33m'
+  export C_BG_PURPLE='\x1B[48;5;93m'
+  export C_BG_MAGENTA='\x1B[48;5;201m'
+  export C_BG_CYAN='\x1B[48;5;87m'
+  export C_SAVE_TITLE='\x1B[22;0t'
+  export C_RESTORE_TITLE='\x1B[23;0t'
+fi
 
 #######################################
 # Load config
@@ -182,51 +175,53 @@ resolve_theme() {
 #######################################
 die() {
   local msg="${1:-Unknown error}"
-  printf '%b%s%b%s%b\n' "${text_color[BG_Red]}${text_color[White]}${text_color[Bold]}" "  ERROR  " "${text_color[reset]}${text_color[Red]}" " ${msg}" "${text_color[reset]}" >&2
+  printf '%b%s%b%s%b\n' "${C_BG_RED}${C_WHITE}${C_BOLD}" "  ERROR  " "${C_RESET}${C_RED}" " ${msg}" "${C_RESET}" >&2
   exit 1
 }
 
 warn() {
   local msg="${1:-}"
   [[ -z "${msg}" ]] && return
-  printf '%b%s%b%s%b\n' "${text_color[BG_Yellow]}${text_color[Black]}${text_color[Bold]}" " WARNING " "${text_color[reset]}${text_color[Yellow]}" " ${msg}" "${text_color[reset]}" >&2
+  printf '%b%s%b%s%b\n' "${C_BG_YELLOW}${C_BLACK}${C_BOLD}" " WARNING " "${C_RESET}${C_YELLOW}" " ${msg}" "${C_RESET}" >&2
 }
 
 info() {
   local msg="${1:-}"
   [[ -z "${msg}" ]] && return
-  printf '%b%s%b%s%b\n' "${text_color[BG_Blue]}${text_color[White]}${text_color[Bold]}" "   INFO  " "${text_color[reset]}${text_color[Blue]}" " ${msg}" "${text_color[reset]}"
+  printf '%b%s%b%s%b\n' "${C_BG_BLUE}${C_WHITE}${C_BOLD}" "   INFO  " "${C_RESET}${C_BLUE}" " ${msg}" "${C_RESET}"
 }
 
 verbose() {
   local msg="${1:-}"
   [[ -z "${msg}" ]] && return
   if [[ -n "${VERBOSE}" && "${VERBOSE}" != false ]]; then
-    printf '%b%s%b%s%b\n' "${text_color[BG_Purple]}${text_color[White]}${text_color[Bold]}" " VERBOSE " "${text_color[reset]}${text_color[Purple]}" " ${msg}" "${text_color[reset]}"
+    printf '%b%s%b%s%b\n' "${C_BG_PURPLE}${C_WHITE}${C_BOLD}" " VERBOSE " "${C_RESET}${C_PURPLE}" " ${msg}" "${C_RESET}"
   fi
 }
 
 success() {
   local msg="${1:-}"
   [[ -z "${msg}" ]] && return
-  printf '%b%s%b%s%b\n' "${text_color[BG_Green]}${text_color[Black]}${text_color[Bold]}" " SUCCESS " "${text_color[reset]}${text_color[Green]}" " ${msg}" "${text_color[reset]}"
+  printf '%b%s%b%s%b\n' "${C_BG_GREEN}${C_BLACK}${C_BOLD}" " SUCCESS " "${C_RESET}${C_GREEN}" " ${msg}" "${C_RESET}"
 }
 
 require_cmd() {
-  local input=${1}
-  verbose "Checking dependency: ${input} ..."
-  if command -v "${input}" >/dev/null 2>&1; then
-    verbose "Found '${input}' in PATH ..."
-  else
-    die "Could not find '${input}' in PATH. Make sure it is installed and is in your PATH"
-  fi
+  local cmd
+  for cmd in "${@}"; do
+    verbose "Checking dependency: ${cmd} ..."
+    if command -v "${cmd}" >/dev/null 2>&1; then
+      verbose "Found '${cmd}' in PATH ..."
+    else
+      die "Could not find '${cmd}' in PATH. Make sure it is installed and is in your PATH"
+    fi
+  done
 }
 
 confirm() {
   local prompt="${1:-Are you sure?}"
   local response
-  printf '%b%s%b ' "${text_color[BG_Cyan]}${text_color[Black]}${text_color[Bold]}" " CONFIRM " "${text_color[reset]}"
-  printf "${text_color[Bold]}${text_color[Yellow]}%s ${text_color[reset]}${text_color[Bold]}${text_color[White]}[${text_color[Green]}y${text_color[White]}/${text_color[Red]}N${text_color[White]}]: ${text_color[reset]}" "${prompt}"
+  printf '%b%s%b ' "${C_BG_CYAN}${C_BLACK}${C_BOLD}" " CONFIRM " "${C_RESET}"
+  printf "${C_BOLD}${C_YELLOW}%s ${C_RESET}${C_BOLD}${C_WHITE}[${C_GREEN}y${C_WHITE}/${C_RED}N${C_WHITE}]: ${C_RESET}" "${prompt}"
   read -r response
   [[ "${response}" =~ ^[Yy]$ ]]
 }
@@ -318,34 +313,35 @@ example_config() {
 # Override defaults here
 
 # Theme: default, light, tokyo-night, neon
-THEME="neon"
+THEME="${THEME:-neon}"
 
 # Package sort order: popularity, votes, last_updated
-SORT_BY="popularity"
+SORT_BY="${SORT_BY:-popularity}"
 
 # Preview window options for fzf
-PREVIEW_WINDOW="right:60%:wrap"
+PREVIEW_WINDOW="${PREVIEW_WINDOW:-right:60%:wrap}"
 
 # Layout: default, reverse
-LAYOUT="reverse"
+LAYOUT="${LAYOUT:-reverse}"
 
 # Border style: default, rounded
-BORDER="rounded"
+BORDER="${BORDER:-rounded}"
 
 # Prompt for fzf
 PROMPT="${SCRIPT_NAME}> "
 
 # Enable preview window
-ENABLE_PREVIEW=true
+ENABLE_PREVIEW=${ENABLE_PREVIEW:-true}
 
 # Verbose output
-VERBOSE=false
+VERBOSE=${VERBOSE:-false}
 
 # Pager (less, bat, etc.)
 YAYFZF_PAGER="${PAGER:-less}"
 
 # Close yayfzf with 'ctrl-c' keypress
-CTRL_C_CLOSE=true
+CTRL_C_CLOSE=${CTRL_C_CLOSE:-true}
+
 
 #vim:filetype=conf:shiftwidth=2:softtabstop=2:expandtab:foldmethod=marker:foldmarker=###{{{,###}}}
 EOF
@@ -381,18 +377,21 @@ show_example_config() {
 #######################################
 SEARCH_QUERY=""
 CONFIG_INIT=false
+if [[ -n "${VERBOSE}" && "${VERBOSE}" != false ]]; then
+  export VERBOSE
+fi
 
 while [[ $# -gt 0 ]]; do
   case "${1}" in
     -k|--key*)      show_keybindings;                           exit 0 ;;
-    --init-c*)      CONFIG_INIT=true;                           shift  ;;
-    --show-c*)      show_example_config;                        exit 0 ;;
+    -i|--init-c*)   CONFIG_INIT=true;                           shift  ;;
+    -s|--show-c*)   show_example_config;                        exit 0 ;;
     -v|--verb*)     export VERBOSE=true;                        shift  ;;
     -h)             show_help;                                  exit 0 ;;
     --he*)          show_help_full;                             exit 0 ;;
     -V|--vers*)     show_version;                               exit 0 ;;
     -*)             die "Unknown option: '${1}'. See help for options" ;;
-    *)              SEARCH_QUERY="${1}";                        shift  ;;
+    *)              SEARCH_QUERY+="${SEARCH_QUERY:+ }${1}";     shift  ;;
   esac
 done
 
@@ -401,8 +400,7 @@ done
 #######################################
 load_config
 resolve_theme
-require_cmd "yay"
-require_cmd "fzf"
+require_cmd yay fzf
 
 if [[ "${CONFIG_INIT}" == true ]]; then
   install_example_config
@@ -414,6 +412,7 @@ fi
 #######################################
 FZF_OPTS=(
   --ansi
+  --multi
   --layout="${LAYOUT}"
   --border="${BORDER}"
   --prompt="${PROMPT}"
@@ -434,7 +433,6 @@ search_packages() {
     awk '/^[^[:space:]]/ { print $1 }' |
     fzf "${FZF_OPTS[@]}" \
       --query="${SEARCH_QUERY}" \
-      --multi \
       --preview 'yay -Si {}'
 }
 
