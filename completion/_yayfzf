@@ -9,15 +9,16 @@ _yayfzf() {
     'Update system:Update the whole system (yay -Syu)'
     'Install config:Install example config file'
     'Show config:Show example config content'
-    'Help:Show help / keybindings'
+    'Help:Show help'
     'Exit:Quit'
   )
 
   opts=(
     '(-h --help)'{-h,--help}'[Show help (short or full)]'
     '(-k --keybindings)'{-k,--keybindings}'[Show keybindings]'
-    '--init-config[Install example configuration file]'
-    '--show-config[Show example configuration file content]'
+    '(-i --init-config)'{-i, --init-config}'[Install example configuration file]'
+    '(-s --show-config)'{-s, --show-config}'[Show example configuration file content]'
+    '(-v --verbose)'{-v,--verbose}'[Show verbose output]'
     '(-V --version)'{-V,--version}'[Show version]'
   )
 
