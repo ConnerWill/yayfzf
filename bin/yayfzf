@@ -508,11 +508,19 @@ readonly FZF_OPTS
 # Core actions
 #######################################
 search_packages() {
-  yay -Ss --sortby "${SORT_BY}" |
-    awk '/^[^[:space:]]/ { print $1 }' |
-    fzf "${FZF_OPTS[@]}" \
-      --query="${SEARCH_QUERY}" \
-      --preview 'yay -Si {}'
+  export SORT_BY
+  local sl_cmd="yay -Sl | awk '{status = (tolower(\$4) == \"[installed]\") ? \" [Installed]\" : \"\"; print \$1\"/\"\$2 status}'"
+  local ss_cmd="yay -Ss --sortby \"${SORT_BY}\" --topdown {q} | awk '/^[^[:space:]]/ { status = (\$0 ~ /\\(Installed\\)/) ? \" [Installed]\" : \"\"; print \$1 status }'"
+  local reload_cmd="if [ -z {q} ]; then ${sl_cmd}; else ${ss_cmd}; fi"
+
+  fzf "${FZF_OPTS[@]}" \
+    --query="${SEARCH_QUERY}" \
+    --multi \
+    --disabled \
+    --bind "start:reload(${reload_cmd})" \
+    --bind "change:reload(${reload_cmd})" \
+    --preview 'yay -Si {1}' |
+    awk '{ print $1 }'
 }
 
 install_packages() {
