@@ -10,6 +10,8 @@ IFS=$'\n\t'
 #######################################
 readonly SCRIPT_NAME="${0##*/}"
 readonly SCRIPT_DESCRIPTION="Fullscreen interactive AUR / repo package manager using yay + fzf"
+readonly SCRIPT_AUTHOR="ConnerWill"
+readonly SCRIPT_AUTHOR_URL="https://github.com/ConnerWill"
 readonly VERSION="2.0.7"
 
 #######################################
@@ -18,7 +20,6 @@ readonly VERSION="2.0.7"
 readonly XDG_CONFIG_DIR="${XDG_CONFIG_HOME:-${HOME}/.config}/yayfzf"
 readonly CONFIG_PATHS=(
   "${XDG_CONFIG_DIR}/yayfzf.conf"
-  "${HOME}/.config/yayfzf/yayfzf.conf"
   "${HOME}/.yayfzf.conf"
 )
 
@@ -35,6 +36,7 @@ ENABLE_PREVIEW=true
 VERBOSE=${VERBOSE:-false}
 CTRL_C_CLOSE=true
 YAYFZF_PAGER="${PAGER:-less}"
+NO_COLOR=${NO_COLOR:-false}
 
 #######################################
 # Built-in themes
@@ -226,38 +228,94 @@ confirm() {
   [[ "${response}" =~ ^[Yy]$ ]]
 }
 
+draw_line() {
+  local WORD LINE
+  LINE=''
+  COLS="$(tput cols)"
+  (( COLS <= 0 )) && COLS="${COLUMNS:-80}"
+  for WORD in "${@:-─}"; do
+    #shellcheck disable=SC2183
+    printf -v LINE '%*s' "${COLS}"
+    LINE="${LINE// /${WORD}}"
+    echo "${LINE:0:${COLS}}"
+  done
+}
+
 #######################################
 # Help / version
 #######################################
 show_help() {
-  cat <<EOF
-NAME:
+  printf "$(cat <<HELPMENU
+${C_BLUE}${C_BOLD}NAME${C_RESET}
 
-  ${SCRIPT_NAME}
-
-
-DESCRIPTION:
-
-  ${SCRIPT_DESCRIPTION}
+  ${C_GREEN}${SCRIPT_NAME}${C_RESET}
 
 
-USAGE:
+${C_BLUE}${C_BOLD}DESCRIPTION${C_RESET}
 
-  ${SCRIPT_NAME} [options] [search query]
-
-
-OPTIONS:
-
-  -k, --keybindings  Show keybindings
-  --init-config      Install example configuration file
-  --show-config      Show example configuration file content
-  -v, --verbose      Show verbose output
-  -h                 Show help
-  --help             Show full help
-  -V, --version      Show version
+  ${C_WHITE}${SCRIPT_DESCRIPTION}${C_RESET}
 
 
-EOF
+${C_BLUE}${C_BOLD}USAGE${C_RESET}
+
+  ${C_GREEN}${SCRIPT_NAME}${C_RESET} ${C_ITALIC}${C_YELLOW}[options]${C_RESET} ${C_ITALIC}${C_PURPLE}[search query]${C_RESET}
+
+
+${C_BLUE}${C_BOLD}OPTIONS${C_RESET}
+
+  ${C_YELLOW}-k${C_RESET}, ${C_YELLOW}--keybindings${C_RESET}
+      ${C_WHITE}Show keybindings${C_RESET}
+
+  ${C_YELLOW}-i${C_RESET}, ${C_YELLOW}--init-config${C_RESET}
+      ${C_WHITE}Install example configuration file${C_RESET}
+
+  ${C_YELLOW}-s${C_RESET}, ${C_YELLOW}--show-config${C_RESET}
+      ${C_WHITE}Show example configuration file content${C_RESET}
+
+  ${C_YELLOW}-v${C_RESET}, ${C_YELLOW}--verbose${C_RESET}
+      ${C_WHITE}Show verbose output${C_RESET}
+
+  ${C_YELLOW}-h${C_RESET}
+      ${C_WHITE}Show help${C_RESET}
+
+  ${C_YELLOW}--help${C_RESET}
+      ${C_WHITE}Show full help${C_RESET}
+
+  ${C_YELLOW}-V${C_RESET}, ${C_YELLOW}--version${C_RESET}
+      ${C_WHITE}Show version${C_RESET}
+
+
+HELPMENU
+  )\n\n"
+}
+
+show_examples() {
+  printf "$(cat <<EXAMPLESMENU
+
+${C_BLUE}${C_BOLD}EXAMPLES${C_RESET}
+
+  ${C_WHITE}Start ${SCRIPT_NAME} with no options or query${C_RESET}
+
+    ${C_GRAY}\$${C_RESET} ${C_GREEN}${SCRIPT_NAME}${C_RESET}
+
+
+  ${C_WHITE}Start ${SCRIPT_NAME} with an initial search query of ${C_RESET}${C_PURPLE}'rclone'${C_RESET}
+
+    ${C_GRAY}\$${C_RESET} ${C_GREEN}${SCRIPT_NAME}${C_RESET} ${C_PURPLE}'rclone'${C_RESET}
+
+
+  ${C_WHITE}Install ${SCRIPT_NAME} configuration file${C_RESET}
+
+    ${C_GRAY}\$${C_RESET} ${C_GREEN}${SCRIPT_NAME}${C_RESET} ${C_YELLOW}--init-config${C_RESET}
+
+
+  ${C_WHITE}Show ${SCRIPT_NAME} keybindings${C_RESET}
+
+    ${C_GRAY}\$${C_RESET} ${C_GREEN}${SCRIPT_NAME}${C_RESET} ${C_YELLOW}--keybindings${C_RESET}
+
+
+EXAMPLESMENU
+  )\n\n\n"
 }
 
 # TODO: Add more keybindings
@@ -271,36 +329,46 @@ EOF
 #  Ctrl-/              Toggle layout
 #  Ctrl-l              Clear query
 show_keybindings() {
-  cat <<'EOF'
-KEYBINDINGS:
+  printf "$(cat <<KEYBINDINGSMENU
+${C_BLUE}${C_BOLD}KEYBINDINGS${C_RESET}
 
-  ENTER               Perform action on selection
-  TAB / Shift-TAB     Select / Unselect
-  Ctrl-c / ESC        Exit
+  ENTER              - Perform action on selection
+  TAB / Shift-TAB    - Select / Unselect
+  Ctrl-c / ESC       - Exit
 
 
-EOF
+KEYBINDINGSMENU
+  )\n\n\n"
 }
 
-show_config_files() {
-  cat <<EOF
-CONFIG FILES (in order):
+show_config_file_paths() {
+  printf "$(cat <<CONFIGFILESMENU
+${C_BLUE}${C_BOLD}CONFIGURATION FILES${C_RESET} ${C_ITALIC}${C_GRAY}(in order)${C_RESET}
 
 $(printf '  %s\n' "${CONFIG_PATHS[@]}")
 
 
-EOF
+CONFIGFILESMENU
+  )\n\n\n"
 }
 
 show_version() {
-  printf '%s %s\n' "${SCRIPT_NAME}" "${VERSION}"
+  printf '%b%s%b %b%s%b\n' "${C_GREEN}" "${SCRIPT_NAME}" "${C_RESET}" "${C_YELLOW}" "${VERSION}" "${C_RESET}"
+}
+
+show_author() {
+  printf '%b%s%b %b%s%b\n' "${C_GREEN}" "${SCRIPT_AUTHOR}" "${C_RESET}" "${C_YELLOW}" "${SCRIPT_AUTHOR_URL}" "${C_RESET}"
 }
 
 show_help_full() {
+  draw_line "─"
   show_help
+  show_examples
   show_keybindings
-  show_config_files
+  show_config_file_paths
   show_version
+  show_author
+  draw_line "─"
 }
 
 #######################################
