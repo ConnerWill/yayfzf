@@ -15,9 +15,10 @@ _yayfzf() {
 
   opts=(
     '(-h --help)'{-h,--help}'[Show help (short or full)]'
+    '--help-man[Show manpage help]'
     '(-k --keybindings)'{-k,--keybindings}'[Show keybindings]'
-    '(-i --init-config)'{-i, --init-config}'[Install example configuration file]'
-    '(-s --show-config)'{-s, --show-config}'[Show example configuration file content]'
+    '(-i --init-config)'{-i,--init-config}'[Install example configuration file]'
+    '(-s --show-config)'{-s,--show-config}'[Show example configuration file content]'
     '(-v --verbose)'{-v,--verbose}'[Show verbose output]'
     '(-V --version)'{-V,--version}'[Show version]'
   )
