@@ -246,4 +246,6 @@ git push origin AmazingNewFeature
 
 [fzf-url]: httaps://github.com/junegunn/fzf
 [yay-url]: https://github.com/Jguer/yay
+[yayfzf-url]: https://github.com/ConnerWill/yayfzf
+[rclonefzf-url]: https://github.com/ConnerWill/rclonefzf
 [yayfzf-source]: https://github.com/ConnerWill/yayfzf/blob/main/bin/yayfzf
