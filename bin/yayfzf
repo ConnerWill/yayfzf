@@ -135,6 +135,9 @@ if [[ -n "${NO_COLOR}" && "${NO_COLOR}" != true ]]; then
   export C_BG_CYAN='\x1B[48;5;87m'
   export C_SAVE_TITLE='\x1B[22;0t'
   export C_RESTORE_TITLE='\x1B[23;0t'
+  export COLOR_WHEN='always'
+else
+  export COLOR_WHEN='never'
 fi
 
 #######################################
@@ -491,11 +494,22 @@ fi
 #######################################
 FZF_OPTS=(
   --ansi
-  --multi
-  --layout="${LAYOUT}"
+  --bind="?:preview(echo '$(show_keybindings)')"
+  --bind='ctrl-w:abort'
+  --bind='end:last'
+  --bind='esc:abort'
+  --bind='home:first'
+  --bind='pgdn:page-down'
+  --bind='pgup:page-up'
   --border="${BORDER}"
-  --prompt="${YAYFZF_PROMPT}"
   --color="$(printf '%s' "${FZF_COLORS}" | tr '\n' ',' | sed 's/,$//')"
+  --delimiter=' '
+  --ellipsis='⣿'
+  --header='Press ? for keybindings'
+  --layout="${LAYOUT}"
+  --multi
+  --prompt="${YAYFZF_PROMPT}"
+  --tiebreak=begin
 )
 
 if [[ -n "${ENABLE_PREVIEW}" && "${ENABLE_PREVIEW}" != false ]]; then
@@ -504,18 +518,30 @@ fi
 
 readonly FZF_OPTS
 
+# NOTE: These bind options are not for the main menu. If you want to add bindings to main menu,
+# Please configure bindings in 'FZF_OPTS'
+FZF_BIND_OPTS=(
+  --bind='ctrl-/:change-preview-window(up,border-rounded|up,40%,border-rounded|left,border-rounded|left,border-rounded,40%|down,border-rounded|down,40%,border-rounded|down,10%,border-rounded|hidden|right,40%,border-rounded|right,70%,border-rounded|right,90%,border-rounded)'
+  --bind='ctrl-a:select-all'
+  --bind='ctrl-bspace:clear-query'
+  --bind='ctrl-d:deselect-all'
+  --bind='ctrl-l:clear-query+clear-screen+clear-selection'
+  --bind='ctrl-v:toggle-preview'
+)
+
+readonly FZF_BIND_OPTS
+
 #######################################
 # Core actions
 #######################################
 search_packages() {
   export SORT_BY
-  local sl_cmd="yay -Sl | awk '{status = (tolower(\$4) == \"[installed]\") ? \" [Installed]\" : \"\"; print \$1\"/\"\$2 status}'"
+  local sl_cmd="yay --color ${COLOR_WHEN} -Sl | awk '{status = (tolower(\$4) == \"[installed]\") ? \" [Installed]\" : \"\"; print \$1\"/\"\$2 status}'"
   local ss_cmd="yay -Ss --sortby \"${SORT_BY}\" --topdown {q} | awk '/^[^[:space:]]/ { status = (\$0 ~ /\\(Installed\\)/) ? \" [Installed]\" : \"\"; print \$1 status }'"
   local reload_cmd="if [ -z {q} ]; then ${sl_cmd}; else ${ss_cmd}; fi"
 
-  fzf "${FZF_OPTS[@]}" \
+  fzf "${FZF_OPTS[@]}" "${FZF_BIND_OPTS[@]}" \
     --query="${SEARCH_QUERY}" \
-    --multi \
     --disabled \
     --bind "start:reload(${reload_cmd})" \
     --bind "change:reload(${reload_cmd})" \
