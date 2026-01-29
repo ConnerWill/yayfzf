@@ -6,6 +6,11 @@ set -Eeo pipefail
 IFS=$'\n\t'
 
 #######################################
+# TODO
+#######################################
+# TODO: When you uninstall a package and return back to yayfzf, the package still shows as installed. Need to refresh.
+
+#######################################
 # Script metadata
 #######################################
 readonly SCRIPT_NAME="${0##*/}"
@@ -324,23 +329,50 @@ EXAMPLESMENU
   )\n\n\n"
 }
 
-# TODO: Add more keybindings
-#  ?                   Show keybindings
-#  Ctrl-h              Show help
-#  Ctrl-d              Deselect all
-#  Ctrl-i              Install selected
-#  Ctrl-r              Remove selected
-#  Ctrl-u              Update system
-#  Ctrl-v              Toggle preview
-#  Ctrl-/              Toggle layout
-#  Ctrl-l              Clear query
 show_keybindings() {
   printf "$(cat <<KEYBINDINGSMENU
 ${C_BLUE}${C_BOLD}KEYBINDINGS${C_RESET}
 
-  ENTER              - Perform action on selection
-  TAB / Shift-TAB    - Select / Unselect
-  Ctrl-c / ESC       - Exit
+  ${C_CYAN}NAVIGATION${C_RESET}
+
+    ↑/↓                   - Move up/down
+    PGUP                  - Move up one page
+    PGDN                  - Move down one page
+    HOME                  - Move to first
+    END                   - Move to last
+
+  ${C_CYAN}SELECT${C_RESET}
+
+    TAB / Shift-TAB       - Select / Unselect
+    CTRL-a                - Select all
+    CTRL-d                - Deselect all
+
+  ${C_CYAN}ACTIONS${C_RESET}
+
+    ENTER                 - Perform action on selection
+    CTRL-i                - Install selected packages
+    CTRL-r                - Uninstall package
+    CTRL-u                - Update all packages
+
+  ${C_CYAN}QUERY${C_RESET}
+
+    CTRL-l                - Clear query
+    CTRL-Backspace        - Clear query
+
+  ${C_CYAN}LAYOUT${C_RESET}
+
+    CTRL-/                - Change layout
+    CTRL-v                - Toggle preview
+
+  ${C_CYAN}HELP${C_RESET}
+
+    ?                     - Show keybindings
+
+  ${C_CYAN}EXIT${C_RESET}
+
+    CTRL-c                - Exit
+    CTRL-w                - Exit
+    ESC                   - Exit
 
 
 KEYBINDINGSMENU
@@ -492,6 +524,10 @@ fi
 #######################################
 # Build fzf options (fullscreen only)
 #######################################
+# TODO: Add more options
+# --border-label="┨${SCRIPT_NAME}┠"
+# --preview-label="╣${SCRIPT_NAME}╠"
+# --border-label-pos=-3
 FZF_OPTS=(
   --ansi
   --bind="?:preview(echo '$(show_keybindings)')"
@@ -508,6 +544,7 @@ FZF_OPTS=(
   --header='Press ? for keybindings'
   --layout="${LAYOUT}"
   --multi
+  --info=inline
   --prompt="${YAYFZF_PROMPT}"
   --tiebreak=begin
 )
@@ -527,6 +564,9 @@ FZF_BIND_OPTS=(
   --bind='ctrl-d:deselect-all'
   --bind='ctrl-l:clear-query+clear-screen+clear-selection'
   --bind='ctrl-v:toggle-preview'
+  --bind='ctrl-i:execute:yay -S $(echo {+} | cut -d" " -f1)'
+  --bind='ctrl-r:execute:yay -R $(echo {1} | cut -d"/" -f2)'
+  --bind='ctrl-u:execute:yay -Syu'
 )
 
 readonly FZF_BIND_OPTS
@@ -537,7 +577,7 @@ readonly FZF_BIND_OPTS
 search_packages() {
   export SORT_BY
   local sl_cmd="yay --color ${COLOR_WHEN} -Sl | awk '{status = (tolower(\$4) == \"[installed]\") ? \" [Installed]\" : \"\"; print \$1\"/\"\$2 status}'"
-  local ss_cmd="yay -Ss --sortby \"${SORT_BY}\" --topdown {q} | awk '/^[^[:space:]]/ { status = (\$0 ~ /\\(Installed\\)/) ? \" [Installed]\" : \"\"; print \$1 status }'"
+  local ss_cmd="yay --color ${COLOR_WHEN} -Ss --sortby \"${SORT_BY}\" --topdown {q} | awk '/^[^[:space:]]/ { status = (\$0 ~ /\\(Installed\\)/) ? \" [Installed]\" : \"\"; print \$1 status }'"
   local reload_cmd="if [ -z {q} ]; then ${sl_cmd}; else ${ss_cmd}; fi"
 
   fzf "${FZF_OPTS[@]}" "${FZF_BIND_OPTS[@]}" \
@@ -553,7 +593,7 @@ install_packages() {
   local pkgs pkgs_arr
 
   pkgs="$(search_packages || true)"
-  [[ -z "${pkgs}" ]] && info "No packages selected for installation." && return
+  [[ -z "${pkgs}" ]] && verbose "No packages selected for installation." && return
 
   mapfile -t pkgs_arr <<< "${pkgs}"
 
@@ -569,8 +609,8 @@ remove_packages() {
   local pkgs pkgs_arr
 
   # Gather list of selected packages
-  pkgs="$(yay -Qq | fzf "${FZF_OPTS[@]}" --multi --preview 'yay -Qi {}' || true)"
-  [[ -z "${pkgs}" ]] && info "No packages selected for removal." && return
+  pkgs="$(yay -Qq | fzf "${FZF_OPTS[@]}" "${FZF_BIND_OPTS[@]}" --preview 'yay -Qi {}' || true)"
+  [[ -z "${pkgs}" ]] && verbose "No packages selected for removal." && return
 
   mapfile -t pkgs_arr <<< "${pkgs}"
 
@@ -630,13 +670,13 @@ main() {
     fi
 
     case "${choice}" in
-      "Install packages") install_packages                                ;;
-      "Remove packages")  remove_packages                                 ;;
-      "Update system")    update_system                                   ;;
-      "Install config")   install_example_config;                  exit 0 ;;
-      "Show config")      show_example_config | "${YAYFZF_PAGER}"; exit 0 ;;
-      "Help")             show_help_full | "${YAYFZF_PAGER}";      exit 0 ;;
-      "Exit"|"" )         exit 0                                          ;;
+      "Install packages") install_packages               ;;
+      "Remove packages")  remove_packages                ;;
+      "Update system")    update_system                  ;;
+      "Install config")   install_example_config; exit 0 ;;
+      "Show config")      show_example_config ;   exit 0 ;;
+      "Help")             show_help_full ;        exit 0 ;;
+      "Exit"|"" )         exit 0                         ;;
     esac
   done
 }
