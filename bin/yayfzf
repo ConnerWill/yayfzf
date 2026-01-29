@@ -544,6 +544,7 @@ FZF_OPTS=(
   --header='Press ? for keybindings'
   --layout="${LAYOUT}"
   --multi
+  --cycle
   --info=inline
   --prompt="${YAYFZF_PROMPT}"
   --tiebreak=begin
