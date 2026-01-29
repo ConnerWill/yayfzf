@@ -136,10 +136,27 @@ yayfzf
 
 | Key | Action |
 |-----|--------|
+| <kbd>↑</kbd> | Move up |
+| <kbd>↓</kbd> | Move down |
+| <kbd>PGUP</kbd> | Move up one page |
+| <kbd>PGDN</kbd> | Move down one page |
+| <kbd>HOME</kbd> | Move to first |
+| <kbd>END</kbd> | Move to last |
 | <kbd>ENTER</kbd> | Perform action on selection |
 | <kbd>TAB</kbd> | Select item |
 | <kbd>Shift</kbd>+<kbd>TAB</kbd> | Unselect item |
-| <kbd>Ctrl</kbd>+<kbd>c</kbd> | Exit yayfzf |
+| <kbd>CTRL</kbd>+<kbd>a</kbd> | Select all items |
+| <kbd>CTRL</kbd>+<kbd>d</kbd> | Deselect all items |
+| <kbd>CTRL</kbd>+<kbd>i</kbd> | Install selected packages |
+| <kbd>CTRL</kbd>+<kbd>r</kbd> | Uninstall package |
+| <kbd>CTRL</kbd>+<kbd>u</kbd> | Update all packages |
+| <kbd>CTRL</kbd>+<kbd>l</kbd> | Clear search query |
+| <kbd>CTRL</kbd>+<kbd>Backspace</kbd> | Clear search query |
+| <kbd>CTRL</kbd>+<kbd>/</kbd> | Change layout |
+| <kbd>CTRL</kbd>+<kbd>v</kbd> | Toggle preview window |
+| <kbd>?</kbd> | Show keybindings |
+| <kbd>CTRL</kbd>+<kbd>c</kbd> | Exit yayfzf |
+| <kbd>CTRL</kbd>+<kbd>w</kbd> | Exit yayfzf |
 | <kbd>ESC</kbd> | Exit yayfzf |
 
 ## Configuration

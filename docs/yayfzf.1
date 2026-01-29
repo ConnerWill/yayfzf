@@ -61,17 +61,50 @@ Show the help menu
 
 
 .SH KEYBINDINGS
+
+.TP
+.B ↑
+Move up
+
+.TP
+.B ↓
+Move down
+
+.TP
+.B PGUP
+Move up one page
+
+.TP
+.B PGDN
+Move down one page
+
+.TP
+.B HOME
+Move to first
+
+.TP
+.B END
+Move to last
+
 .TP
 .B TAB
-Select item
+Select item.
 
 .TP
 .B Shift\-TAB
-Unselect item
+Unselect item.
+
+.TP
+.B Ctrl\-a
+Select all items.
 
 .TP
 .B Ctrl\-d
-Deselect all items
+Deselect all selected items.
+
+.TP
+.B ENTER
+Perform action on the current selection.
 
 .TP
 .B Ctrl\-i
@@ -79,111 +112,46 @@ Install selected packages
 
 .TP
 .B Ctrl\-r
-Uninstall selected packages
+Uninstall package
 
 .TP
 .B Ctrl\-u
 Update all packages
 
 .TP
-.B Ctrl\-n
-Next history entry
+.B Ctrl\-l
+Clear the current search query and screen.
 
 .TP
-.B Ctrl\-p
-Previous history entry
+.B Ctrl\-Backspace
+Clear the current search query.
 
 .TP
 .B Ctrl\-/
-Change layout
+Cycle fzf layout and preview window position.
 
 .TP
 .B Ctrl\-v
-Toggle preview window
-
-.TP
-.B HOME
-Jump to top
-
-.TP
-.B END
-Jump to bottom
-
-.TP
-.B PAGEUP
-Scroll one page up
-
-.TP
-.B PAGEDOWN
-Scroll one page down
-
-.TP
-.B Ctrl\-l
-Clear search query
-
-.TP
-.B Alt\-Backspace
-Clear search query
-
-.TP
-.B Alt\-Left
-Delete previous word
-
-.TP
-.B Ctrl\-h
-Show help
+Toggle the preview window.
 
 .TP
 .B ?
-Show keybindings
+Show keybindings.
 
 .TP
 .B Ctrl\-c
-Exit yayfzf
+Exit yayfzf.
 
 .TP
-.B Ctrl\-q
-Exit yayfzf
+.B Ctrl\-w
+Exit yayfzf.
 
 .TP
 .B ESC
-Exit yayfzf
+Exit yayfzf.
 
 
 .SH ENVIRONMENT
-.TP
-.B YAYFZF_HISTORY
-Path to the yayfzf history file.
-
-If the environment variable
-.B YAYFZF_HISTORY
-is defined, it will be used directly.
-
-Otherwise, yayfzf determines the history file path using the first
-available value in the following order:
-.RS
-.IP \(bu 2
-.B $XDG_CACHE_HOME/yayfzf/yayfzf_history
-.IP \(bu 2
-.B $HOME/.cache/yayfzf/yayfzf_history
-.IP \(bu 2
-.B ~/.cache/yayfzf/yayfzf_history
-
-.PP
-If
-.B YAYFZF_HISTORY
-is set to any of the following values, history will be disabled and
-no history file will be written:
-.IP \(bu 2
-.B false
-.IP \(bu 2
-.B False
-.IP \(bu 2
-.B no
-.IP \(bu 2
-.B No
-.RE
-
 .TP
 .B YAYFZF_PREVIEW_WINDOW
 Controls the layout and size of the fzf preview window.
@@ -213,13 +181,6 @@ This follows the
 .B NO_COLOR
 convention used by many CLI tools.
 .RE
-
-.TP
-.B NO_FX
-Disable terminal effects.
-
-When set, yayfzf will not use terminal title save and restore
-sequences.
 
 
 .SH SEE ALSO
