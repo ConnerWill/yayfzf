@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="720" height="480" src="/docs/images/demo-screenshot-3.png">
+![yayfzf-demo-gif](/docs/images/yayfzf-demo.gif)
 
 # yayfzf
 
@@ -61,8 +61,6 @@ It uses **[yay][yay-url]** for package operations and **[fzf][fzf-url]** for sea
 # Screenshots
 
 <div align="center">
-
-![yayfzf-demo-gif](/docs/images/yayfzf-demo.gif)
 
 
 | ![demo screenshot](/docs/images/demo-screenshot.png) | ![demo screenshot 2](/docs/images/demo-screenshot-2.png) |
