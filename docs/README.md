@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="465" height="314" src="/docs/images/yayfzf-demo.gif">
+<img width="500" src="/docs/images/yayfzf-demo.gif">
 
 # yayfzf
 
